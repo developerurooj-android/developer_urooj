@@ -151,3 +151,55 @@ On Day 3, I learned different collection types available in Kotlin and understoo
 ### Learning Outcome
 
 By the end of Day 3, I gained a clear understanding of Kotlin collection types, including Arrays, ArrayLists, Lists, and HashMaps. I learned the differences between mutable and immutable collections and understood how to choose the appropriate data structure for different programming scenarios.
+# Day 4 Learning Report
+
+## Objective
+
+The objective of Day 4 was to improve problem-solving skills in Kotlin by practicing array-based coding problems, understanding nested loops, and implementing common algorithms.
+
+## Topics Covered
+
+### 1. Nested Loops
+
+* Learned how nested loops work.
+* Understood their importance in solving array problems where multiple elements need to be compared.
+* Used nested loops to generate different combinations of array elements.
+
+### 2. Triplet Sum Problem
+
+* Implemented the Triplet Sum algorithm using three nested loops.
+* Learned how to check whether the sum of three elements is equal to zero.
+* Fixed common programming mistakes such as:
+
+  * Incorrect loop boundaries.
+  * Array index out-of-bounds errors.
+  * Returning from the function too early.
+* Modified the program to display all valid triplets instead of stopping after finding the first one.
+
+### 3. Remove Duplicates from a Sorted Array
+
+* Solved the Remove Duplicates from a Sorted Array problem using the two-pointer technique.
+* Learned how to overwrite duplicate values while keeping only unique elements.
+* Understood why this approach has **O(n)** time complexity and **O(1)** extra space complexity.
+
+### 4. Debugging and Code Improvement
+
+* Learned how to debug Kotlin programs.
+* Corrected array printing using `contentToString()`.
+* Improved string interpolation using `${}`.
+* Identified logical errors and optimized code for better readability and correctness.
+
+## Key Concepts Learned
+
+* Arrays in Kotlin
+* Nested loops
+* Triplet Sum algorithm
+* Two-pointer technique
+* Removing duplicates from a sorted array
+* Time Complexity: **O(n)** and **O(n³)**
+* Debugging and code optimization
+
+## Outcome
+
+By the end of Day 4, I gained a better understanding of array manipulation, nested loop logic, debugging techniques, and solving coding interview-style problems in Kotlin. I also learned how to optimize code and avoid common programming mistakes while working with arrays.
+
