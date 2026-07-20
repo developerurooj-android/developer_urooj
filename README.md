@@ -1,3 +1,4 @@
+https://developer.android.com/guide/fragments
 # Daily Learning Report
 
 **Date:** July 13, 2026
