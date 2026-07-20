@@ -246,4 +246,65 @@ I also learned the fundamentals of XML and its role in Android development.
 
 By the end of Day 5, I understood the structure of an Android project and the basics of XML. This knowledge has provided a strong foundation for designing Android user interfaces and preparing for more advanced UI components in future sessions.
 
+Sure! Here's the corrected **Day 6 Report** reflecting that you only **studied the calculator concept** and did not build it.
+
+---
+
+# **Daily Internship Report – Day 6**
+
+**Date:** July 20, 2026
+**Technology:** Android Development (Kotlin + XML)
+
+## **Tasks Performed**
+
+* Created a **Login Screen** using XML.
+* Implemented login functionality using a **fixed email and password**.
+* Learned how to navigate between activities using **Intent**.
+* Created a **Home Screen** that opens after a successful login.
+* Implemented **Logout** functionality to return from the Home screen to the Login screen.
+* Learned the purpose and structure of **AndroidManifest.xml** and how to register activities.
+* Added a **Toolbar** to the Home screen and explored different ways to place a Logout button.
+* Took an **overview of a Basic Calculator** in Android, including its UI components and logic for arithmetic operations (addition, subtraction, multiplication, and division).
+* Studied the concept of **RecyclerView** and its importance in displaying lists efficiently.
+* Learned the architecture of RecyclerView, including:
+
+  * Model Class
+  * Adapter
+  * ViewHolder
+  * Item Layout
+* Understood the working of a **RecyclerView Adapter**, including:
+
+  * `onCreateViewHolder()`
+  * `onBindViewHolder()`
+  * `getItemCount()`
+
+## **Concepts Learned**
+
+* Activity Navigation using `Intent`
+* Android Manifest configuration
+* Toolbar and basic UI design
+* Login and Logout implementation
+* Basic Calculator overview
+* RecyclerView fundamentals
+* Adapter and ViewHolder concepts
+* Data flow from Model → Adapter → RecyclerView
+
+## **Challenges Faced**
+
+* Resolved manifest configuration issues.
+* Fixed activity navigation errors.
+* Corrected XML attribute errors (`textSize`, `textStyle`).
+* Understood the relationship between RecyclerView, Adapter, ViewHolder, and Item Layout.
+* Fixed layout issues related to the Home screen and Logout button.
+
+## **Outcome**
+
+By the end of today's session, I successfully developed a multi-screen Android application with Login and Home screens, implemented navigation between activities, and gained a conceptual understanding of the Basic Calculator and RecyclerView. I also learned how an Adapter connects data with a RecyclerView to display dynamic lists efficiently.
+
+## **Next Learning Goals**
+
+* Build a **Basic Calculator** in Android.
+* Create a **RecyclerView Student List** application.
+* Design list items using **CardView**.
+* Handle item click events and pass data between activities using `Intent`.
 
