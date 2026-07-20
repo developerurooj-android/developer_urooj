@@ -202,4 +202,48 @@ The objective of Day 4 was to improve problem-solving skills in Kotlin by practi
 ## Outcome
 
 By the end of Day 4, I gained a better understanding of array manipulation, nested loop logic, debugging techniques, and solving coding interview-style problems in Kotlin. I also learned how to optimize code and avoid common programming mistakes while working with arrays.
+# Day 5 Learning Report
+
+**Day:** Day 5 (Friday)
+
+## Topics Covered
+
+On Day 5, I began learning Android development by understanding the Android project structure and the basics of XML. These concepts are essential for building Android applications and designing user interfaces.
+
+### Android Project Structure
+
+During today's session, I learned about the main components of an Android project, including:
+
+* **AndroidManifest.xml** – Defines the application's configuration, activities, and permissions.
+* **MainActivity.kt** – The main Kotlin file where the application logic is written.
+* **res Folder** – Contains all application resources, including:
+
+  * **layout** – Stores XML layout files.
+  * **drawable** – Stores images and drawable resources.
+  * **mipmap** – Stores launcher icons.
+  * **values** – Contains strings, colors, themes, and other resource values.
+
+### Basics of XML
+
+I also learned the fundamentals of XML and its role in Android development.
+
+* What XML (Extensible Markup Language) is.
+* Why XML is used to design Android user interfaces.
+* The structure of an XML file.
+* Opening and closing tags.
+* Attributes used within XML elements.
+* The concept of a root layout.
+* The purpose of XML namespaces such as `xmlns:android` and `xmlns:app`.
+
+### Practical Work
+
+* Explored the Android Studio project structure.
+* Opened and examined the default XML layout file.
+* Learned how XML files are connected with Kotlin using `setContentView()`.
+* Modified simple XML elements to understand how UI changes appear in the application.
+
+## Learning Outcome
+
+By the end of Day 5, I understood the structure of an Android project and the basics of XML. This knowledge has provided a strong foundation for designing Android user interfaces and preparing for more advanced UI components in future sessions.
+
 
