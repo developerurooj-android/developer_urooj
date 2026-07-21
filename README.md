@@ -1,8 +1,8 @@
 https://developer.android.com/guide/fragments
 # Daily Learning Report
-
+**Week 1**
 **Date:** July 13, 2026
-
+Day 1
 ## Objective
 
 Learn the fundamentals of Kotlin programming language and strengthen problem-solving skills through coding practice.
@@ -205,8 +205,6 @@ The objective of Day 4 was to improve problem-solving skills in Kotlin by practi
 By the end of Day 4, I gained a better understanding of array manipulation, nested loop logic, debugging techniques, and solving coding interview-style problems in Kotlin. I also learned how to optimize code and avoid common programming mistakes while working with arrays.
 # Day 5 Learning Report
 
-**Day:** Day 5 (Friday)
-
 ## Topics Covered
 
 On Day 5, I began learning Android development by understanding the Android project structure and the basics of XML. These concepts are essential for building Android applications and designing user interfaces.
@@ -250,8 +248,8 @@ By the end of Day 5, I understood the structure of an Android project and the ba
 Sure! Here's the corrected **Day 6 Report** reflecting that you only **studied the calculator concept** and did not build it.
 
 ---
-
-# **Daily Internship Report – Day 6**
+**Week 2**
+# ** Day 1**
 
 **Date:** July 20, 2026
 **Technology:** Android Development (Kotlin + XML)
@@ -306,6 +304,72 @@ By the end of today's session, I successfully developed a multi-screen Android a
 
 * Build a **Basic Calculator** in Android.
 * Create a **RecyclerView Student List** application.
+  
 * Design list items using **CardView**.
 * Handle item click events and pass data between activities using `Intent`.
+# **Day 2 **
+
+**Topic:** Android Navigation & Audio System Basics
+
+## Objective
+
+To understand Android Navigation concepts, Jetpack Compose navigation, and the fundamentals of the Android Audio System.
+
+## Topics Covered
+
+### 1. Jetpack Compose Navigation
+
+* Learned the basics of **Jetpack Compose**.
+* Understood the difference between **XML-based UI** and **Compose UI**.
+* Learned how to create navigation using **NavController** and **NavHost**.
+* Studied **composable destinations** and **dialog destinations**.
+
+### 2. Navigation Concepts
+
+* Learned about:
+
+  * Fragment Destination
+  * Activity Destination
+  * Nested Navigation Graphs
+  * Deep Links
+  * Type-Safe Navigation using `@Serializable`
+* Understood how navigation arguments are passed safely using Kotlin data classes instead of route strings.
+
+### 3. Android Components
+
+* Studied **Services** and their role in performing background tasks.
+* Learned about **Broadcasts** and **Broadcast Receivers** for handling system events.
+
+### 4. Android Audio Basics
+
+* Gained an introduction to Android's audio architecture.
+* Learned the purpose of:
+
+  * AudioTrack
+  * AudioRecord
+  * MediaPlayer
+  * MediaRecorder
+  * Audio Focus
+  * Audio Codecs (AC-3, AAC, MP3)
+* Understood the concept of **Latency** and why low latency is important for audio and gaming applications.
+
+### 5. Audio Hardware Concepts
+
+* Learned basic concepts related to Android audio hardware, including:
+
+  * Audio HAL (Hardware Abstraction Layer)
+  * AIDL Audio HAL
+  * Bluetooth Audio
+  * USB Audio Interface
+  * PCM Audio
+  * Audio Interfaces
+* Understood that these are mostly handled by the Android framework and hardware, while application developers typically use high-level APIs.
+
+## Learning Outcome
+
+By the end of Day 7, I understood how Android manages navigation using the Navigation Component and Jetpack Compose, including different destination types, nested graphs, deep links, and type-safe navigation. I also gained a foundational understanding of the Android audio framework, common audio APIs, codecs, latency, and the role of the Audio HAL in connecting applications with audio hardware.
+
+## Conclusion
+
+Day 7 strengthened my understanding of Android Navigation and introduced me to the Android audio architecture. I learned when to use different navigation techniques and became familiar with the key concepts involved in audio playback, recording, and hardware interaction in Android.
 
