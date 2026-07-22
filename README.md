@@ -367,9 +367,72 @@ To understand Android Navigation concepts, Jetpack Compose navigation, and the f
 
 ## Learning Outcome
 
-By the end of Day 7, I understood how Android manages navigation using the Navigation Component and Jetpack Compose, including different destination types, nested graphs, deep links, and type-safe navigation. I also gained a foundational understanding of the Android audio framework, common audio APIs, codecs, latency, and the role of the Audio HAL in connecting applications with audio hardware.
+By the end of Day 2 of 2nd week, I understood how Android manages navigation using the Navigation Component and Jetpack Compose, including different destination types, nested graphs, deep links, and type-safe navigation. I also gained a foundational understanding of the Android audio framework, common audio APIs, codecs, latency, and the role of the Audio HAL in connecting applications with audio hardware.
 
 ## Conclusion
 
 Day 7 strengthened my understanding of Android Navigation and introduced me to the Android audio architecture. I learned when to use different navigation techniques and became familiar with the key concepts involved in audio playback, recording, and hardware interaction in Android.
+# **Daily 3**
+
+**Date:** 22 July 2026
+
+## **Tasks Performed**
+
+* Continued development of the **Student Management App** using **Kotlin**, **XML**, and **Android Studio**.
+* Created and configured multiple fragments:
+
+  * Student List Fragment
+  * Add Student Fragment
+  * Student Details Fragment
+  * About Fragment
+* Implemented **Navigation Component** by creating and configuring the `nav_graph.xml`.
+* Fixed issues related to:
+
+  * Incorrect fragment class names.
+  * ViewBinding usage in fragments.
+  * Navigation destination configuration.
+  * RecyclerView binding and layout IDs.
+* Designed the Student List screen using **RecyclerView** and displayed sample student data.
+* Added a **Toolbar** in the MainActivity layout.
+* Created an **Options Menu** containing:
+
+  * Add Student
+  * Edit Student
+  * About
+* Connected menu items with the Navigation Component using `NavController`.
+* Performed debugging using **Logcat** to identify runtime exceptions such as:
+
+  * `Fragment InstantiationException`
+  * `ClassNotFoundException`
+  * Incorrect fragment references in the Navigation Graph.
+* Investigated why the Options Menu was not appearing and verified:
+
+  * Toolbar setup
+  * Theme configuration
+  * Menu inflation
+  * Navigation setup
+
+## **Concepts Learned**
+
+* Fragment lifecycle and ViewBinding implementation.
+* Navigation Component configuration.
+* Creating and managing multiple fragments.
+* RecyclerView integration with fragments.
+* Toolbar and Options Menu implementation.
+* Using NavController for fragment navigation.
+* Reading and analyzing Logcat for runtime errors.
+* Importance of matching fragment class names with Navigation Graph entries.
+* Debugging Android runtime crashes and UI issues.
+
+## **Challenges Faced**
+
+* Application crashed due to incorrect fragment references.
+* Navigation Graph contained invalid fragment class names.
+* Menu options were not appearing correctly in the Toolbar.
+* Navigation between fragments was not functioning as expected.
+* Resolved several configuration and runtime issues through debugging.
+
+## **Outcome**
+
+By the end of the day, the Student Management App structure was improved significantly. The RecyclerView-based Student List was functioning correctly, multiple fragments were integrated into the project, and considerable progress was made in configuring navigation and troubleshooting Toolbar menu issues. Additionally, practical experience was gained in using Logcat to identify and resolve Android runtime errors.
 
