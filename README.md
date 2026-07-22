@@ -1,4 +1,5 @@
 https://developer.android.com/guide/fragments
+https://source.android.com/docs/core/audio/terminology
 # Daily Learning Report
 **Week 1**
 **Date:** July 13, 2026
