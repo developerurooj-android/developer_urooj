@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+
+    <!-- Inner White/Light Blue Circle -->
+    <path
+        android:fillColor="#F0F4F8"
+        android:pathData="M54,18 A36,36 0 1,1 54,90 A36,36 0 1,1 54,18" />
+
+    <path
+        android:strokeColor="#0077B6"
+        android:strokeWidth="1.5"
+        android:pathData="M54,19 A35,35 0 1,1 54,89 A35,35 0 1,1 54,19" />
+
+    <!-- Graduation Cap -->
+    <path
+        android:fillColor="#1B263B"
+        android:pathData="M54,25 L75,32 L54,39 L33,32 Z" />
+    <path
+        android:fillColor="#1B263B"
+        android:pathData="M43,36 L43,40 C43,40 43,44 54,44 C65,44 65,40 65,40 L65,36" />
+    <!-- Tassel -->
+    <path
+        android:fillColor="#FFB703"
+        android:pathData="M70,32 L70,42"
+        android:strokeColor="#FFB703"
+        android:strokeWidth="1"/>
+    <path
+        android:fillColor="#FFB703"
+        android:pathData="M68,42 L72,42 L71,46 L69,46 Z" />
+
+    <!-- Open Book -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:strokeColor="#0077B6"
+        android:strokeWidth="0.5"
+        android:pathData="M35,50 C35,50 45,48 54,52 C63,48 73,50 73,50 L73,65 C73,65 63,63 54,67 C45,63 35,65 35,65 Z" />
+    <path
+        android:strokeColor="#B0C4DE"
+        android:strokeWidth="0.5"
+        android:pathData="M38,54 H50 M38,57 H50 M38,60 H50 M58,54 H70 M58,57 H70 M58,60 H70" />
+
+    <!-- Student Silhouette (Center) -->
+    <path
+        android:fillColor="#00BFA5"
+        android:pathData="M54,68 A5,5 0 1,1 54,78 A5,5 0 1,1 54,68" />
+    <path
+        android:fillColor="#00BFA5"
+        android:pathData="M46,85 C46,80 62,80 62,85 L62,88 L46,88 Z" />
+
+    <!-- Text Placeholder (Simplified as lines or small star) -->
+    <path
+        android:fillColor="#00BFA5"
+        android:pathData="M54,92 L55,94 L57,94 L55.5,95 L56,97 L54,96 L52,97 L52.5,95 L51,94 L53,94 Z" />
+
+</vector>
