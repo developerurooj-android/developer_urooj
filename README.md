@@ -436,7 +436,6 @@ Day 7 strengthened my understanding of Android Navigation and introduced me to t
 * Navigation between fragments was not functioning as expected.
 * Resolved several configuration and runtime issues through debugging.
 
-## **Outcome**
 
 **Day:** 5
 **Date:** 24 July 2026
