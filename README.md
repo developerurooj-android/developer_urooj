@@ -27,7 +27,97 @@ Learn the fundamentals of Kotlin programming language and strengthen problem-sol
   * String templates
 * Explored Kotlin examples and practiced writing simple programs.
 * Solved **10 Kotlin programming problems** to reinforce the concepts learned.
+1. ATM PIN Verification
+Problem:
+ An ATM allows only 3 attempts to enter the correct PIN. If the PIN is correct, display "Welcome". Otherwise, block the account after 3 failed attempts.
+Concepts: if, loops, variables
 
+2. Online Shopping Discount
+Problem:
+ A shopping website gives:
+
+• 20% discount if the bill is above $500..
+• 10% discount if the bill is between $200 and $500..
+• No discount otherwise..
+Calculate the final amount.
+Concepts: if-else, arithmetic operators
+
+3. Employee Salary Calculator
+Problem:
+ An employee works 8 hours per day.
+
+• Input hourly wage and hours worked..
+• Calculate total salary..
+• If overtime exceeds 40 hours per week, pay 1.5× the hourly rate for extra hours..
+Concepts: Variables, conditions
+
+4. Student Grade System
+Problem:
+ Input marks for 5 subjects.
+
+• Calculate total and percentage..
+• Display grades:.
+◦ A: 90–100.
+◦ B: 80–89.
+◦ C: 70–79.
+◦ D: 60–69.
+◦ F: Below 60.
+Concepts: Loops, arrays, conditions
+
+5. Restaurant Bill Generator
+Problem:
+ A customer orders food items.
+
+• Calculate the total bill..
+• Add 5% tax..
+• Add a 10% service charge if the bill exceeds $100..
+Concepts: Arithmetic, conditions
+
+6. Mobile Recharge Offer
+Problem:
+ A telecom company offers:
+
+• Recharge ≥ $50 → 5 GB bonus..
+• Recharge ≥ $100 → 15 GB bonus..
+• Recharge ≥ $200 → 40 GB bonus..
+Display the bonus received.
+Concepts: when or if-else
+
+7. Parking Fee Calculator
+Problem:
+ Parking charges:
+
+• First 2 hours: Free.
+• Next hours: $2/hour.
+• Maximum charge: $20.
+Input parking hours and calculate the fee.
+Concepts: Conditions, arithmetic
+
+8. Bank Balance Checker
+Problem:
+ A customer wants to withdraw money.
+
+• If the balance is sufficient, deduct the amount..
+• Otherwise, display "Insufficient Balance.".
+Concepts: Variables, conditions
+
+9. Electricity Bill Calculator
+Problem:
+ Electricity rates:
+
+• First 100 units → $0.50/unit.
+• Next 100 units → $0.75/unit.
+• Above 200 units → $1.20/unit.
+Calculate the total bill.
+Concepts: Conditional logic
+
+10. Login System
+Problem:
+ A user enters a username and password.
+
+• If both match stored values, display "Login Successful.".
+• Otherwise, display "Invalid Username or Password.".
+Concepts: Strings, conditions
 ## Skills Gained
 
 * Understanding of Kotlin syntax and program structure.
@@ -436,7 +526,150 @@ Day 7 strengthened my understanding of Android Navigation and introduced me to t
 * Navigation between fragments was not functioning as expected.
 * Resolved several configuration and runtime issues through debugging.
 
+
+**Day:** 5
+**Date:** 24 July 2026
+
+## **Objectives**
+
+The objective of today's session was to enhance the functionality and user experience of an Android Calculator application by implementing calculator logic, improving the display behavior, and understanding how expressions and results are managed in Kotlin.
+
+## **Topics Covered**
+
+* Developed a basic Android Calculator using **Kotlin** and **XML**.
+* Implemented button click listeners for numeric and operator buttons.
+* Learned how to store and update mathematical expressions using **String** variables.
+* Implemented calculator operations:
+
+  * Addition (+)
+  * Subtraction (-)
+  * Multiplication (×)
+  * Division (÷)
+* Implemented **AC (Clear)** functionality to reset the calculator.
+* Implemented **DEL (Delete)** functionality to remove the last entered character.
+* Added support for **decimal numbers**.
+* Implemented validation to prevent entering multiple operators consecutively.
+* Handled **division by zero** using exception handling.
+* Learned how to format results to remove unnecessary decimal places (e.g., displaying `30` instead of `30.0`).
+* Improved the calculator display by separating the **expression** and **result** using different `TextView`s.
+* Explored how expression evaluation works through custom Kotlin functions.
+* Studied the role of helper functions such as:
+
+  * `appendNumber()`
+  * `appendOperator()`
+  * `calculate()`
+  * `clearAll()`
+  * `deleteLast()`
+  * `updateDisplay()`
+  * `formatResult()`
+  * `evaluate()`
+
+## **Challenges Faced**
+
+* Managing expression updates while users entered numbers and operators.
+* Handling unresolved reference errors caused by missing functions.
+* Designing calculator logic similar to a mobile calculator.
+* Displaying expressions and results correctly after pressing the equals button.
+* Preventing invalid inputs and runtime errors during calculations.
+
 ## **Outcome**
 
+By the end of the session, I successfully developed a functional Android Calculator capable of performing basic arithmetic operations. I also gained a better understanding of Kotlin event handling, expression management, UI updates, and implementing calculator logic using Android components.
+
+## **Learning Outcome**
+
+Today's work strengthened my understanding of:
+
+* Android UI development using XML
+* Kotlin programming fundamentals
+* Event handling with Button Click Listeners
+* String manipulation
+* Arithmetic operations
+* Exception handling
+* Function design and code organization
+* Calculator logic implementation
+* Android application debugging
+
+
+
 By the end of the day, the Student Management App structure was improved significantly. The RecyclerView-based Student List was functioning correctly, multiple fragments were integrated into the project, and considerable progress was made in configuring navigation and troubleshooting Toolbar menu issues. Additionally, practical experience was gained in using Logcat to identify and resolve Android runtime errors.
+
+## **Daily Progress Report Week 3 Day 1**
+
+### **Today's Scrum**
+
+Today, I learned about **Android App Optimization** and the techniques used to improve an application's overall quality and performance. I studied how to optimize an Android app by reducing the app size, improving responsiveness and performance, enhancing security, minimizing unnecessary lines of code, and understanding the importance of **Dependency Injection** for writing modular, maintainable, and testable code.
+
+---
+
+### **Project:** Notepad App (Kotlin + XML + SQLite)
+
+### **Objectives**
+
+* Enhance the basic Notepad application.
+* Implement local data storage using SQLite.
+* Explore additional features such as editing, deleting, and adding dates to notes.
+
+### **Work Completed**
+
+#### **1. SQLite Database Integration**
+
+* Learned the basics of SQLite in Android.
+* Created a `DatabaseHelper` class by extending `SQLiteOpenHelper`.
+* Created a `notes` table with the following columns:
+
+  * `id`
+  * `title`
+  * `description`
+* Implemented CRUD (Create, Read, Update, Delete) operations:
+
+  * Insert Note
+  * Retrieve All Notes
+  * Update Note
+  * Delete Note
+
+#### **2. Data Persistence**
+
+* Replaced temporary `ArrayList` storage with SQLite database storage.
+* Learned how local databases preserve notes even after closing the application.
+
+#### **3. Calendar Feature Planning**
+
+* Explored adding a **DatePickerDialog** to allow users to select a date while creating or editing a note.
+* Updated the database design to include a **date** column for storing the selected date.
+
+#### **4. Edit and Delete Functionality**
+
+* Planned the implementation of:
+
+  * Edit existing notes.
+  * Delete notes with a confirmation dialog.
+* Understood the flow of passing data between activities for updating notes.
+
+#### **5. Android Concepts Learned**
+
+* SQLite Database
+* SQLiteOpenHelper
+* Database Tables
+* Primary Key (`AUTOINCREMENT`)
+* CRUD Operations
+* ContentValues
+* Cursor
+* Local Data Persistence
+* DatePickerDialog (Introduction)
+* App Constants
+* Android App Optimization
+* Code Shrinking (`isMinifyEnabled`)
+* Dependency Injection (Introduction)
+* Android Adapter and ViewHolder concepts
+
+### **Challenges Faced**
+
+* Resolved issues related to updating the SQLite table structure.
+* Learned that changing the database schema requires increasing the database version or reinstalling the application.
+* Investigated application crashes and understood the importance of using Logcat for debugging.
+
+### **Outcome**
+
+Successfully upgraded the Notepad application from using an in-memory `ArrayList` to a persistent SQLite database and planned additional features such as note editing, deletion, and calendar integration. Additionally, gained an understanding of Android app optimization techniques, dependency injection, and strategies for improving application performance, security, maintainability, and code quality.
 
