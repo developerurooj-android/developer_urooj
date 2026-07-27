@@ -594,3 +594,82 @@ Today's work strengthened my understanding of:
 
 By the end of the day, the Student Management App structure was improved significantly. The RecyclerView-based Student List was functioning correctly, multiple fragments were integrated into the project, and considerable progress was made in configuring navigation and troubleshooting Toolbar menu issues. Additionally, practical experience was gained in using Logcat to identify and resolve Android runtime errors.
 
+## **Daily Progress Report Week 3 Day 1**
+
+### **Today's Scrum**
+
+Today, I learned about **Android App Optimization** and the techniques used to improve an application's overall quality and performance. I studied how to optimize an Android app by reducing the app size, improving responsiveness and performance, enhancing security, minimizing unnecessary lines of code, and understanding the importance of **Dependency Injection** for writing modular, maintainable, and testable code.
+
+---
+
+### **Project:** Notepad App (Kotlin + XML + SQLite)
+
+### **Objectives**
+
+* Enhance the basic Notepad application.
+* Implement local data storage using SQLite.
+* Explore additional features such as editing, deleting, and adding dates to notes.
+
+### **Work Completed**
+
+#### **1. SQLite Database Integration**
+
+* Learned the basics of SQLite in Android.
+* Created a `DatabaseHelper` class by extending `SQLiteOpenHelper`.
+* Created a `notes` table with the following columns:
+
+  * `id`
+  * `title`
+  * `description`
+* Implemented CRUD (Create, Read, Update, Delete) operations:
+
+  * Insert Note
+  * Retrieve All Notes
+  * Update Note
+  * Delete Note
+
+#### **2. Data Persistence**
+
+* Replaced temporary `ArrayList` storage with SQLite database storage.
+* Learned how local databases preserve notes even after closing the application.
+
+#### **3. Calendar Feature Planning**
+
+* Explored adding a **DatePickerDialog** to allow users to select a date while creating or editing a note.
+* Updated the database design to include a **date** column for storing the selected date.
+
+#### **4. Edit and Delete Functionality**
+
+* Planned the implementation of:
+
+  * Edit existing notes.
+  * Delete notes with a confirmation dialog.
+* Understood the flow of passing data between activities for updating notes.
+
+#### **5. Android Concepts Learned**
+
+* SQLite Database
+* SQLiteOpenHelper
+* Database Tables
+* Primary Key (`AUTOINCREMENT`)
+* CRUD Operations
+* ContentValues
+* Cursor
+* Local Data Persistence
+* DatePickerDialog (Introduction)
+* App Constants
+* Android App Optimization
+* Code Shrinking (`isMinifyEnabled`)
+* Dependency Injection (Introduction)
+* Android Adapter and ViewHolder concepts
+
+### **Challenges Faced**
+
+* Resolved issues related to updating the SQLite table structure.
+* Learned that changing the database schema requires increasing the database version or reinstalling the application.
+* Investigated application crashes and understood the importance of using Logcat for debugging.
+
+### **Outcome**
+
+Successfully upgraded the Notepad application from using an in-memory `ArrayList` to a persistent SQLite database and planned additional features such as note editing, deletion, and calendar integration. Additionally, gained an understanding of Android app optimization techniques, dependency injection, and strategies for improving application performance, security, maintainability, and code quality.
+
