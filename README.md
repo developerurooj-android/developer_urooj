@@ -27,7 +27,97 @@ Learn the fundamentals of Kotlin programming language and strengthen problem-sol
   * String templates
 * Explored Kotlin examples and practiced writing simple programs.
 * Solved **10 Kotlin programming problems** to reinforce the concepts learned.
+1. ATM PIN Verification
+Problem:
+ An ATM allows only 3 attempts to enter the correct PIN. If the PIN is correct, display "Welcome". Otherwise, block the account after 3 failed attempts.
+Concepts: if, loops, variables
 
+2. Online Shopping Discount
+Problem:
+ A shopping website gives:
+
+• 20% discount if the bill is above $500..
+• 10% discount if the bill is between $200 and $500..
+• No discount otherwise..
+Calculate the final amount.
+Concepts: if-else, arithmetic operators
+
+3. Employee Salary Calculator
+Problem:
+ An employee works 8 hours per day.
+
+• Input hourly wage and hours worked..
+• Calculate total salary..
+• If overtime exceeds 40 hours per week, pay 1.5× the hourly rate for extra hours..
+Concepts: Variables, conditions
+
+4. Student Grade System
+Problem:
+ Input marks for 5 subjects.
+
+• Calculate total and percentage..
+• Display grades:.
+◦ A: 90–100.
+◦ B: 80–89.
+◦ C: 70–79.
+◦ D: 60–69.
+◦ F: Below 60.
+Concepts: Loops, arrays, conditions
+
+5. Restaurant Bill Generator
+Problem:
+ A customer orders food items.
+
+• Calculate the total bill..
+• Add 5% tax..
+• Add a 10% service charge if the bill exceeds $100..
+Concepts: Arithmetic, conditions
+
+6. Mobile Recharge Offer
+Problem:
+ A telecom company offers:
+
+• Recharge ≥ $50 → 5 GB bonus..
+• Recharge ≥ $100 → 15 GB bonus..
+• Recharge ≥ $200 → 40 GB bonus..
+Display the bonus received.
+Concepts: when or if-else
+
+7. Parking Fee Calculator
+Problem:
+ Parking charges:
+
+• First 2 hours: Free.
+• Next hours: $2/hour.
+• Maximum charge: $20.
+Input parking hours and calculate the fee.
+Concepts: Conditions, arithmetic
+
+8. Bank Balance Checker
+Problem:
+ A customer wants to withdraw money.
+
+• If the balance is sufficient, deduct the amount..
+• Otherwise, display "Insufficient Balance.".
+Concepts: Variables, conditions
+
+9. Electricity Bill Calculator
+Problem:
+ Electricity rates:
+
+• First 100 units → $0.50/unit.
+• Next 100 units → $0.75/unit.
+• Above 200 units → $1.20/unit.
+Calculate the total bill.
+Concepts: Conditional logic
+
+10. Login System
+Problem:
+ A user enters a username and password.
+
+• If both match stored values, display "Login Successful.".
+• Otherwise, display "Invalid Username or Password.".
+Concepts: Strings, conditions
 ## Skills Gained
 
 * Understanding of Kotlin syntax and program structure.
