@@ -673,7 +673,7 @@ Today, I learned about **Android App Optimization** and the techniques used to i
 
 Successfully upgraded the Notepad application from using an in-memory `ArrayList` to a persistent SQLite database and planned additional features such as note editing, deletion, and calendar integration. Additionally, gained an understanding of Android app optimization techniques, dependency injection, and strategies for improving application performance, security, maintainability, and code quality.
 
-## **Daily Progress Report – Day 9**
+## **Daily Progress Report – Day 2**
 
 ### **Today's Scrum**
 
