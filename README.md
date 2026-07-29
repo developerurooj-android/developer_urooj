@@ -673,3 +673,153 @@ Today, I learned about **Android App Optimization** and the techniques used to i
 
 Successfully upgraded the Notepad application from using an in-memory `ArrayList` to a persistent SQLite database and planned additional features such as note editing, deletion, and calendar integration. Additionally, gained an understanding of Android app optimization techniques, dependency injection, and strategies for improving application performance, security, maintainability, and code quality.
 
+## **Daily Progress Report – Day 2**
+
+### **Today's Scrum**
+
+Today, I revised all the fundamental Android development concepts that I learned over the past **two weeks**. I reviewed Android project structure, XML layouts, Kotlin fundamentals, Activities, Intents, RecyclerView, Adapter, ViewHolder, SQLite, CRUD operations, Material Design components, Android app optimization, dependency injection, function overriding, and debugging techniques to strengthen my understanding before moving on to more advanced Android concepts.
+
+---
+
+## **Objectives**
+
+* Revise all Android development concepts learned during the first two weeks.
+* Strengthen understanding of Android application architecture and development workflow.
+* Review the implementation of the Notepad application.
+
+---
+
+## **Topics Revised**
+
+### **1. Android Fundamentals**
+
+* Android Project Structure
+* AndroidManifest.xml
+* Gradle Build Files
+* Resource Management (`layout`, `drawable`, `mipmap`, `values`)
+
+### **2. Kotlin Basics**
+
+* Variables (`val` & `var`)
+* Data Types
+* Functions
+* Classes and Objects
+* Constructors
+* Constructor Overloading
+* Inheritance
+* Function Overriding
+* Collections (`ArrayList`)
+* Data Classes
+
+### **3. XML Layouts**
+
+* ConstraintLayout
+* LinearLayout
+* ScrollView
+* NestedScrollView
+* CoordinatorLayout
+* AppBarLayout
+
+### **4. UI Components**
+
+* TextView
+* EditText
+* TextInputLayout
+* TextInputEditText
+* Button
+* MaterialButton
+* ImageView
+* RecyclerView
+* CardView
+* MaterialToolbar
+
+### **5. Android Components**
+
+* Activities
+* Activity Lifecycle (`onCreate`)
+* Intents
+* Passing Data Between Activities
+* Toolbar Navigation
+
+### **6. RecyclerView**
+
+* RecyclerView
+* Adapter
+* ViewHolder
+* Item Layout
+* Data Binding
+* LinearLayoutManager
+
+### **7. SQLite Database**
+
+* SQLiteOpenHelper
+* Database Creation
+* Tables and Columns
+* Primary Key (`AUTOINCREMENT`)
+* CRUD Operations
+* ContentValues
+* Cursor
+* Local Data Persistence
+
+### **8. Material Design**
+
+* Material Components
+* TextInputLayout
+* Material Toolbar
+* Material Buttons
+
+### **9. Android App Optimization**
+
+* Improving application performance
+* Reducing APK size
+* Code optimization
+* `isMinifyEnabled`
+* Code shrinking and optimization
+* Security improvements
+* Dependency Injection (Introduction)
+
+### **10. Debugging**
+
+* Understanding compiler errors
+* Reading Logcat
+* Resolving runtime crashes
+* Fixing unresolved references
+
+---
+
+## **Project Revision**
+
+### **Notepad Application**
+
+Reviewed the complete application workflow:
+
+* Add Notes
+* Display Notes using RecyclerView
+* Edit Notes
+* Delete Notes
+* Store Notes in SQLite
+* Calendar (DatePicker) Integration
+
+---
+
+## **Concepts Reinforced**
+
+* Object-Oriented Programming (OOP)
+* Inheritance
+* Function Overriding
+* Constructor Overloading
+* RecyclerView Architecture
+* Adapter & ViewHolder
+* SQLite Database Management
+* CRUD Operations
+* Android UI Design
+* Material Design Components
+* Android App Optimization
+* Dependency Injection (Basic Understanding)
+
+---
+
+## **Outcome**
+
+Today's revision helped reinforce the Android development fundamentals learned over the past two weeks. Revisiting these concepts improved my understanding of Android application structure, UI development, Kotlin programming, local database management, RecyclerView architecture, and app optimization techniques. This revision has strengthened my foundation and prepared me to move forward with more advanced Android topics and projects.
+
