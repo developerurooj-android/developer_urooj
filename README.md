@@ -823,3 +823,102 @@ Reviewed the complete application workflow:
 
 Today's revision helped reinforce the Android development fundamentals learned over the past two weeks. Revisiting these concepts improved my understanding of Android application structure, UI development, Kotlin programming, local database management, RecyclerView architecture, and app optimization techniques. This revision has strengthened my foundation and prepared me to move forward with more advanced Android topics and projects.
 
+## **Week 3 - Day 3 Report**
+
+**Date:** Week 3 - Day 3
+
+### **Tasks Completed**
+
+Today, I worked on the documentation of the **Doctor Appointment Android Application**. I prepared detailed project documentation covering the application's purpose, features, functional requirements, non-functional requirements, technology stack, project architecture, modules, and development plan. The documentation was created to provide a clear roadmap for the implementation of the project.
+
+### **Concepts Learned**
+
+* Software project documentation
+* Functional and Non-Functional Requirements
+* Android application architecture planning
+* Feature and module planning
+* Documentation best practices
+
+### **Outcome**
+
+Completed a comprehensive documentation file for the Doctor Appointment application, which will serve as the foundation for the development phase.
+
+---
+
+## **Week 3 - Day 4 Report**
+
+**Date:** Week 3 - Day 4
+
+### **Tasks Completed**
+
+Today, I started the UI implementation of the **Doctor Appointment Android Application**. I designed and developed the following authentication screens using **XML** and **Kotlin**:
+
+* Splash Screen
+* Onboarding Screens (3 Pages)
+* Login Screen
+* Sign Up Screen
+* Forgot Password Screen
+
+In addition, I configured **Firebase** for the project by connecting the Android application with Firebase and preparing it for Authentication and other Firebase services.
+
+### **Concepts Learned**
+
+* Android Authentication UI Design
+* Multi-page Onboarding using ViewPager2
+* Material Design Components
+* Firebase Project Setup
+* Firebase Authentication Integration
+* Google Services Configuration
+* Android Navigation between Authentication Screens
+
+### **Technologies Used**
+
+* Kotlin
+* XML
+* Android Studio
+* Firebase Authentication
+* Firebase Console
+
+### **Outcome**
+
+Successfully completed the complete authentication UI (Onboarding, Login, Sign Up, Forgot Password) and configured Firebase for the Doctor Appointment application, making the project ready for authentication implementation.
+## **Week 3 - Day 5 Report**
+
+**Date:** Week 3 - Day 5
+
+### **Tasks Completed**
+
+Today, I continued developing the **Doctor Appointment Android Application** by designing and implementing the main user interface screens. I created the following screens using **XML** and **Kotlin**:
+
+* Home Screen
+* Appointments Screen
+* Chat Screen
+* Find Doctor Screen
+* Rate Doctor Screen
+* Settings Screen
+* Profile Screen
+
+Each screen was designed with a clean, modern, and user-friendly interface while maintaining a consistent theme throughout the application. I also implemented navigation between these screens to improve the overall user experience.
+
+### **Concepts Learned**
+
+* Multi-screen Android application development
+* Material Design UI principles
+* Android Navigation Component
+* RecyclerView for dynamic lists
+* CardView and ConstraintLayout
+* Bottom Navigation implementation
+* User profile and settings UI design
+* Consistent UI/UX design practices
+
+### **Technologies Used**
+
+* Kotlin
+* XML
+* Android Studio
+* Material Design Components
+* Navigation Component
+
+### **Outcome**
+
+Successfully developed the core user interface of the Doctor Appointment application, including the Home, Appointments, Chat, Find Doctor, Rate Doctor, Settings, and Profile screens. The application now has a complete primary navigation flow and is ready for implementing backend functionality and real-time features.
