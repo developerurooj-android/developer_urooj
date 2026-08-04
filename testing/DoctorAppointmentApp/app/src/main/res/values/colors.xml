@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <!-- ── Absolute ─────────────────────────────────────────────── -->
+    <color name="white">#FFFFFF</color>
+    <color name="black">#000000</color>
+    <color name="transparent">#00000000</color>
+
+    <!-- ── Modern Primary Palette (Vibrant Blue) ────────────────── -->
+    <color name="md_theme_light_primary">#0061A4</color>
+    <color name="md_theme_light_onPrimary">#FFFFFF</color>
+    <color name="md_theme_light_primaryContainer">#D1E4FF</color>
+    <color name="md_theme_light_onPrimaryContainer">#001D36</color>
+
+    <color name="md_theme_light_secondary">#535F70</color>
+    <color name="md_theme_light_onSecondary">#FFFFFF</color>
+    <color name="md_theme_light_secondaryContainer">#D7E3F7</color>
+    <color name="md_theme_light_onSecondaryContainer">#101C2B</color>
+
+    <color name="md_theme_light_tertiary">#6B5778</color>
+    <color name="md_theme_light_onTertiary">#FFFFFF</color>
+    <color name="md_theme_light_tertiaryContainer">#F2DAFF</color>
+    <color name="md_theme_light_onTertiaryContainer">#251431</color>
+
+    <color name="md_theme_light_error">#BA1A1A</color>
+    <color name="md_theme_light_onError">#FFFFFF</color>
+    <color name="md_theme_light_errorContainer">#FFDAD6</color>
+    <color name="md_theme_light_onErrorContainer">#410002</color>
+
+    <color name="md_theme_light_background">#F0F4F8</color>
+    <color name="md_theme_light_onBackground">#1A1C1E</color>
+    <color name="md_theme_light_surface">#FFFFFF</color>
+    <color name="md_theme_light_onSurface">#1A1C1E</color>
+    <color name="md_theme_light_surfaceVariant">#DFE2EB</color>
+    <color name="md_theme_light_onSurfaceVariant">#43474E</color>
+    <color name="md_theme_light_outline">#73777F</color>
+
+    <!-- ── Semantic Colors ──────────────────────────────────────── -->
+    <color name="medical_blue">#0061A4</color>
+    <color name="success_green">#006E1C</color>
+    <color name="warning_orange">#8B5000</color>
+    <color name="error_red">#BA1A1A</color>
+
+    <!-- ── Neutral Grey Scale ───────────────────────────────────── -->
+    <color name="grey_50">#F9FAFB</color>
+    <color name="grey_100">#F3F4F6</color>
+    <color name="grey_200">#E5E7EB</color>
+    <color name="grey_300">#D1D5DB</color>
+    <color name="grey_400">#9CA3AF</color>
+    <color name="grey_500">#6B7280</color>
+    <color name="grey_600">#4B5563</color>
+    <color name="grey_700">#374151</color>
+
+    <!-- Legacy aliases for stability -->
+    <color name="gray_50">@color/grey_50</color>
+    <color name="gray_100">@color/grey_100</color>
+    <color name="gray_200">@color/grey_200</color>
+    <color name="gray_300">@color/grey_300</color>
+    <color name="gray_400">@color/grey_400</color>
+    <color name="gray_500">@color/grey_500</color>
+    <color name="gray_600">@color/grey_600</color>
+
+    <color name="text_primary">#1A1C1E</color>
+    <color name="text_secondary">#43474E</color>
+    <color name="text_hint">#73777F</color>
+
+    <!-- ── Overlay & misc ─────────────────────────────────────────  -->
+    <color name="overlay_dark">#40000000</color>
+    <color name="brand_blue_50">#E3F2FD</color>
+    <color name="medical_blue_600">#1565C0</color>
+    <color name="slate_400">#94A3B8</color>
+    <color name="brand_blue_surface">#F0F7FF</color>
+    <color name="surface_variant">@color/md_theme_light_surfaceVariant</color>
+
+    <!-- ── Missing Colors Fix ── -->
+    <color name="gray_medium">#9E9E9E</color>
+    <color name="medical_blue_light">#E3F2FD</color>
+    <color name="splash_progress_start">#0061A4</color>
+    <color name="splash_progress_center">#1565C0</color>
+    <color name="splash_progress_end">#42A5F5</color>
+    <color name="brand_blue_200">#90CAF9</color>
+
+</resources>

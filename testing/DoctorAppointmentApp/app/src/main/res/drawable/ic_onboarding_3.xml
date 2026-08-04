@@ -1,0 +1,12 @@
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="200dp"
+    android:height="200dp"
+    android:viewportWidth="24"
+    android:viewportHeight="24">
+    <path
+        android:fillColor="@color/medical_blue_light"
+        android:pathData="M12,2L12,2A10,10 0,0 0,2 12L2,12A10,10 0,0 0,12 22L12,22A10,10 0,0 0,22 12L22,12A10,10 0,0 0,12 2Z" />
+    <path
+        android:fillColor="@color/medical_blue"
+        android:pathData="M14,2H6C4.9,2 4,2.9 4,4V20C4,21.1 4.9,22 6,22H18C19.1,22 20,21.1 20,20V8L14,2M13,13H11V15H9V13H7V11H9V9H11V11H13V13M13,9V3.5L18.5,9H13Z" />
+</vector>

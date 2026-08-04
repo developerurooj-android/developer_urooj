@@ -1,0 +1,202 @@
+<resources>
+    <string name="app_name">MediConnect</string>
+
+    <!-- Splash Screen -->
+    <string name="splash_tagline">Your Health, Our Priority</string>
+    <string name="splash_loading">Initializing…</string>
+
+    <!-- Onboarding -->
+    <string name="onboarding_title_1">Doctor Appointment Booking</string>
+    <string name="onboarding_desc_1">Book appointments quickly with verified doctors.</string>
+    <string name="onboarding_title_2">Chat &amp; Video Consultation</string>
+    <string name="onboarding_desc_2">Consult doctors using secure chat, voice and video calls.</string>
+    <string name="onboarding_title_3">Medical Reports &amp; Prescriptions</string>
+    <string name="onboarding_desc_3">Upload reports and receive digital prescriptions anytime.</string>
+    <string name="onboarding_skip">Skip</string>
+    <string name="onboarding_next">Next</string>
+    <string name="onboarding_get_started">Get Started</string>
+
+    <!-- Login -->
+    <string name="login_welcome">Welcome Back!</string>
+    <string name="login_hint_email">Email address</string>
+    <string name="login_hint_password">Password</string>
+    <string name="login_hint_role">Select Role</string>
+    <string name="login_remember_me">Remember Me</string>
+    <string name="login_button">Login</string>
+    <string name="login_forgot_password">Forgot Password?</string>
+    <string name="login_no_account">Don\'t have an account? Sign Up</string>
+    <string name="role_patient">Patient</string>
+    <string name="role_doctor">Doctor</string>
+    <string name="role_admin">Admin</string>
+
+    <!-- Register -->
+    <string name="register_title">Create Account</string>
+    <string name="register_hint_name">Full Name</string>
+    <string name="register_hint_email">Email address</string>
+    <string name="register_hint_phone">Phone Number</string>
+    <string name="register_hint_gender">Gender</string>
+    <string name="register_hint_dob">Date of Birth</string>
+    <string name="register_hint_password">Password</string>
+    <string name="register_hint_confirm_password">Confirm Password</string>
+    <string name="register_hint_role">Select Role</string>
+    <string name="register_button">Create Account</string>
+    <string name="register_have_account">Already have an account? Login</string>
+    <string name="gender_male">Male</string>
+    <string name="gender_female">Female</string>
+    <string name="gender_other">Other</string>
+
+    <!-- Forgot Password -->
+    <string name="forgot_password_title">Forgot Password</string>
+    <string name="forgot_password_desc">Enter your registered email to receive a reset link.</string>
+    <string name="forgot_password_button">Send Reset Link</string>
+    <string name="forgot_password_back">Back To Login</string>
+
+    <!-- Errors -->
+    <string name="err_empty_email">Please enter email</string>
+    <string name="err_invalid_email">Please enter a valid email</string>
+    <string name="err_empty_password">Please enter password</string>
+    <string name="err_password_short">Password must be at least 6 characters</string>
+    <string name="err_password_mismatch">Passwords do not match</string>
+    <string name="err_empty_role">Please select a role</string>
+    <string name="err_empty_name">Please enter full name</string>
+    <string name="err_empty_phone">Please enter phone number</string>
+    <string name="err_empty_gender">Please select gender</string>
+    <string name="err_empty_dob">Please select date of birth</string>
+    <string name="err_login_failed">Login failed. Please check credentials.</string>
+    <string name="err_register_failed">Registration failed. Please try again.</string>
+    <string name="err_role_mismatch">Selected role does not match account.</string>
+
+    <!-- Success -->
+    <string name="success_reset_link">Reset link sent to your email.</string>
+    <string name="success_register">Registration successful!</string>
+
+    <!-- General -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!-- Doctor List -->
+    <string name="find_specialist">Find your Specialist</string>
+    <string name="specialist_subtitle">Over 2,400 verified medical practitioners\nready to help you.</string>
+    <string name="book_appointment">Book Appointment</string>
+
+    <!-- Doctor Details -->
+    <string name="about_doctor">About Doctor</string>
+    <string name="reviews">Reviews</string>
+    <string name="view_all">View All &gt;</string>
+    <string name="available_slots">AVAILABLE SLOTS</string>
+    <string name="consultation_fee">CONSULTATION\nFEE</string>
+    <string name="top_rated">TOP RATED</string>
+
+    <!-- Appointments -->
+    <string name="appointments_title">My Appointments</string>
+    <string name="appointments_subtitle">Manage your medical schedule and records</string>
+    <string name="tab_upcoming">Upcoming</string>
+    <string name="tab_completed">Completed</string>
+    <string name="tab_cancelled">Cancelled</string>
+    <string name="appt_upcoming_subtitle">Schedule for the next few days</string>
+    <string name="appt_completed_subtitle">Your past consultations</string>
+    <string name="appt_cancelled_subtitle">Cancelled bookings</string>
+    <string name="appt_details_title">Appointment Details</string>
+    <string name="appt_status_pending">PENDING</string>
+    <string name="appt_status_confirmed">CONFIRMED</string>
+    <string name="appt_status_completed">COMPLETED</string>
+    <string name="appt_status_cancelled">CANCELLED</string>
+    <string name="appt_section_doctor">DOCTOR</string>
+    <string name="appt_section_schedule">SCHEDULE</string>
+    <string name="appt_section_payment">PAYMENT</string>
+    <string name="appt_section_notes">NOTES</string>
+    <string name="appt_label_consultation">Consultation Type</string>
+    <string name="appt_label_hospital">Hospital / Clinic</string>
+    <string name="appt_label_fee">Consultation Fee</string>
+    <string name="appt_label_date">Appointment Date</string>
+    <string name="appt_label_time">Time Slot</string>
+    <string name="appt_label_status">Booking Status</string>
+    <string name="appt_label_payment">Payment Status</string>
+    <string name="appt_label_id">Appointment ID</string>
+    <string name="appt_label_notes">Additional Notes</string>
+    <string name="appt_hint_notes">Any symptoms, reports, or follow-up details you want the doctor to review…</string>
+    <string name="appt_btn_reschedule">Reschedule</string>
+    <string name="appt_btn_cancel">Cancel Appointment</string>
+    <string name="appt_btn_video_call">Join Video Call</string>
+    <string name="appt_btn_audio_call">Join Audio Call</string>
+    <string name="appt_btn_prescription">View Prescription</string>
+    <string name="appt_btn_rate">Rate Consultation</string>
+    <string name="appt_btn_rebook">Rebook Same Doctor</string>
+    <string name="appt_btn_pay">Pay Now</string>
+    <string name="appt_btn_save_notes">Save Notes</string>
+    <string name="appt_cancel_title">Cancel Appointment?</string>
+    <string name="appt_cancel_msg">This action cannot be undone. The slot will be released for other patients.</string>
+    <string name="appt_cancel_yes">Yes, Cancel</string>
+    <string name="appt_cancel_no">No, Keep It</string>
+    <string name="appt_reschedule_title">Pick a New Date</string>
+    <string name="appt_reschedule_select_slot">Select a new time slot</string>
+    <string name="appt_reschedule_confirm">Update Appointment</string>
+    <string name="appt_no_results_title">Nothing here yet</string>
+    <string name="appt_no_results_subtitle">Your %1$s appointments will show up here.</string>
+    <string name="appt_book_now">Book an Appointment</string>
+    <string name="appt_saved_notes">Notes saved to the appointment.</string>
+    <string name="appt_reschedule_success">Appointment rescheduled successfully.</string>
+    <string name="appt_cancelled_success">Appointment cancelled.</string>
+
+    <!-- Payment -->
+    <string name="checkout">Checkout</string>
+    <string name="appointment_summary">APPOINTMENT SUMMARY</string>
+    <string name="payment_method">Payment Method</string>
+    <string name="submit_payment">Submit Payment</string>
+    <string name="payment_security_note">Payments are encrypted and secured with\nMediConnect\'s 256-bit clinical safety protocols.</string>
+    <string name="payment_terms">By clicking \'Submit\', you agree to our Terms of Service</string>
+
+    <!-- Chat -->
+    <string name="type_message">Type a message…</string>
+
+    <!-- Medical Reports -->
+    <string name="medical_reports">Medical Reports</string>
+    <string name="reports_subtitle">Digital filing cabinet for your health journey</string>
+    <string name="cloud_storage_title">Cloud Storage Secure</string>
+    <string name="cloud_storage_desc">All your health records are encrypted with\nAES-256 standard and backed up in our\nsecure clinical vault.</string>
+    <string name="doctor_access">DOCTOR ACCESS</string>
+    <string name="doctor_access_desc">Manage who can view your medical records.</string>
+    <string name="manage_permissions">Manage Permissions</string>
+    <string name="upload_report">+ Upload Report</string>
+
+    <!-- Profile -->
+    <string name="personal_information">Personal Information</string>
+    <string name="account_security">Account Security</string>
+    <string name="change_password">Change Password</string>
+    <string name="quick_actions">QUICK ACTIONS</string>
+    <string name="sign_out">Sign Out</string>
+
+    <!-- Settings -->
+    <string name="settings">Settings</string>
+    <string name="account_preferences">ACCOUNT PREFERENCES</string>
+    <string name="security_section">SECURITY</string>
+    <string name="support_section">SUPPORT</string>
+
+    <!-- Rate Doctor -->
+    <string name="how_was_visit">How was your visit?</string>
+    <string name="tap_star">Tap a star to provide a rating</string>
+    <string name="your_experience">YOUR EXPERIENCE</string>
+    <string name="review_hint">Describe your visit, the treatment, or\nthe doctor\'s communication style…</string>
+    <string name="feedback_anonymous">Your feedback is anonymous</string>
+    <string name="min_chars">Min. 10 chars</string>
+    <string name="submit_review">Submit Review</string>
+    <string name="review_thanks">Thank you for helping us improve our care\nstandards for the community.</string>
+
+    <!-- Patient Home Premium Dashboard -->
+    <string name="home_welcome_back">Welcome back</string>
+    <string name="home_search_hint">Search doctors, specialties, symptoms…</string>
+    <string name="home_categories">Categories</string>
+    <string name="home_see_all">See all</string>
+    <string name="home_banner_tag">Limited Time</string>
+    <string name="home_banner_title">30% OFF on your\nfirst consultation</string>
+    <string name="home_banner_subtitle">Connect with top specialists today. Valid for all departments.</string>
+    <string name="home_banner_cta">Book Now</string>
+    <string name="home_upcoming_appointment">Upcoming Appointment</string>
+    <string name="home_no_appointments">No upcoming appointments</string>
+    <string name="home_status_confirmed">CONFIRMED</string>
+    <string name="home_top_doctors">Top Doctors</string>
+    <string name="home_top_doctors_subtitle">Highest-rated specialists this week</string>
+    <string name="home_nearby_doctors">Nearby Doctors</string>
+    <string name="home_nearby_doctors_subtitle">Available within 5 km from you</string>
+    <string name="home_health_tips">Health Tips</string>
+    <string name="home_health_tips_subtitle">Daily wellness advice curated by experts</string>
+</resources>

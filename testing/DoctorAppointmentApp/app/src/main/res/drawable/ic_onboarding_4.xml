@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+  ic_onboarding_4.xml - Illustration for "Video Consultation" slide.
+  Visual: A tablet / monitor displaying a doctor avatar (face with stethoscope icon),
+  plus a camera symbol on top to explicitly represent HD video calling.
+
+  CONCEPT: Groups in VectorDrawables
+  Wrapping multiple paths inside a <group> tag isn't strictly required here, but is the
+  standard way to logically bundle related shapes (e.g., everything INSIDE the screen
+  could go in a group) and opens the door to rotation/translation animations later:
+    <group android:rotation="15" android:translateX="20"> ... </group>
+  For now we keep paths flat, but the group concept is good to know for complex icons.
+-->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="300dp"
+    android:height="300dp"
+    android:viewportWidth="300"
+    android:viewportHeight="300">
+
+    <!-- Layer 1: Soft light-blue circular background halo -->
+    <path
+        android:fillColor="#E3F2FD"
+        android:pathData="M150,50a100,100 0,1 0,100 100a100,100 0,0 0,-100 -100z" />
+
+    <!-- Layer 2: Device / tablet body (dark rounded rectangle bezel) -->
+    <path
+        android:fillColor="#1565C0"
+        android:pathData="M55,75 L245,75 Q255,75 255,85 L255,215 Q255,225 245,225 L55,225 Q45,225 45,215 L45,85 Q45,75 55,75 Z" />
+
+    <!-- Layer 3: Video SCREEN area inside the bezel (white display surface) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M65,88 L235,88 L235,202 L65,202 Z" />
+
+    <!-- Layer 4: Doctor avatar's HEAD silhouette (circle) -->
+    <path
+        android:fillColor="#1976D2"
+        android:pathData="M150,115m-26,0a26,26 0,1 1,52 0a26,26 0,1 1,-52 0" />
+
+    <!-- Layer 5: Doctor avatar's BODY / shoulders silhouette -->
+    <path
+        android:fillColor="#1976D2"
+        android:pathData="M98,197 Q98,170 150,170 Q202,170 202,197 Q202,202 198,202 L102,202 Q98,202 98,197 Z" />
+
+    <!-- Layer 6: Stethoscope — chest piece (circle) on doctor avatar's chest -->
+    <path
+        android:strokeColor="#00BCD4"
+        android:strokeWidth="3.5"
+        android:fillColor="#FFFFFF"
+        android:pathData="M150,182m-7,0a7,7 0,1 1,14 0a7,7 0,1 1,-14 0" />
+
+    <!-- Layer 7: Stethoscope binaural (Y-shaped tubing going up to ears) -->
+    <path
+        android:strokeColor="#00BCD4"
+        android:strokeWidth="3"
+        android:strokeLineCap="round"
+        android:fillColor="#00000000"
+        android:pathData="M150,175 L150,160 M150,160 Q142,152 138,160 M150,160 Q158,152 162,160" />
+
+    <!-- Layer 8: Floating VIDEO CAMERA badge (top-right of device) = record/call indicator -->
+    <path
+        android:fillColor="#00BCD4"
+        android:pathData="M210,60 L210,42 Q210,38 214,38 L246,38 Q250,38 250,42 L250,80 Q250,84 246,84 L214,84 Q210,84 210,80 Z" />
+
+    <!-- Layer 9: Camera lens triangle (the "facing" side of a video camera icon) -->
+    <path
+        android:fillColor="#FFFFFF"
+        android:pathData="M250,50 L270,42 L270,80 L250,72 Z" />
+
+    <!-- Layer 10 (TOP): Camera recording dot (red circle) — live / active call symbol -->
+    <path
+        android:fillColor="#E53935"
+        android:pathData="M222,58m-4,0a4,4 0,1 1,8 0a4,4 0,1 1,-8 0" />
+
+</vector>
