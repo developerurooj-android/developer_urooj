@@ -922,3 +922,142 @@ Each screen was designed with a clean, modern, and user-friendly interface while
 ### **Outcome**
 
 Successfully developed the core user interface of the Doctor Appointment application, including the Home, Appointments, Chat, Find Doctor, Rate Doctor, Settings, and Profile screens. The application now has a complete primary navigation flow and is ready for implementing backend functionality and real-time features.
+Sure! Here's your **Week 3 Day 5 / Yesterday's Report** based only on what you learned yesterday (not today's onboarding work).
+
+---
+
+# **Android Development Internship – Daily Report**
+
+## **Week 4 – Day 1**
+
+### **Today's Scrum**
+
+Today, I learned about several important Android application optimization and security concepts that are essential for developing production-ready applications. I explored **Edge-to-Edge UI**, **ProGuard**, **R8**, **API Security**, and **API Gateway**, understanding how these technologies improve application performance, security, and user experience.
+
+### **Topics Learned**
+
+#### **1. Edge-to-Edge UI**
+
+* Learned how to create a modern full-screen Android interface where the app content extends behind the system status bar and navigation bar.
+* Understood how Edge-to-Edge design provides a cleaner, immersive, and more professional user experience while properly handling system insets.
+
+#### **2. ProGuard**
+
+* Studied the purpose of ProGuard in Android applications.
+* Learned that ProGuard helps secure applications by:
+
+  * Obfuscating source code.
+  * Removing unused classes and methods.
+  * Shrinking the APK size.
+  * Making reverse engineering more difficult.
+
+#### **3. R8**
+
+* Learned that **R8** is Android's modern code shrinker and optimizer.
+* Understood that it performs:
+
+  * Code shrinking
+  * Code optimization
+  * Resource optimization
+  * Obfuscation
+* Learned that R8 improves application performance while reducing APK size.
+
+#### **4. API Security**
+
+* Learned the importance of securing APIs in Android applications.
+* Understood security practices such as:
+
+  * Authentication and authorization.
+  * Secure communication using HTTPS.
+  * Protecting sensitive user information.
+  * Preventing unauthorized access to backend services.
+
+#### **5. API Gateway**
+
+* Learned the role of an API Gateway in application architecture.
+* Understood that an API Gateway:
+
+  * Acts as a single entry point for client requests.
+  * Routes requests to the appropriate backend services.
+  * Improves security by handling authentication and request validation.
+  * Helps manage traffic and simplifies communication between the mobile app and backend services.
+
+### **Practical Work**
+
+* Improved and refined the UI of multiple screens in the Doctor Appointment application.
+* Focused on making the interface cleaner, more organized, and visually consistent by adjusting layouts and screen design.
+
+### **Outcome**
+
+By the end of the day, I gained a better understanding of Android application optimization and security concepts, including Edge-to-Edge UI, ProGuard, R8, API Security, and API Gateway. I also enhanced the user interface of several screens in the Doctor Appointment application, making the overall design more polished and user-friendly.
+
+## **Week 4 – Day 2**
+
+Today, I focused on implementing the **Splash Screen** and **Onboarding Screen** for the Doctor Appointment Android application using **manual coding** in XML and Kotlin. Instead of using templates or third-party libraries, I built each screen from scratch to strengthen my understanding of Android UI development and navigation.
+
+
+## **Tasks Completed**
+
+### **1. Splash Screen Development**
+
+* Created a custom Splash Screen using **ConstraintLayout**.
+* Added the application logo and app name.
+* Designed a clean and simple splash screen UI.
+* Implemented automatic navigation from Splash Screen to Onboarding Screen using **Handler** and **Looper**.
+* Learned the purpose of the `finish()` method to prevent users from returning to the Splash Screen.
+
+---
+
+### **2. Onboarding Screen Development**
+
+* Designed an onboarding flow consisting of **three onboarding pages**.
+* Created a reusable **item_onboarding.xml** layout for each onboarding page.
+* Used **ViewPager2** to enable horizontal swipe navigation between pages.
+* Added **TabLayout** as a page indicator to display the current onboarding page.
+* Implemented **Skip**, **Next**, and **Get Started** buttons for navigation.
+* Displayed different images, titles, and descriptions for each onboarding page using a reusable layout.
+
+---
+
+## **Concepts Learned**
+
+During today's implementation, I learned and practiced the following Android concepts:
+
+* Splash Screen implementation using XML and Kotlin.
+* Activity navigation using **Intent**.
+* Delayed screen transition using **Handler** and **Looper**.
+* Difference between `startActivity()` and `finish()`.
+* ViewPager2 implementation for swipeable screens.
+* RecyclerView Adapter and ViewHolder basics.
+* Creating reusable layouts using `item_onboarding.xml`.
+* Creating a Kotlin **data class** to store onboarding data.
+* Working with **ImageView**, **TextView**, and **Button** widgets.
+* Understanding **View Binding** and its advantages over `findViewById()`.
+* Using **ConstraintLayout** and **LinearLayout** together appropriately.
+* Difference between **wrap_content** and **match_parent**.
+* Difference between **dp** and **sp** units.
+* Purpose of **gravity**, **layout_gravity**, and **scaleType**.
+* Understanding Android resource naming conventions.
+* Managing drawable resources for onboarding images.
+
+---
+
+## **Challenges Faced**
+
+During development, I encountered several issues and learned how to resolve them:
+
+* Faced **Missing Constraints** errors while designing layouts in ConstraintLayout and learned how to apply proper horizontal and vertical constraints.
+* Encountered **Cannot resolve symbol '@drawable/logo'** due to incorrect drawable resource naming and placement.
+* Faced **View Binding** errors (`ItemOnboardingBinding` not found) and learned how to enable View Binding in the Gradle configuration.
+* Experienced adapter implementation errors while creating the ViewPager2 adapter and understood the correct structure of **Adapter** and **ViewHolder**.
+* Resolved XML ID mismatches between layout files and Kotlin code.
+* Learned how Android automatically generates Binding classes based on XML file names.
+* Understood the importance of proper project structure and correct resource naming conventions.
+
+---
+
+## **Outcome**
+
+By the end of the day, I successfully implemented a functional **Splash Screen** and a **three-page Onboarding Screen** using XML and Kotlin. I gained practical experience with Android navigation, ViewPager2, adapters, View Binding, reusable layouts, and ConstraintLayout while also improving my debugging and problem-solving skills through resolving multiple UI and configuration issues.
+
+
