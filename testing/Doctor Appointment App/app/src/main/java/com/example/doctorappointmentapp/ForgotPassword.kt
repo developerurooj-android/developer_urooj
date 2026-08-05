@@ -4,6 +4,8 @@ import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.example.doctorappointmentapp.databinding.ActivityForgotPasswordBinding
+import com.google.firebase.auth.FirebaseAuth
+
 class ForgotPasswordActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityForgotPasswordBinding
