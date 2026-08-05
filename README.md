@@ -1060,4 +1060,80 @@ During development, I encountered several issues and learned how to resolve them
 
 By the end of the day, I successfully implemented a functional **Splash Screen** and a **three-page Onboarding Screen** using XML and Kotlin. I gained practical experience with Android navigation, ViewPager2, adapters, View Binding, reusable layouts, and ConstraintLayout while also improving my debugging and problem-solving skills through resolving multiple UI and configuration issues.
 
+# **Daily Internship Report**
+
+**Project:** Doctor Appointment App
+**Day 3:** Week 4
+### **Tasks Performed**
+
+Today I worked on the **authentication module** of the Doctor Appointment App. I focused on completing the user authentication flow by creating and improving the Login, Forgot Password, and Sign Up screens. During development, I also fixed multiple XML layout, ConstraintLayout, and Activity navigation issues.
+
+### **Work Completed**
+
+* Improved the **Login Screen UI** by adding the application logo and designing the email and password input fields using **Material TextInputLayout**.
+* Added a **password visibility toggle** to the password field.
+* Implemented **login validation** to check whether the email and password fields are empty before allowing login.
+* Added navigation from the **Login Screen** to the **Forgot Password** and **Sign Up** screens.
+* Created the **Forgot Password Screen** with:
+
+  * App logo
+  * Email input field
+  * "Send Reset Link" button
+* Created the **Sign Up Screen** containing:
+
+  * Full Name
+  * Email
+  * Password
+  * Confirm Password
+  * Role Selection (Doctor / Patient)
+  * Sign Up button
+  * Login navigation link
+* Implemented **Confirm Password validation** to ensure both password fields match.
+* Added a **Role Selection** feature using a dropdown menu where users can choose either **Doctor** or **Patient**.
+* Fixed XML errors related to:
+
+  * ConstraintLayout constraints
+  * Missing IDs
+  * Resource linking failures
+  * Activity navigation
+  * View Binding references
+* Configured navigation between all authentication screens:
+
+  * Login → Forgot Password
+  * Login → Sign Up
+  * Sign Up → Login
+* Updated the **AndroidManifest.xml** so the application launches from the **Splash Screen**.
+
+### **Firebase Learning**
+
+Today I also learned how Firebase Authentication will be integrated into the project.
+
+Topics studied:
+
+* Creating a Firebase project
+* Connecting an Android application with Firebase
+* Registering the Android app using the correct package name
+* Downloading and adding the **google-services.json** file
+* Enabling **Email/Password Authentication**
+* Adding Firebase Authentication dependencies
+* Initializing **FirebaseAuth**
+* Understanding how to implement:
+
+  * User Registration
+  * User Login
+  * Password Reset using email
+* Learned the complete authentication workflow before integrating it into the application.
+
+### **Challenges Faced**
+
+* Resource linking errors caused by incorrect view IDs.
+* ConstraintLayout positioning issues.
+* Activity navigation problems between Login, Sign Up, and Forgot Password screens.
+* Spinner and role selection implementation issues.
+* View Binding reference errors.
+* Layout alignment and UI positioning adjustments.
+
+### **Outcome**
+
+By the end of the day, the complete authentication UI flow was successfully prepared. The Login, Forgot Password, and Sign Up screens were connected through navigation, input validations were implemented, and the project was prepared for Firebase Authentication integration.
 
