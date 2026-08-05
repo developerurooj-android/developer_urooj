@@ -12,6 +12,7 @@ class OnboardingActivity : AppCompatActivity() {
     private lateinit var adapter: OnboardingAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
+        android.util.Log.d("ONBOARDING_TEST", "OnboardingActivity is running")
         super.onCreate(savedInstanceState)
 
         binding = ActivityOnboardingBinding.inflate(layoutInflater)
@@ -32,7 +33,7 @@ class OnboardingActivity : AppCompatActivity() {
             ),
 
             OnboardingItem(
-                R.drawable.onboardin_3,
+                R.drawable.onboarding_3,
                 "Online Consultation",
                 "Talk to doctors through secure video and audio calls."
             )
