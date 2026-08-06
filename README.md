@@ -1137,3 +1137,145 @@ Topics studied:
 
 By the end of the day, the complete authentication UI flow was successfully prepared. The Login, Forgot Password, and Sign Up screens were connected through navigation, input validations were implemented, and the project was prepared for Firebase Authentication integration.
 
+## Daily Report
+
+**Date:** 06 August 2026
+**Project:** Doctor Appointment Application
+**Day:** Week 3 – Day 6
+
+ **Firebase integration and Firestore database management**. I explored how Firebase services can be used in Android applications to store and manage user data securely. I also learned the basic workflow of connecting an Android project with Firebase and creating cloud-based databases.
+
+---
+
+## Tasks Completed Today
+
+### 1. Firebase Setup in Android Project
+
+Today, I completed the Firebase setup for the Doctor Appointment application.
+
+Implemented:
+
+* Connected Android project with Firebase.
+* Added Firebase configuration file (`google-services.json`).
+* Configured Firebase dependencies in Gradle.
+* Verified Firebase connection with the application.
+
+Firebase will be used for:
+
+* User authentication.
+* Storing user profiles.
+* Managing appointments.
+* Storing doctor and patient information.
+
+---
+
+### 2. Created Firestore Database
+
+I created and configured a **Cloud Firestore Database** for the application.
+
+Learned:
+
+* Firestore is a NoSQL cloud database.
+* Data is stored in the form of:
+
+  * Collections
+  * Documents
+  * Fields
+
+Planned Firestore structure:
+
+```
+Firestore Database
+
+users
+ └── userId
+      ├── name
+      ├── email
+      ├── phone
+      └── role
+
+doctors
+ └── doctorId
+      ├── name
+      ├── specialization
+      ├── availability
+      └── rating
+
+appointments
+ └── appointmentId
+      ├── patientId
+      ├── doctorId
+      ├── date
+      ├── time
+      └── status
+```
+
+---
+
+## 3. Created Home Screen UI
+
+Today, I completed the design of the **Home Screen** for the Doctor Appointment app.
+
+Home Screen includes:
+
+* User greeting section.
+* Profile icon.
+* Notification icon.
+* Search doctor field.
+* Doctor categories.
+* Popular doctors section.
+* Nearby doctors section.
+* Upcoming appointment card.
+* Bottom navigation bar.
+
+The screen follows a modern healthcare design:
+
+* Blue and white color theme.
+* Rounded cards.
+* Clean spacing.
+* User-friendly layout.
+
+---
+
+## 4. Created Appointment Details Screen
+
+I also created the **Appointment Details Screen**.
+
+Implemented UI components:
+
+* Doctor information section.
+* Doctor profile image.
+* Doctor specialization.
+* Appointment date and time.
+* Patient information.
+* Appointment status.
+* Booking confirmation details.
+* Payment information section.
+
+This screen will later be connected with Firestore to display real appointment data.
+
+---
+
+## Concepts Learned Today
+
+* Firebase project integration.
+* Firestore database structure.
+* Collections and documents.
+* Cloud database management.
+* Firebase data storage workflow.
+* Designing scalable database structure.
+* Connecting UI screens with backend services.
+
+---
+
+## Challenges Faced
+
+* Understanding Firestore database structure and organizing collections properly.
+* Managing Firebase configuration and dependencies.
+* Planning database fields according to application requirements.
+
+---
+
+## Overall Progress
+
+Today, I successfully completed the **Firebase backend setup**, created the **Firestore database structure**, and developed the **Home Screen and Appointment Details Screen UI** for the Doctor Appointment application. This creates a foundation for connecting frontend screens with real-time backend data.
