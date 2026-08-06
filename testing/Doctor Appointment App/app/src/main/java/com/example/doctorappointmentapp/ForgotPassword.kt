@@ -17,27 +17,30 @@ class ForgotPasswordActivity : AppCompatActivity() {
         binding = ActivityForgotPasswordBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        auth.sendPasswordResetEmail(email)
-            .addOnCompleteListener { task ->
-
-                if (task.isSuccessful) {
-
-                    Toast.makeText(
-                        this,
-                        "Reset link sent to your email",
-                        Toast.LENGTH_SHORT
-                    ).show()
-
-                    finish()
-
-                } else {
-
-                    Toast.makeText(
-                        this,
-                        task.exception?.message,
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
+        binding.btnResetPassword.setOnClickListener {
+            val email = binding.etEmail.text.toString().trim()
+            if (email.isEmpty()) {
+                binding.etEmail.error = "Please enter your email"
+                return@setOnClickListener
             }
+
+            auth.sendPasswordResetEmail(email)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        Toast.makeText(
+                            this,
+                            "Reset link sent to your email",
+                            Toast.LENGTH_SHORT
+                        ).show()
+                        finish()
+                    } else {
+                        Toast.makeText(
+                            this,
+                            task.exception?.message,
+                            Toast.LENGTH_SHORT
+                        ).show()
+                    }
+                }
+        }
     }
 }
