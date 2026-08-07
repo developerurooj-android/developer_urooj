@@ -1279,3 +1279,79 @@ This screen will later be connected with Firestore to display real appointment d
 ## Overall Progress
 
 Today, I successfully completed the **Firebase backend setup**, created the **Firestore database structure**, and developed the **Home Screen and Appointment Details Screen UI** for the Doctor Appointment application. This creates a foundation for connecting frontend screens with real-time backend data.
+
+# Daily Report – 07 August 2026
+
+## **Today's Work Summary**
+
+Today, I focused on enhancing the **Doctor Appointment Android Application** by developing new screens, improving navigation, and integrating Firestore data with the UI.
+
+### **Tasks Completed**
+
+* Developed a **Profile Screen** with a modern medical-themed UI.
+* Added user profile section displaying profile image, name, and email.
+* Created sections for **Personal Information** and **Medical Information**.
+* Added clickable options with icons including:
+
+  * My Appointments
+  * Favorite Doctors
+  * Payment Methods
+  * Notifications
+  * Settings
+  * Help & Support
+  * Logout
+* Designed and added custom vector icons for different profile options.
+
+### **Navigation Improvements**
+
+* Implemented **Bottom Navigation** across multiple screens.
+* Added navigation between:
+
+  * Home
+  * Appointments
+  * Chat
+  * Profile
+* Updated navigation logic so each icon opens its corresponding screen correctly.
+
+### **Top Doctors Module**
+
+* Created a dedicated **Top Doctors Screen**.
+* Designed a premium doctor card layout (`item_top_doctor.xml`) with:
+
+  * Doctor profile image
+  * Name
+  * Specialization
+  * Rating
+  * Consultation fee
+  * Book Now button
+* Connected the **"See All"** button on the Home Screen to open the Top Doctors screen.
+* Configured RecyclerView to display doctor cards.
+
+### **Firestore Integration**
+
+* Connected the Top Doctors screen with the Firestore **doctors** collection.
+* Implemented logic to fetch doctor records dynamically.
+* Began debugging Firestore integration after identifying that newly added doctor records were not appearing in the application.
+* Investigated possible causes including collection naming, Firestore configuration, adapter binding, and data loading logic.
+
+### **Concepts Practiced**
+
+* RecyclerView with custom adapters
+* Grid and Linear Layout Managers
+* Firestore data retrieval
+* Activity navigation using Intents
+* BottomNavigationView implementation
+* View Binding
+* Material Design components
+* Custom vector drawable icons
+* UI debugging and Firebase troubleshooting
+
+### **Challenges Faced**
+
+* Doctor images and newly added Firestore records were not displaying on the Top Doctors screen.
+* Investigated issues related to Firestore collection names, adapter implementation, and potential usage of mock/seeded data instead of live Firestore data.
+* Debugged navigation and data loading to ensure screens are connected correctly.
+
+### **Outcome**
+
+By the end of the day, the Profile Screen, Bottom Navigation, and Top Doctors module were successfully developed. The remaining task is to complete the Firestore integration so that all doctor records and images are fetched and displayed dynamically from the database.
