@@ -28,7 +28,15 @@ class HealthTipAdapter(
 
         val tip = healthTips[position]
 
-        holder.binding.imgHealthTip.setImageResource(tip.image)
+        val imageRes = when (tip.image) {
+            "water" -> R.drawable.ic_water
+            "exercise" -> R.drawable.ic_exercise
+            "balanced_diet" -> R.drawable.ic_balanced_diet
+            else -> R.drawable.ic_placeholder
+        }
+
+        holder.binding.imgHealthTip.setImageResource(imageRes)
+        holder.binding.imgHealthTip.setImageResource(imageRes)
         holder.binding.tvHealthTitle.text = tip.title
     }
 

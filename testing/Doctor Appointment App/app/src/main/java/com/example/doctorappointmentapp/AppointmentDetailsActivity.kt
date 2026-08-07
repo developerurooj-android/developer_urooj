@@ -9,6 +9,7 @@ class AppointmentDetailsActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityAppointmentDetailsBinding
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 

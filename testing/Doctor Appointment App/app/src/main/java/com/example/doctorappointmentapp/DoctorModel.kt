@@ -1,10 +1,21 @@
 package com.example.doctorappointmentapp
 
-data class DoctorModel(
-    var id: String = "",
-    var name: String = "",
-    var speciality: String = "",
-    var experience: String = "",
-    var rating: Double = 0.0,
-    var image: String = ""
+data class TopDoctor(
+
+    val doctorId: String = "",
+
+    val doctorName: String = "",
+
+    val specialization: String = "",
+
+    val experience: String = "",
+
+    val consultationFee: Double = 0.0,
+
+    val rating: String = "0.0",
+
+    val hospital: String = "",
+
+    val profileImage: String = ""
+
 )

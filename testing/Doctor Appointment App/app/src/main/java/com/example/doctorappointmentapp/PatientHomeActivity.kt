@@ -2,6 +2,8 @@ package com.example.doctorappointmentapp
 
 import android.content.Intent
 import android.os.Bundle
+import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -20,7 +22,7 @@ class PatientHomeActivity : AppCompatActivity() {
     private lateinit var categoryAdapter: CategoryAdapter
     private lateinit var healthAdapter: HealthTipAdapter
 
-    private val doctorList = ArrayList<Doctor>()
+    private val doctorList = ArrayList<TopDoctor>()
     private val categoryList = ArrayList<Category>()
     private val healthList = ArrayList<HealthTip>()
 
@@ -30,25 +32,26 @@ class PatientHomeActivity : AppCompatActivity() {
         binding = ActivityPatientHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-        // Firebase
         auth = FirebaseAuth.getInstance()
         db = FirebaseFirestore.getInstance()
 
         setupRecyclerViews()
 
+        binding.tvSeeAppointments.setOnClickListener {
+            startActivity(Intent(this, AppointmentActivity::class.java))
+        }
+
         loadCategories()
-
         loadDoctors()
-
-        loadHealthTips()
-
+        loadHealthTip()
         loadUpcomingAppointment()
-
         loadCurrentUser()
-
         setupBottomNavigation()
-    }
 
+        binding.tvSeeAllDoctors.setOnClickListener {
+            startActivity(Intent(this, TopDoctorsActivity::class.java))
+        }
+    }
     private fun setupRecyclerViews() {
 
         // Categories
@@ -90,6 +93,20 @@ class PatientHomeActivity : AppCompatActivity() {
                 val name = it.getString("name") ?: "Patient"
 
                 binding.tvPatientName.text = name
+                
+                // Temporary seed trigger for demonstration
+                binding.tvPatientName.setOnClickListener {
+                    DataSeeder.seedAllData { success ->
+                        if (success) {
+                            Toast.makeText(this, "Firestore Collections Created & Data Seeded!", Toast.LENGTH_LONG).show()
+                            loadDoctors()
+                            loadHealthTip()
+                            loadUpcomingAppointment()
+                        } else {
+                            Toast.makeText(this, "Seeding Failed", Toast.LENGTH_SHORT).show()
+                        }
+                    }
+                }
 
             }
     }
@@ -136,6 +153,11 @@ class PatientHomeActivity : AppCompatActivity() {
     private fun loadDoctors() {
 
         db.collection("doctors")
+            .orderBy(
+                "rating",
+                com.google.firebase.firestore.Query.Direction.DESCENDING
+            )
+            .limit(10)
             .get()
             .addOnSuccessListener { documents ->
 
@@ -143,7 +165,7 @@ class PatientHomeActivity : AppCompatActivity() {
 
                 for (document in documents) {
 
-                    val doctor = document.toObject(Doctor::class.java)
+                    val doctor = document.toObject(TopDoctor::class.java)
 
                     doctorList.add(doctor)
                 }
@@ -161,48 +183,79 @@ class PatientHomeActivity : AppCompatActivity() {
             }
     }
 
-    private fun loadHealthTips() {
+    private fun loadHealthTip() {
 
-        db.collection("healthTips")
+        db.collection("healthTip")
             .get()
             .addOnSuccessListener { documents ->
+
+                Log.d("Firestore", "Documents found: ${documents.size()}")
 
                 healthList.clear()
 
                 for (document in documents) {
-                    val tip = document.toObject(HealthTip::class.java)
+
+                    Log.d(
+                        "Firestore",
+                        document.data.toString()
+                    )
+
+                    val tip = document.toObject(
+                        HealthTip::class.java
+                    )
+
                     healthList.add(tip)
                 }
 
                 healthAdapter.notifyDataSetChanged()
+
             }
-            .addOnFailureListener {
-                Toast.makeText(this, "Failed to load health tips", Toast.LENGTH_SHORT).show()
+            .addOnFailureListener { e ->
+
+                Log.e(
+                    "Firestore",
+                    "HealthTip Error",
+                    e
+                )
+
+                Toast.makeText(
+                    this,
+                    e.message,
+                    Toast.LENGTH_LONG
+                ).show()
             }
     }
 
     private fun loadUpcomingAppointment() {
+
         val uid = auth.currentUser?.uid ?: return
 
-        db.collection("appointments")
+        db.collection("Appointments")
             .whereEqualTo("patientId", uid)
-            .whereEqualTo("status", "Confirmed")
-            .limit(1)
             .get()
             .addOnSuccessListener { documents ->
+
                 if (!documents.isEmpty) {
+
                     val appointment = documents.documents[0].toObject(Appointment::class.java)
+
                     appointment?.let {
+                        binding.cardAppointment.visibility = View.VISIBLE
                         binding.tvDoctorName.text = it.doctorName
                         binding.tvDoctorSpecialization.text = it.specialization
                         binding.tvAppointmentDate.text = it.date
                         binding.tvAppointmentTime.text = it.time
-                        // Assuming rating is not in Appointment model based on previous read, 
-                        // setting default or hiding if needed.
                     }
+
+                } else {
+                    binding.cardAppointment.visibility = View.GONE
                 }
             }
+            .addOnFailureListener {
+                binding.cardAppointment.visibility = View.GONE
+            }
     }
+    
 
     private fun setupBottomNavigation() {
 

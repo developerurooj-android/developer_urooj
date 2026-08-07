@@ -28,15 +28,16 @@
             <androidx.cardview.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:cardCornerRadius="28dp"
-                app:cardElevation="8dp"
-                app:cardBackgroundColor="#2563EB">
+                app:cardCornerRadius="0dp"
+                app:cardElevation="6dp"
+                app:cardBackgroundColor="#6C99EF">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
-                    android:padding="20dp">
+                    android:padding="24dp"
+                    android:layout_marginTop="32dp">
 
                     <!-- Top Row -->
 
@@ -89,7 +90,7 @@
                                 android:id="@+id/imgNotification"
                                 android:layout_width="52dp"
                                 android:layout_height="52dp"
-                                android:background="@drawable/bg_notification_circle"
+                                android:background="@drawable/bg_circle_blue"
                                 android:padding="12dp"
                                 android:src="@drawable/ic_notification"
                                 app:tint="@android:color/white" />
@@ -169,7 +170,7 @@
                         android:id="@+id/imgFilter"
                         android:layout_width="22dp"
                         android:layout_height="22dp"
-                        android:src="@drawable/ic_filter"
+                        android:src="@drawable/bg_circle_white"
                         app:tint="#2563EB" />
 
                 </LinearLayout>
@@ -248,7 +249,7 @@
                 android:layout_marginTop="16dp"
                 app:cardCornerRadius="24dp"
                 app:cardElevation="10dp"
-                app:cardBackgroundColor="#2563EB">
+                app:cardBackgroundColor="#608DEB">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -266,7 +267,7 @@
                             android:id="@+id/imgDoctorAppointment"
                             android:layout_width="70dp"
                             android:layout_height="70dp"
-                            android:background="@drawable/bg_circle_white"
+                            android:background="@drawable/ic_profile"
                             android:padding="3dp"
                             android:scaleType="centerCrop"
                             android:src="@drawable/doctor_placeholder"/>
@@ -451,6 +452,12 @@
                     android:text="See All"
                     android:textColor="#2563EB"
                     android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/tvSeeAll"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textStyle="bold"
+                    android:textColor="@color/primary" />
 
             </LinearLayout>
 

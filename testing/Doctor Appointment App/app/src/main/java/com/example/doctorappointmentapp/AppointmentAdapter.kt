@@ -7,13 +7,15 @@ import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.example.doctorappointmentapp.databinding.ItemAppointmentBinding
-import com.google.firebase.firestore.FirebaseFirestore
 
 class AppointmentAdapter(
-    private val appointmentList: ArrayList<Appointment>
-) : RecyclerView.Adapter<AppointmentAdapter.AppointmentViewHolder>() {
+    private var appointmentList: List<Appointment>,
+    private val onEdit: (Appointment) -> Unit,
+    private val onDelete: (Appointment) -> Unit,
+    private val onStatusChange: (Appointment, String) -> Unit
+): RecyclerView.Adapter<AppointmentAdapter.AppointmentViewHolder>() {
 
-    inner class AppointmentViewHolder(
+    class AppointmentViewHolder(
         val binding: ItemAppointmentBinding
     ) : RecyclerView.ViewHolder(binding.root)
 
@@ -29,6 +31,11 @@ class AppointmentAdapter(
         )
 
         return AppointmentViewHolder(binding)
+    }
+
+    fun updateList(newList: List<Appointment>) {
+        this.appointmentList = newList
+        notifyDataSetChanged()
     }
 
     override fun onBindViewHolder(
@@ -53,76 +60,58 @@ class AppointmentAdapter(
             .error(R.drawable.doctor_placeholder)
             .into(holder.binding.imgDoctor)
 
+        // Status view styling
+        when (appointment.status) {
+            "Upcoming" -> {
+                holder.binding.tvStatus.setBackgroundResource(R.drawable.bg_circle_blue)
+                holder.binding.tvStatus.setTextColor(android.graphics.Color.parseColor("#2D7FF9"))
+            }
+            "Completed" -> {
+                holder.binding.tvStatus.setBackgroundResource(R.drawable.bg_circle_green)
+                holder.binding.tvStatus.setTextColor(android.graphics.Color.parseColor("#10B981"))
+            }
+            "Cancelled" -> {
+                holder.binding.tvStatus.setBackgroundResource(R.drawable.bg_circle_white) // Assuming a neutral bg
+                holder.binding.tvStatus.setTextColor(android.graphics.Color.parseColor("#EF4444"))
+            }
+        }
+
         // Update Cancel Button State
         if (appointment.status == "Cancelled") {
-
             holder.binding.btnCancel.isEnabled = false
             holder.binding.btnCancel.text = "Cancelled"
-
         } else {
-
             holder.binding.btnCancel.isEnabled = true
             holder.binding.btnCancel.text = "Cancel"
         }
 
-        // Details Button
+        // Action Buttons
         holder.binding.btnDetails.setOnClickListener {
-
-            val intent = Intent(
-                holder.itemView.context,
-                AppointmentDetailsActivity::class.java
-            )
-
-            intent.putExtra("appointmentId", appointment.appointmentId)
-            intent.putExtra("doctorName", appointment.doctorName)
-            intent.putExtra("specialization", appointment.specialization)
-            intent.putExtra("date", appointment.date)
-            intent.putExtra("time", appointment.time)
-            intent.putExtra("status", appointment.status)
-            intent.putExtra("fee", appointment.consultationFee)
-            intent.putExtra("profileImage", appointment.profileImage)
-
+            val intent = Intent(holder.itemView.context, AppointmentDetailsActivity::class.java).apply {
+                putExtra("appointmentId", appointment.appointmentId)
+                putExtra("doctorName", appointment.doctorName)
+                putExtra("specialization", appointment.specialization)
+                putExtra("date", appointment.date)
+                putExtra("time", appointment.time)
+                putExtra("status", appointment.status)
+                putExtra("fee", appointment.consultationFee)
+                putExtra("profileImage", appointment.profileImage)
+            }
             holder.itemView.context.startActivity(intent)
         }
 
-        // Cancel Button
+        holder.binding.btnEdit.setOnClickListener {
+            onEdit(appointment)
+        }
+
         holder.binding.btnCancel.setOnClickListener {
+            onStatusChange(appointment, "Cancelled")
+        }
 
-            if (appointment.appointmentId.isEmpty()) {
-
-                Toast.makeText(
-                    holder.itemView.context,
-                    "Invalid Appointment",
-                    Toast.LENGTH_SHORT
-                ).show()
-
-                return@setOnClickListener
-            }
-
-            FirebaseFirestore.getInstance()
-                .collection("appointments")
-                .document(appointment.appointmentId)
-                .update("status", "Cancelled")
-                .addOnSuccessListener {
-
-                    appointment.status = "Cancelled"
-
-                    notifyItemChanged(position)
-
-                    Toast.makeText(
-                        holder.itemView.context,
-                        "Appointment Cancelled Successfully",
-                        Toast.LENGTH_SHORT
-                    ).show()
-                }
-                .addOnFailureListener { e ->
-
-                    Toast.makeText(
-                        holder.itemView.context,
-                        e.message,
-                        Toast.LENGTH_LONG
-                    ).show()
-                }
+        // Professional touch: long click to delete
+        holder.itemView.setOnLongClickListener {
+            onDelete(appointment)
+            true
         }
     }
 

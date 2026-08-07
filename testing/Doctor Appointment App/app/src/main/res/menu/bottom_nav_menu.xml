@@ -9,7 +9,7 @@
 
     <item
         android:id="@+id/nav_appointments"
-        android:icon="@drawable/ic_calendar"
+        android:icon="@drawable/ic_appointment"
         android:title="Appointments"/>
 
     <item
