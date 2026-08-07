@@ -24,7 +24,7 @@ data class Appointment(
 
     val notes: String = "",
 
-    val consultationFee: Double = 0.0,
+    val consultationFee: String = "",
 
     val profileImage: String = ""
 

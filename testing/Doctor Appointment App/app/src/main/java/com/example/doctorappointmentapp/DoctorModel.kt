@@ -10,7 +10,7 @@ data class TopDoctor(
 
     val experience: String = "",
 
-    val consultationFee: Double = 0.0,
+    val consultationFee: String = "",
 
     val rating: String = "0.0",
 

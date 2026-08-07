@@ -31,7 +31,24 @@ class FirestoreAppointmentRepository : AppointmentRepository {
                     return@addSnapshotListener
                 }
                 
-                val list = snapshot?.documents?.mapNotNull { it.toObject(Appointment::class.java)?.copy(appointmentId = it.id) } ?: emptyList()
+                val list = snapshot?.documents?.mapNotNull { doc ->
+                    val data = doc.data ?: return@mapNotNull null
+                    Appointment(
+                        appointmentId = doc.id,
+                        patientId = data["patientId"]?.toString() ?: "",
+                        doctorId = data["doctorId"]?.toString() ?: "",
+                        patientName = data["patientName"]?.toString() ?: "",
+                        doctorName = data["doctorName"]?.toString() ?: "",
+                        specialization = data["specialization"]?.toString() ?: "",
+                        date = data["date"]?.toString() ?: "",
+                        time = data["time"]?.toString() ?: "",
+                        status = data["status"]?.toString() ?: "",
+                        symptoms = data["symptoms"]?.toString() ?: "",
+                        notes = data["notes"]?.toString() ?: "",
+                        consultationFee = data["consultationFee"]?.toString() ?: "",
+                        profileImage = data["profileImage"]?.toString() ?: ""
+                    )
+                } ?: emptyList()
                 onResult(list)
             }
     }
@@ -73,7 +90,7 @@ class FirestoreAppointmentRepository : AppointmentRepository {
                 date = "12 Oct 2023",
                 time = "10:30 AM",
                 status = "Upcoming",
-                consultationFee = 2500.0,
+                consultationFee = "2500.0",
                 profileImage = "https://img.freepik.com/free-photo/woman-doctor-wearing-lab-coat-with-stethoscope-isolated_1303-29791.jpg"
             ),
             Appointment(
@@ -82,7 +99,7 @@ class FirestoreAppointmentRepository : AppointmentRepository {
                 date = "15 Oct 2023",
                 time = "02:00 PM",
                 status = "Upcoming",
-                consultationFee = 2000.0,
+                consultationFee = "2000.0",
                 profileImage = "https://img.freepik.com/free-photo/doctor-offering-medical-tele-consultation_23-2149329007.jpg"
             ),
             Appointment(
@@ -91,7 +108,7 @@ class FirestoreAppointmentRepository : AppointmentRepository {
                 date = "10 Oct 2023",
                 time = "09:00 AM",
                 status = "Completed",
-                consultationFee = 1500.0,
+                consultationFee = "1500.0",
                 profileImage = "https://img.freepik.com/free-photo/smiling-female-doctor-white-coat-standing-with-arms-crossed-hospital-office_231208-12966.jpg"
             )
         )

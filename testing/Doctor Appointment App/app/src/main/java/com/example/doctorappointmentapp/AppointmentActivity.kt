@@ -121,7 +121,7 @@ class AppointmentActivity : AppCompatActivity() {
             val spec = dialogBinding.etSpecialization.text.toString()
             val date = dialogBinding.etDate.text.toString()
             val time = dialogBinding.etTime.text.toString()
-            val fee = dialogBinding.etFee.text.toString().toDoubleOrNull() ?: 0.0
+            val fee = dialogBinding.etFee.text.toString()
 
             if (name.isNotEmpty() && spec.isNotEmpty()) {
                 if (appointment == null) {

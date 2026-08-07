@@ -164,9 +164,17 @@ class PatientHomeActivity : AppCompatActivity() {
                 doctorList.clear()
 
                 for (document in documents) {
-
-                    val doctor = document.toObject(TopDoctor::class.java)
-
+                    val data = document.data
+                    val doctor = TopDoctor(
+                        doctorId = document.id,
+                        doctorName = data["doctorName"]?.toString() ?: "",
+                        specialization = data["specialization"]?.toString() ?: "",
+                        experience = data["experience"]?.toString() ?: "",
+                        consultationFee = data["consultationFee"]?.toString() ?: "",
+                        rating = data["rating"]?.toString() ?: "0.0",
+                        hospital = data["hospital"]?.toString() ?: "",
+                        profileImage = data["profileImage"]?.toString() ?: ""
+                    )
                     doctorList.add(doctor)
                 }
 
@@ -236,17 +244,15 @@ class PatientHomeActivity : AppCompatActivity() {
             .addOnSuccessListener { documents ->
 
                 if (!documents.isEmpty) {
-
-                    val appointment = documents.documents[0].toObject(Appointment::class.java)
-
-                    appointment?.let {
+                    val doc = documents.documents[0]
+                    val data = doc.data
+                    if (data != null) {
                         binding.cardAppointment.visibility = View.VISIBLE
-                        binding.tvDoctorName.text = it.doctorName
-                        binding.tvDoctorSpecialization.text = it.specialization
-                        binding.tvAppointmentDate.text = it.date
-                        binding.tvAppointmentTime.text = it.time
+                        binding.tvDoctorName.text = data["doctorName"]?.toString() ?: ""
+                        binding.tvDoctorSpecialization.text = data["specialization"]?.toString() ?: ""
+                        binding.tvAppointmentDate.text = data["date"]?.toString() ?: ""
+                        binding.tvAppointmentTime.text = data["time"]?.toString() ?: ""
                     }
-
                 } else {
                     binding.cardAppointment.visibility = View.GONE
                 }

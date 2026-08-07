@@ -13,9 +13,9 @@ object DataSeeder {
 
         // 1. Seed Doctors
         val doctors = listOf(
-            TopDoctor(doctorName = "Dr. Sarah Ahmed", specialization = "Cardiologist", rating = "4.9", experience = "12 Years exp", profileImage = "https://img.freepik.com/free-photo/woman-doctor-wearing-lab-coat-with-stethoscope-isolated_1303-29791.jpg"),
-            TopDoctor(doctorName = "Dr. Ali Khan", specialization = "Dermatologist", rating = "4.7", experience = "8 Years exp", profileImage = "https://img.freepik.com/free-photo/doctor-offering-medical-tele-consultation_23-2149329007.jpg"),
-            TopDoctor(doctorName = "Dr. Maria Qureshi", specialization = "Pediatrician", rating = "4.8", experience = "10 Years exp", profileImage = "https://img.freepik.com/free-photo/smiling-female-doctor-white-coat-standing-with-arms-crossed-hospital-office_231208-12966.jpg")
+            TopDoctor(doctorName = "Dr. Sarah Ahmed", specialization = "Cardiologist", rating = "4.9", experience = "12 Years exp", consultationFee = "2500.0", profileImage = "https://img.freepik.com/free-photo/woman-doctor-wearing-lab-coat-with-stethoscope-isolated_1303-29791.jpg"),
+            TopDoctor(doctorName = "Dr. Ali Khan", specialization = "Dermatologist", rating = "4.7", experience = "8 Years exp", consultationFee = "2000.0", profileImage = "https://img.freepik.com/free-photo/doctor-offering-medical-tele-consultation_23-2149329007.jpg"),
+            TopDoctor(doctorName = "Dr. Maria Qureshi", specialization = "Pediatrician", rating = "4.8", experience = "10 Years exp", consultationFee = "1500.0", profileImage = "https://img.freepik.com/free-photo/smiling-female-doctor-white-coat-standing-with-arms-crossed-hospital-office_231208-12966.jpg")
         )
 
         doctors.forEach { doctor ->
@@ -43,7 +43,7 @@ object DataSeeder {
                 date = "20 Oct 2023",
                 time = "10:30 AM",
                 status = "Upcoming",
-                consultationFee = 2500.0,
+                consultationFee = "2500.0",
                 patientId = uid,
                 profileImage = "https://img.freepik.com/free-photo/woman-doctor-wearing-lab-coat-with-stethoscope-isolated_1303-29791.jpg"
             )

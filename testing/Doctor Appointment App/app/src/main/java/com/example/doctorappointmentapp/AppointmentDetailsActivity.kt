@@ -21,7 +21,7 @@ class AppointmentDetailsActivity : AppCompatActivity() {
         binding.tvDate.text = intent.getStringExtra("date")
         binding.tvTime.text = intent.getStringExtra("time")
         binding.tvStatus.text = intent.getStringExtra("status")
-        binding.tvFee.text = "Rs. ${intent.getDoubleExtra("fee", 0.0)}"
+        binding.tvFee.text = "Rs. ${intent.getStringExtra("fee") ?: "0.0"}"
 
         binding.btnBack.setOnClickListener {
             finish()

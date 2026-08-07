@@ -94,7 +94,7 @@ class AppointmentAdapter(
                 putExtra("date", appointment.date)
                 putExtra("time", appointment.time)
                 putExtra("status", appointment.status)
-                putExtra("fee", appointment.consultationFee)
+                putExtra("fee", appointment.consultationFee.toString())
                 putExtra("profileImage", appointment.profileImage)
             }
             holder.itemView.context.startActivity(intent)
