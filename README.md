@@ -1355,3 +1355,635 @@ Today, I focused on enhancing the **Doctor Appointment Android Application** by 
 ### **Outcome**
 
 By the end of the day, the Profile Screen, Bottom Navigation, and Top Doctors module were successfully developed. The remaining task is to complete the Firestore integration so that all doctor records and images are fetched and displayed dynamically from the database.
+
+# 📚 Daily Learning Report
+
+**Date:** 10 August 2026
+**Topic:** AI Fundamentals & Android Development
+**Status:** ✅ Completed
+
+---
+
+# 🟦 Part 1 — Today's Scrum
+
+In today's scrum, I learned about **Artificial Intelligence (AI)** and its role in modern software development. The session covered the fundamentals of AI, different types of AI, Generative AI, Machine Learning, Deep Learning, AI agents, and Prompt Engineering.
+
+---
+
+## 🔹 1. What is Artificial Intelligence?
+
+Artificial Intelligence is a field of computer science focused on creating systems that can perform tasks that normally require human intelligence.
+
+AI systems can be designed to:
+
+* Learn from data
+* Recognize patterns
+* Understand language
+* Make predictions
+* Solve problems
+* Make decisions
+* Generate content
+
+AI is widely used in areas such as software development, healthcare, recommendation systems, computer vision, natural language processing, and automation.
+
+---
+
+## 🔹 2. Types of Artificial Intelligence
+
+I learned about AI based on its capabilities.
+
+### Narrow AI / Weak AI
+
+Narrow AI is designed to perform a specific task or a limited set of tasks.
+
+Examples include:
+
+* Recommendation systems
+* Face recognition
+* Spam detection
+* Voice assistants
+* Image classification
+
+Most AI systems currently used in real-world applications are Narrow AI.
+
+### Artificial General Intelligence (AGI)
+
+AGI refers to a theoretical AI system capable of performing a broad range of intellectual tasks at a human-like level.
+
+### Artificial Superintelligence (ASI)
+
+ASI refers to a hypothetical future AI system that would exceed human intelligence across a broad range of intellectual tasks.
+
+---
+
+## 🔹 3. Existing/Traditional AI
+
+I learned about traditional AI systems that are generally used to **analyze data, recognize patterns, classify information, make predictions, or support decisions**.
+
+A simplified workflow is:
+
+```text
+Input / Data
+     ↓
+AI Model
+     ↓
+Analysis
+     ↓
+Prediction / Classification / Decision
+```
+
+Examples include:
+
+* Fraud detection
+* Spam filtering
+* Recommendation systems
+* Image classification
+* Predictive systems
+
+---
+
+## 🔹 4. Generative AI
+
+I learned about **Generative AI**, which can generate new content based on patterns learned during training.
+
+Generative AI can create:
+
+* Text
+* Code
+* Images
+* Audio
+* Video
+* Documentation
+* Other digital content
+
+The basic workflow is:
+
+```text
+Prompt
+   ↓
+Generative AI Model
+   ↓
+Generated Output
+```
+
+Generative AI is particularly useful for software development because it can assist with coding, debugging, documentation, testing, UI development, and problem solving.
+
+---
+
+## 🔹 5. Machine Learning
+
+I learned that **Machine Learning (ML) is a subset of AI**.
+
+Machine Learning allows systems to learn patterns from data instead of requiring every rule to be explicitly programmed.
+
+```text
+Data
+ ↓
+Training
+ ↓
+ML Model
+ ↓
+Prediction / Output
+```
+
+### Main types of Machine Learning
+
+* **Supervised Learning** — learns from labeled data
+* **Unsupervised Learning** — identifies patterns in unlabeled data
+* **Reinforcement Learning** — learns through actions, feedback, and rewards
+
+---
+
+## 🔹 6. Deep Learning
+
+I learned that **Deep Learning is a subset of Machine Learning** that uses multi-layer neural networks to learn complex patterns.
+
+The relationship is:
+
+```text
+Artificial Intelligence
+        ↓
+Machine Learning
+        ↓
+Deep Learning
+```
+
+Deep Learning is commonly used in:
+
+* Computer vision
+* Speech recognition
+* Natural language processing
+* Image recognition
+* Generative AI
+
+---
+
+## 🔹 7. AI Agents
+
+I learned how **AI agents** can be used in software development.
+
+An AI agent can perform multiple steps rather than simply answering a single question.
+
+For example:
+
+```text
+Requirement
+    ↓
+Planning
+    ↓
+Code Generation
+    ↓
+Project Changes
+    ↓
+Testing
+    ↓
+Debugging
+    ↓
+Refactoring
+```
+
+AI agents can therefore automate many repetitive development tasks.
+
+However, the developer should still:
+
+* Define requirements
+* Review architecture
+* Check generated code
+* Test the application
+* Verify security
+* Validate the final result
+
+---
+
+## 🔹 8. Prompt Engineering
+
+I learned that **Prompt Engineering** is the process of creating clear and structured instructions for AI so that it can produce better and more accurate results.
+
+A vague prompt:
+
+> "Build a doctor appointment app."
+
+doesn't provide enough information.
+
+A good development prompt provides the AI with context, requirements, constraints, and expected output.
+
+---
+
+## 🔹 9. Main Parts of a Prompt
+
+I learned the important components of an effective prompt.
+
+### 1. Role
+
+Define who the AI should act as.
+
+> "Act as a senior Android developer."
+
+### 2. Context
+
+Explain the project and technology.
+
+> "I am developing a Doctor Appointment application using Kotlin, XML and Firebase."
+
+### 3. Task
+
+Clearly state what needs to be done.
+
+> "Create a Top Doctors RecyclerView."
+
+### 4. Requirements
+
+Describe exactly what the feature should contain.
+
+For example:
+
+* Doctor name
+* Specialization
+* Rating
+* Experience
+* Consultation fee
+* Profile image
+
+### 5. Input
+
+Provide the information AI needs, such as:
+
+* Existing code
+* XML
+* Data classes
+* Firestore structure
+* Error messages
+* Logcat
+
+### 6. Expected Output
+
+Tell AI what form the answer should have.
+
+> "Provide corrected Kotlin and XML code and explain where each file should be placed."
+
+### 7. Constraints
+
+Tell AI what it should not change.
+
+> "Do not change my existing Firestore field names or unrelated files."
+
+---
+
+# 🟩 Part 2 — Today's Android Learning
+
+Along with today's scrum, I continued learning important **Android development fundamentals**, including Android components, services, data sharing, resources, and modern UI development.
+
+---
+
+# 🔹 10. Bound Services
+
+I learned about **Bound Services** and how they allow another application component or process to establish a connection with a service.
+
+A bound service provides an interface/API through which another component can interact with it.
+
+### Important concept — Priority Propagation
+
+I learned about Android's **OOM ADJ / process importance system**.
+
+When an important foreground process is bound to another process/service, Android considers that dependency when determining process importance.
+
+For example:
+
+```text
+Foreground App
+      ↓ binds to
+Service
+      ↓
+Android tracks dependency
+```
+
+This helps Android avoid killing a service that an important process depends on.
+
+I also learned that system components can use similar mechanisms for important functionality.
+
+---
+
+# 🔹 11. Broadcast Receivers
+
+I learned that a **BroadcastReceiver** is an Android component used to respond to broadcast events.
+
+Examples of system events include:
+
+* Battery status changes
+* Screen state changes
+* Other system broadcasts
+* Application-defined broadcasts
+
+A BroadcastReceiver:
+
+* Has no UI
+* Receives events through an `Intent`
+* Should perform only lightweight work
+* Can hand off longer work to appropriate background mechanisms
+
+### Important distinction
+
+I learned that receiving a WhatsApp or Instagram message while the app isn't open is **not simply the same as a BroadcastReceiver**.
+
+Modern messaging applications commonly use **Firebase Cloud Messaging (FCM)** or other push-notification infrastructure for message delivery.
+
+Broadcast receivers and push messaging can both cause an application to react to events, but they are different mechanisms.
+
+---
+
+# 🔹 12. Android Components and Intents
+
+I learned how Android components can be activated.
+
+### Activities
+
+```kotlin
+startActivity()
+```
+
+### Services
+
+```kotlin
+startService()
+```
+
+### Bound Services
+
+```kotlin
+bindService()
+```
+
+### Broadcast Receivers
+
+```kotlin
+sendBroadcast()
+```
+
+### Content Providers
+
+Accessed through:
+
+```text
+ContentResolver
+```
+
+I also learned the difference between:
+
+### Explicit Intent
+
+Used when the exact component is known.
+
+```text
+Current Activity
+      ↓
+Specific Activity
+```
+
+### Implicit Intent
+
+Describes an action and allows Android to determine an appropriate component to handle it.
+
+I understood an Intent as a type of **message/instruction** that can contain an action, optional data, and information about the component that should handle it.
+
+---
+
+# 🔹 13. Content Providers
+
+I learned that a **Content Provider** is an Android component that provides a controlled interface for accessing and sharing structured data between applications.
+
+Applications normally interact with a Content Provider through a **ContentResolver**.
+
+### CRUD Operations
+
+| Operation | ContentResolver |
+| --------- | --------------- |
+| Create    | `insert()`      |
+| Read      | `query()`       |
+| Update    | `update()`      |
+| Delete    | `delete()`      |
+
+---
+
+## Why ContentResolver instead of Intent?
+
+I learned that:
+
+* Intents are primarily used to trigger actions or communicate with components.
+* ContentResolver is specifically designed for structured data access.
+* Content Providers provide abstraction and controlled access.
+* ContentResolver provides a standard API for interacting with providers.
+
+---
+
+## Database vs Content Provider
+
+I learned the important difference:
+
+### Database
+
+A database is where the data is **stored**.
+
+```text
+Database = Storage
+```
+
+### Content Provider
+
+A Content Provider acts as a **controlled gateway to data**.
+
+```text
+Content Provider = Access Gateway
+```
+
+A Content Provider can expose data from different sources, not necessarily only a database.
+
+---
+
+## Why permissions alone don't replace Content Providers
+
+I learned that Android applications run within a security sandbox.
+
+Other applications cannot simply access another application's private database files.
+
+A Content Provider allows controlled sharing of selected data and can provide:
+
+* Access control
+* Permission checks
+* Filtering
+* Controlled operations
+* Abstraction
+* Safer data sharing
+
+---
+
+# 🔹 14. Android Resources
+
+I learned that an Android application contains much more than Kotlin code.
+
+Resources can include:
+
+* Images
+* Layouts
+* Strings
+* Colors
+* Audio
+* Animations
+* Other UI resources
+
+They are generally stored inside the:
+
+```text
+res/
+```
+
+directory.
+
+Android generates the `R` class to provide references to these resources.
+
+Examples:
+
+```kotlin
+R.drawable.logo
+R.string.app_name
+```
+
+---
+
+# 🔹 15. Alternative Resources and Qualifiers
+
+I learned that Android can automatically select appropriate resources depending on the device configuration.
+
+Examples:
+
+| Qualifier   | Example           | Purpose                    |
+| ----------- | ----------------- | -------------------------- |
+| Language    | `values-fr/`      | French resources           |
+| Orientation | `layout-land/`    | Landscape layout           |
+| Screen size | `layout-sw600dp/` | Larger screens/tablets     |
+| Density     | `drawable-hdpi/`  | Different screen densities |
+
+This allows the same application to support different devices without manually checking every configuration in code.
+
+---
+
+# 🔹 16. Adaptive Layouts
+
+The scrum material also highlighted **adaptive layouts** and supporting larger window sizes.
+
+I learned the importance of designing Android interfaces that can adapt to:
+
+* Different screen sizes
+* Different orientations
+* Tablets
+* Larger windows
+* Different device configurations
+
+Instead of designing a UI for only one fixed screen size, Android applications should be designed to respond appropriately to the available space.
+
+---
+
+# 🔹 17. Jetpack Compose
+
+I learned about **Jetpack Compose**, Android's modern declarative UI toolkit.
+
+Compose allows developers to create UI using Kotlin instead of defining the UI primarily through XML.
+
+### Main concepts learned:
+
+#### Composable Functions
+
+Functions marked with:
+
+```kotlin
+@Composable
+```
+
+are used to create UI components.
+
+#### State
+
+State represents data that can change over time.
+
+Compose can observe state and update the UI when that state changes.
+
+#### Recomposition
+
+When relevant state changes, Compose can recompose affected parts of the UI.
+
+#### Layouts
+
+| Compose Layout | Purpose                   |
+| -------------- | ------------------------- |
+| `Column`       | Vertical arrangement      |
+| `Row`          | Horizontal arrangement    |
+| `Box`          | Overlay/stacking elements |
+
+#### Modifiers
+
+Modifiers can be used to apply:
+
+* Padding
+* Size
+* Background
+* Click behavior
+* Layout properties
+* Other UI behavior
+
+---
+
+# 🔹 18. XML vs Jetpack Compose
+
+I learned the main differences between traditional XML-based Android UI and Jetpack Compose.
+
+| XML                                                      | Jetpack Compose                            |
+| -------------------------------------------------------- | ------------------------------------------ |
+| XML + Kotlin                                             | Kotlin                                     |
+| Declarative layout files + Kotlin logic                  | Declarative Kotlin UI                      |
+| Uses XML layouts                                         | Uses Composable functions                  |
+| Traditional Android UI approach                          | Modern Android UI toolkit                  |
+| UI updates often require explicit interaction with Views | State changes can trigger recomposition    |
+| Reusable components require more structure               | Composable functions make reuse convenient |
+
+---
+
+# 💡 Key Concepts Learned Today
+
+Today I connected two important areas of modern development:
+
+### AI-assisted development
+
+```text
+Idea
+ ↓
+Requirements
+ ↓
+Prompt Engineering
+ ↓
+AI / AI Agent
+ ↓
+Implementation
+ ↓
+Testing & Review
+```
+
+### Android development
+
+```text
+Android Components
+       ↓
+Intents & Communication
+       ↓
+Data Sharing
+       ↓
+Resources
+       ↓
+Adaptive UI
+       ↓
+Jetpack Compose
+```
+
+The major lesson is that AI can significantly improve development productivity, but understanding the underlying technologies is still important for making correct architectural, security, debugging, and implementation decisions.
+
+---
+ **Today I learned the fundamentals of Artificial Intelligence, Generative AI, Machine Learning, Deep Learning, AI agents and Prompt Engineering during scrum, while also strengthening my Android knowledge through Bound Services, Broadcast Receivers, Intents, Content Providers, Android Resources, adaptive layouts, and Jetpack Compose.**
+
