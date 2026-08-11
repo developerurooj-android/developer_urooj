@@ -1986,4 +1986,56 @@ The major lesson is that AI can significantly improve development productivity, 
 
 ---
  **Today I learned the fundamentals of Artificial Intelligence, Generative AI, Machine Learning, Deep Learning, AI agents and Prompt Engineering during scrum, while also strengthening my Android knowledge through Bound Services, Broadcast Receivers, Intents, Content Providers, Android Resources, adaptive layouts, and Jetpack Compose.**
+# 📝 My Daily Work Report
 
+**Project:** Doctor Appointment App (Android – Jetpack Compose)
+**Role:** Android Developer
+
+---
+
+## ✅ What I Did Today
+
+### 1. Studied Jetpack Compose Concepts
+
+- **Snackbar component** — Learned how to implement snackbars using `SnackbarHost`, `SnackbarHostState`, and `showSnackbar()` inside a `Scaffold`. Understood snackbar with actions, durations, and handling `SnackbarResult.ActionPerformed` / `Dismissed`.
+- **Lambda expressions** — Understood what lambdas are, how they differ from regular functions, the `it` keyword, and trailing lambda syntax used throughout Compose (`onClick = { }`).
+- **State Holders & UI State (Architecture)** — Studied the UI state production pipeline:
+  - Difference between **Screen UI state** and **UI element state**
+  - Difference between **business logic** (ViewModel) and **UI logic** (plain class)
+  - Rules: never pass ViewModel down to composables; hold state as low as possible; business logic runs before UI logic.
+- **@Parcelize annotation** — Learned how it auto-generates Parcelable boilerplate, its Gradle setup (`kotlin-parcelize` plugin), and when to use it (passing objects between screens, `rememberSaveable`, `SavedStateHandle`). Also compared Parcelable vs Serializable.
+
+### 2. Designed App Screens
+
+| Screen | Work Done |
+|---|---|
+| **Splash Screen** | Designed layout (logo, app name, tagline, loader) and implemented in Compose |
+| **Onboarding (4 pages)** | Built with `HorizontalPager`, left-slide animation on Next, animated page indicators, Skip/Back/Get Started buttons |
+| **Login Screen** | Prepared detailed design prompt (email/password fields, validation, password toggle, social login) |
+| **Home Screen (Patient)** | Prepared detailed design prompt (greeting header, search bar, appointment card, categories, top doctors, bottom nav) |
+
+### 3. Finalized Design System
+
+- Primary: Teal `#167D9A` · Background: `#F8FCFD` · Titles: `#16333D` · Secondary text: `#607D86`
+- Material 3, rounded corners (16–20dp), clean healthcare style
+
+### 4. Wrote Code
+
+- Created the **`Doctor` data class** with `@Parcelize` — includes a default `about` bio generated using string templates from `name`, `specialty`, and `hospital`
+- Understood the caveat that default values are computed once at construction (won't update on `copy()`)
+
+### 5. Clarified Project Scope
+
+- Confirmed the current home screen is for the **Patient** role (not doctor/admin)
+- Noted differences between Patient, Doctor, and Admin home screens for future reference
+
+---
+
+## 📊 Progress Summary
+
+```text
+App Flow Completed:  Splash → Onboarding → Login → Home (Patient)
+Concepts Learned:    5 (Snackbar, Lambda, State Holders, Parcelize, Data class)
+Screens Designed:    4
+Code Files:          Splash, Onboarding, Doctor model
+```
