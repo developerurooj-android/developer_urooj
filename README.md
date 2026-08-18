@@ -2428,3 +2428,341 @@ Today I strengthened my understanding of **modern Android development**, especia
 ### ✅ Overall Learning
 
 Today's learning helped connect the **traditional XML-based Android development** I have been working with to **modern Jetpack Compose concepts**, especially state, recomposition, coroutines, side effects, and lazy lists.
+
+# 📚 Daily Learning & Development Report
+
+**Date:** 18 August 2026
+**Project:** CV Maker Android Application
+**Technology:** Kotlin + Jetpack Compose
+**Status:** ✅ Completed
+
+---
+
+## 1. 🎨 CV Maker UI Development
+
+Today, I continued development of the **CV Maker Android application** and worked on designing the application's main UI screens using **Jetpack Compose**.
+
+### Work Completed:
+
+* Reviewed and implemented the **Splash Screen**.
+* Designed the **Home Screen** UI.
+* Created a professional CV Maker dashboard layout.
+* Added:
+
+  * App header
+  * User greeting
+  * Create New CV card
+  * Recent CVs section
+  * CV cards
+  * New Resume card
+  * Bottom navigation bar
+
+---
+
+## 2. 🧩 Jetpack Compose Concepts Learned
+
+Today I studied several important Jetpack Compose concepts, including:
+
+### `@Composable`
+
+Learned that `@Composable` identifies a function that can build or describe UI.
+
+### `Modifier`
+
+Learned how `Modifier` is used to control:
+
+* Size
+* Padding
+* Background
+* Borders
+* Click behavior
+* Shape
+* Shadow
+* Alignment
+
+### `Column`
+
+Used for arranging UI elements vertically.
+
+### `Row`
+
+Used for arranging UI elements horizontally.
+
+### `Box`
+
+Used for positioning and layering UI elements.
+
+### `LazyColumn`
+
+Learned that `LazyColumn` is used for efficient vertically scrolling lists.
+
+### `items()`
+
+Learned how:
+
+```kotlin
+items(cvs) { cv ->
+    RecentCvCard(...)
+}
+```
+
+creates a UI item for each CV in a list.
+
+---
+
+## 3. 📦 Kotlin Concepts
+
+I also learned how Kotlin concepts are being used inside the Compose UI.
+
+### Data Classes
+
+Studied:
+
+```kotlin
+data class RecentCv(
+    val title: String,
+    val editedLabel: String,
+    val tags: List<String>
+)
+```
+
+A data class is used to represent structured data.
+
+### Lists
+
+Worked with:
+
+```kotlin
+List<RecentCv>
+```
+
+and:
+
+```kotlin
+listOf(...)
+```
+
+### String Interpolation
+
+Learned how:
+
+```kotlin
+"Hello, $userName!"
+```
+
+dynamically inserts a variable into a string.
+
+Also:
+
+```kotlin
+"${cvs.size} Created"
+```
+
+shows the number of CVs dynamically.
+
+### Lambda / Callback Functions
+
+Studied parameters such as:
+
+```kotlin
+onCreateNewCv: () -> Unit
+```
+
+and:
+
+```kotlin
+onOpenCv: (RecentCv) -> Unit
+```
+
+These allow UI components to notify the parent when an action occurs.
+
+---
+
+## 4. 🎨 Theme System
+
+Today I also studied the application's `Theme.kt`.
+
+I learned how `MaterialTheme` provides a centralized design system containing:
+
+* Colors
+* Typography
+* Shapes
+
+The custom theme:
+
+```kotlin
+CVMakerAppTheme {
+    HomeScreen()
+}
+```
+
+applies the application's theme to the screen.
+
+I also learned how:
+
+```kotlin
+MaterialTheme.colorScheme.primary
+```
+
+```kotlin
+MaterialTheme.typography.headlineLarge
+```
+
+and:
+
+```kotlin
+MaterialTheme.shapes.large
+```
+
+retrieve colors, typography and shapes from the theme.
+
+---
+
+## 5. 🐛 Error Understanding & Debugging
+
+I investigated the `Unresolved reference` error related to:
+
+```kotlin
+CvMakerTheme
+```
+
+and understood that the theme function name must match the actual function defined in `Theme.kt`.
+
+The project's theme function is:
+
+```kotlin
+CVMakerAppTheme
+```
+
+Therefore screens should use:
+
+```kotlin
+CVMakerAppTheme {
+    HomeScreen()
+}
+```
+
+instead of:
+
+```kotlin
+CvMakerTheme {
+    HomeScreen()
+}
+```
+
+I also learned that package names must be consistent, for example:
+
+```text
+com.example.cvmakerapp.ui.theme
+```
+
+instead of mixing it with:
+
+```text
+com.example.cvmaker.ui.theme
+```
+
+---
+
+## 6. 🏠 Home Screen Structure Learned
+
+I understood the responsibilities of different composable functions:
+
+```text
+HomeScreen
+│
+├── HomeTopBar
+│
+├── HomeContent
+│   ├── Greeting
+│   ├── CreateNewCvCard
+│   ├── Recent CVs
+│   ├── RecentCvCard
+│   └── NewResumeDashedCard
+│
+└── HomeBottomNav
+```
+
+This helped me understand how a large Compose screen can be divided into smaller reusable components.
+
+---
+
+## 7. 🔄 Understanding Future Data Flow
+
+I also understood how the current dummy CV data:
+
+```text
+sampleCvs
+```
+
+will eventually be replaced with real data from the application's local database.
+
+The expected architecture is:
+
+```text
+Room Database
+      ↓
+Repository
+      ↓
+ViewModel
+      ↓
+HomeScreen
+      ↓
+HomeContent
+      ↓
+RecentCvCard
+```
+
+This will allow the Home Screen to display the user's actual saved CVs.
+
+---
+
+# ✅ Today's Key Learnings
+
+* Jetpack Compose UI structure
+* `@Composable`
+* `Modifier`
+* `Column`
+* `Row`
+* `Box`
+* `LazyColumn`
+* `items()`
+* Kotlin data classes
+* Lists
+* Lambda functions
+* Callbacks
+* String interpolation
+* Material 3 `MaterialTheme`
+* Custom colors
+* Custom typography
+* Custom shapes
+* Compose Preview
+* Theme/package naming errors
+* Breaking a large UI into reusable composables
+* Basic understanding of Compose data flow
+
+---
+
+# 📌 Overall Progress
+
+**CV Maker MVP:** 🟢 In Development
+
+```text
+Project Setup          ✅
+Splash Screen          ✅
+Theme Setup            ✅
+Home Screen UI         ✅
+Recent CV UI           ✅
+Bottom Navigation      ✅
+Compose Concepts       ✅
+Room Database          ⏳
+Create CV Screen       ⏳
+CV Form                ⏳
+CV Preview             ⏳
+PDF Export             ⏳
+Sharing                ⏳
+```
+
+### 🎯 Next Recommended Task
+
+The next major screen should be the **Create New CV screen**, where the user enters their CV information and saves it locally using **Room Database**.
