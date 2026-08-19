@@ -2766,3 +2766,372 @@ Sharing                ⏳
 ### 🎯 Next Recommended Task
 
 The next major screen should be the **Create New CV screen**, where the user enters their CV information and saves it locally using **Room Database**.
+
+# 📚 Daily Learning & Development Report
+
+**Date:** 19 August 2026
+**Project:** CV Maker Android Application
+**Technology:** Kotlin + Jetpack Compose
+**Status:** ✅ Completed
+
+---
+
+## 1. 🎯 Today's Main Work
+
+Today I worked on the **CV Maker Android application**, focusing on completing the main CV flow and understanding the Android concepts used in the project.
+
+### Screens worked on:
+
+* ✅ Splash Screen
+* ✅ Home Screen
+* ✅ Create CV Screen
+* ✅ CV View/Preview Screen
+* ✅ PDF Export functionality planning
+* ✅ Navigation between screens
+
+The application flow is:
+
+```text
+Splash Screen
+      ↓
+Home Screen
+      ↓
+Create CV
+      ↓
+Save CV
+      ↓
+Home Screen
+      ↓
+View CV
+      ↓
+Export PDF
+```
+
+---
+
+# 2. 📝 Create CV Screen
+
+Completed the Create CV screen using **Jetpack Compose**.
+
+The screen contains:
+
+* Personal Information
+* Profile Photo
+* Professional Title
+* Email
+* Phone
+* Location
+* LinkedIn
+* Website
+* Professional Summary
+* Work Experience
+* Education
+* Skills
+* Add/Remove skills
+* Add multiple experience entries
+* Add multiple education entries
+* Save button
+* Preview CV button
+
+### Concepts used:
+
+* `Composable`
+* `remember`
+* `mutableStateOf`
+* `LazyColumn`
+* `Scaffold`
+* `OutlinedTextField`
+* `Button`
+* `Row`
+* `Column`
+* `Modifier`
+* State management
+* Lambda callbacks
+
+---
+
+# 3. 👁️ CV View / Preview Screen
+
+Worked on the CV Preview screen that displays the CV as a professional resume document.
+
+The preview includes:
+
+* Name
+* Job title
+* Contact information
+* Professional summary
+* Work experience
+* Dates
+* Location
+* Experience bullet points
+* Edit Resume button
+* Export PDF button
+
+The goal is that the preview should display the **actual CV created by the user**, rather than static/sample data.
+
+---
+
+# 4. 📄 PDF Export
+
+Worked on the requirement for PDF export.
+
+### Requirement:
+
+When the user clicks:
+
+```text
+Export PDF
+```
+
+the application should:
+
+1. Generate the CV as a PDF.
+2. Keep the CV **single-page**.
+3. Allow the user to save the PDF.
+4. Use the user's actual CV information.
+
+The planned Android API is:
+
+```kotlin
+PdfDocument
+```
+
+This avoids needing a separate PDF library for the basic MVP implementation.
+
+---
+
+# 5. 🧭 Navigation
+
+Worked with **Jetpack Compose Navigation**.
+
+Current navigation structure:
+
+```text
+NavHost
+   │
+   ├── splash
+   │
+   ├── home
+   │
+   ├── create_cv
+   │
+   └── cv_preview
+```
+
+Important navigation operations learned:
+
+```kotlin
+navController.navigate("create_cv")
+```
+
+and:
+
+```kotlin
+navController.popBackStack()
+```
+
+`popBackStack()` is useful for the **Back arrow** because it returns to the previous screen.
+
+---
+
+# 6. 💾 Save CV Flow
+
+Defined the required behavior for the Save button.
+
+When the user clicks **Save**:
+
+```text
+Create CV
+    ↓
+Save
+    ↓
+CV data stored
+    ↓
+Return to Home
+    ↓
+Created CV appears
+```
+
+When the user clicks the CV on Home:
+
+```text
+Home
+  ↓
+Click CV
+  ↓
+CV Preview
+```
+
+This establishes the main application workflow.
+
+---
+
+# 7. 🔧 Glide Issue
+
+Worked on the issue:
+
+```text
+Unresolved reference: bumptech
+Unresolved reference: integration
+Unresolved reference: GlideImage
+```
+
+The cause was the Glide Compose dependency/import.
+
+The project uses:
+
+```kotlin
+implementation("com.github.bumptech.glide:glide:4.16.0")
+implementation("com.github.bumptech.glide:compose:1.0.0")
+```
+
+and:
+
+```kotlin
+import com.bumptech.glide.integration.compose.GlideImage
+```
+
+Also learned about:
+
+```kotlin
+@OptIn(ExperimentalGlideComposeApi::class)
+```
+
+which is used when accessing an API marked as experimental.
+
+---
+
+# 8. 🧠 Android Concepts Learned
+
+Today I also reviewed several Android/Kotlin concepts.
+
+### KSP
+
+**Kotlin Symbol Processing**
+
+Used by libraries such as Room to analyze Kotlin code and generate code automatically.
+
+```text
+Kotlin Code
+    ↓
+   KSP
+    ↓
+Generated Code
+```
+
+### Serializable
+
+Learned that `Serializable` allows an object to be converted into a transferable representation, commonly for passing objects between Android components.
+
+Example:
+
+```kotlin
+data class Cv(
+    val name: String,
+    val email: String
+) : Serializable
+```
+
+Also learned that for a modern CV Maker architecture, **Room + ViewModel** is preferable for persistent CV data rather than relying heavily on `Serializable`.
+
+---
+
+# 9. 🧩 Modifier & Utility Concepts
+
+Reviewed the purpose of **Modifier utilities** in Jetpack Compose.
+
+Modifiers are used to control things such as:
+
+* Size
+* Padding
+* Background
+* Click behavior
+* Alignment
+* Border
+* Shape
+* Layout
+
+Example:
+
+```kotlin
+Modifier
+    .fillMaxWidth()
+    .padding(16.dp)
+    .background(...)
+```
+
+Also discussed **boilerplate code**, meaning repetitive code that is required but doesn't contain much application-specific logic.
+
+---
+
+# 10. 🏗️ Project Architecture Understanding
+
+Today's work improved understanding of separating responsibilities:
+
+```text
+UI Screens
+    ↓
+Navigation
+    ↓
+ViewModel / State
+    ↓
+Repository
+    ↓
+Room Database
+```
+
+And for PDF:
+
+```text
+CV Data
+   ├──→ Compose Preview
+   │
+   └──→ PDF Export
+```
+
+This makes the application easier to maintain.
+
+---
+
+# 11. ✅ Today's Outcome
+
+By the end of today's work:
+
+* ✅ Main CV Maker screens defined
+* ✅ Create CV screen completed
+* ✅ CV Preview screen developed
+* ✅ Navigation structure created
+* ✅ Save flow defined
+* ✅ Back navigation understood
+* ✅ PDF export requirement defined
+* ✅ Single-page PDF requirement defined
+* ✅ Glide Compose issue investigated
+* ✅ KSP understood
+* ✅ Serializable understood
+* ✅ Modifier utilities understood
+* ✅ Boilerplate concept understood
+
+---
+
+## 🚀 Next Development Task
+
+The next priority should be to make the complete flow **actually functional**:
+
+```text
+Create CV
+    ↓
+Save
+    ↓
+Home shows saved CV
+    ↓
+Click CV
+    ↓
+Preview actual CV
+    ↓
+Export PDF
+    ↓
+Single-page PDF
+```
+
+For the MVP, **Room Database + ViewModel + PDF export** would be the strongest next implementation step.
+
