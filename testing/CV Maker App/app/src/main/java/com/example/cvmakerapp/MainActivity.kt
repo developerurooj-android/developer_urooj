@@ -4,7 +4,7 @@ import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
-import com.example.cvmakerapp.ui.screens.SplashScreen
+import com.example.cvmakerapp.ui.screens.AppNavigation
 import com.example.cvmakerapp.ui.theme.CVMakerAppTheme
 
 class MainActivity : ComponentActivity() {
@@ -13,7 +13,7 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             CVMakerAppTheme {
-                SplashScreen()
+                AppNavigation()
             }
         }
     }

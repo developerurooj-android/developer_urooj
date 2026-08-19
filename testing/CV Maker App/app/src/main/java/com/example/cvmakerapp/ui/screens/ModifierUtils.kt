@@ -1,4 +1,4 @@
-package com.example.cvmaker.ui.screens
+package com.example.cvmakerapp.ui.screens
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.interaction.MutableInteractionSource

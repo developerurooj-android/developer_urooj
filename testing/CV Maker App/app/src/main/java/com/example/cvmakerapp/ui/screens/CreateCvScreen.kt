@@ -1,37 +1,41 @@
 package com.example.cvmakerapp.ui.screens
 
+import android.net.Uri
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.PickVisualMediaRequest
+import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
+import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.filled.Close
-import androidx.compose.material.icons.outlined.ArrowBack
+import androidx.compose.material.icons.outlined.Add
 import androidx.compose.material.icons.outlined.CameraAlt
+import androidx.compose.material.icons.outlined.Delete
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
+import com.bumptech.glide.integration.compose.GlideImage
+import com.example.cvmakerapp.data.CvData
+import com.example.cvmakerapp.data.CvRepository
+import com.example.cvmakerapp.data.EducationEntry
+import com.example.cvmakerapp.data.ExperienceEntry
 import com.example.cvmakerapp.ui.theme.CVMakerAppTheme
-import com.example.cvmakerapp.ui.theme.CvMakerAppTheme
 
-data class ExperienceEntry(
-    val company: String = "",
-    val role: String = "",
-    val dates: String = "",
-    val description: String = ""
-)
-
-data class EducationEntry(
-    val school: String = "",
-    val degree: String = "",
-    val dates: String = ""
-)
+// ============================================================
+// MAIN CREATE CV SCREEN
+// ============================================================
 
 @Composable
 fun CreateCvScreen(
@@ -39,70 +43,153 @@ fun CreateCvScreen(
     onSave: () -> Unit = {},
     onPreview: () -> Unit = {}
 ) {
+    // ========================================================
+    // STATE
+    // ========================================================
+
     var fullName by remember { mutableStateOf("") }
-    var title by remember { mutableStateOf("") }
+    var jobTitle by remember { mutableStateOf("") }
     var email by remember { mutableStateOf("") }
     var phone by remember { mutableStateOf("") }
     var location by remember { mutableStateOf("") }
     var linkedIn by remember { mutableStateOf("") }
     var website by remember { mutableStateOf("") }
     var summary by remember { mutableStateOf("") }
+    var profileImageUri by remember { mutableStateOf<Uri?>(null) }
 
     var experiences by remember {
-        mutableStateOf(listOf(ExperienceEntry("Acme Corp", "Senior Designer", "Jan 2020 - Present", "Led design system overhaul...")))
+        mutableStateOf(listOf(ExperienceEntry()))
     }
-    var education by remember { mutableStateOf(listOf(EducationEntry())) }
-    var skills by remember { mutableStateOf(listOf("UI Design", "Figma")) }
+
+    var education by remember {
+        mutableStateOf(listOf(EducationEntry()))
+    }
+
+    var skills by remember {
+        mutableStateOf(listOf<String>())
+    }
+
     var newSkill by remember { mutableStateOf("") }
+
+    // Helper to get current CV data
+    val getCurrentCvData = {
+        CvData(
+            name = fullName,
+            jobTitle = jobTitle,
+            email = email,
+            phone = phone,
+            location = location,
+            linkedIn = linkedIn,
+            website = website,
+            summary = summary,
+            profileImageUri = profileImageUri,
+            experiences = experiences.filter { it.company.isNotBlank() || it.role.isNotBlank() },
+            education = education.filter { it.school.isNotBlank() || it.degree.isNotBlank() },
+            skills = skills
+        )
+    }
+
+    // ========================================================
+    // SCAFFOLD
+    // ========================================================
 
     Scaffold(
         containerColor = MaterialTheme.colorScheme.background,
-        topBar = { CreateCvTopBar(onBack = onBack, onSave = onSave) },
+        topBar = {
+            CreateCvTopBar(
+                onBack = onBack,
+                onSave = {
+                    CvRepository.saveCv(getCurrentCvData())
+                    onSave()
+                }
+            )
+        },
         bottomBar = {
             Surface(color = MaterialTheme.colorScheme.background) {
                 Button(
-                    onClick = onPreview,
+                    onClick = {
+                        CvRepository.previewCv = getCurrentCvData()
+                        onPreview()
+                    },
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp)
-                        .height(52.dp),
-                    shape = MaterialTheme.shapes.medium,
-                    colors = ButtonDefaults.buttonColors(
-                        containerColor = MaterialTheme.colorScheme.primary,
-                        contentColor = MaterialTheme.colorScheme.onPrimary
-                    )
+                        .padding(horizontal = 16.dp, vertical = 12.dp)
+                        .height(54.dp),
+                    shape = MaterialTheme.shapes.medium
                 ) {
                     Text(
-                        "Preview CV",
-                        style = MaterialTheme.typography.titleLarge,
+                        text = "Preview CV",
                         fontWeight = FontWeight.Bold
                     )
                 }
             }
         }
     ) { innerPadding ->
+
         LazyColumn(
             modifier = Modifier
-                .padding(innerPadding)
-                .fillMaxSize(),
+                .fillMaxSize()
+                .padding(innerPadding),
             contentPadding = PaddingValues(16.dp),
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ) {
+            // PERSONAL INFORMATION
             item {
                 FormSectionCard {
                     SectionHeading("Personal Information")
-                    PhotoUploadBox()
+
+                    PhotoUploadBox(
+                        selectedImageUri = profileImageUri,
+                        onImageSelected = { profileImageUri = it }
+                    )
+
                     Spacer(Modifier.height(16.dp))
-                    LabeledOutlinedField(fullName, { fullName = it }, "Full Name")
-                    LabeledOutlinedField(title, { title = it }, "Professional Title")
-                    LabeledOutlinedField(email, { email = it }, "Email")
-                    LabeledOutlinedField(phone, { phone = it }, "Phone")
-                    LabeledOutlinedField(location, { location = it }, "Location (City, Country)")
-                    LabeledOutlinedField(linkedIn, { linkedIn = it }, "LinkedIn URL")
-                    LabeledOutlinedField(website, { website = it }, "Website URL", isLast = true)
+
+                    LabeledOutlinedField(
+                        value = fullName,
+                        onValueChange = { fullName = it },
+                        placeholder = "Full Name"
+                    )
+
+                    LabeledOutlinedField(
+                        value = jobTitle,
+                        onValueChange = { jobTitle = it },
+                        placeholder = "Professional Title"
+                    )
+
+                    LabeledOutlinedField(
+                        value = email,
+                        onValueChange = { email = it },
+                        placeholder = "Email"
+                    )
+
+                    LabeledOutlinedField(
+                        value = phone,
+                        onValueChange = { phone = it },
+                        placeholder = "Phone"
+                    )
+
+                    LabeledOutlinedField(
+                        value = location,
+                        onValueChange = { location = it },
+                        placeholder = "Location (City, Country)"
+                    )
+
+                    LabeledOutlinedField(
+                        value = linkedIn,
+                        onValueChange = { linkedIn = it },
+                        placeholder = "LinkedIn URL"
+                    )
+
+                    LabeledOutlinedField(
+                        value = website,
+                        onValueChange = { website = it },
+                        placeholder = "Website URL"
+                    )
                 }
             }
 
+            // SUMMARY
             item {
                 FormSectionCard {
                     SectionHeading("Professional Summary")
@@ -112,127 +199,176 @@ fun CreateCvScreen(
                         placeholder = { Text("Brief overview of your career and goals...") },
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(96.dp),
+                            .height(120.dp),
                         shape = MaterialTheme.shapes.small,
                         colors = cvFieldColors()
                     )
                 }
             }
 
+            // EXPERIENCE
             item {
                 FormSectionCard {
-                    SectionHeadingWithAction("Experience", "+ Add") {
-                        experiences = experiences + ExperienceEntry()
-                    }
-                    experiences.forEachIndexed { index, exp ->
-                        ExperienceCard(
-                            entry = exp,
-                            onChange = { updated ->
-                                experiences = experiences.toMutableList().also { it[index] = updated }
-                            }
-                        )
-                        if (index != experiences.lastIndex) Spacer(Modifier.height(12.dp))
-                    }
-                }
-            }
-
-            item {
-                FormSectionCard {
-                    SectionHeadingWithAction("Education", "+ Add") {
-                        education = education + EducationEntry()
-                    }
-                    education.forEachIndexed { index, edu ->
-                        EducationFields(
-                            entry = edu,
-                            onChange = { updated ->
-                                education = education.toMutableList().also { it[index] = updated }
-                            }
-                        )
-                        if (index != education.lastIndex) Spacer(Modifier.height(12.dp))
-                    }
-                }
-            }
-
-            item {
-                FormSectionCard(isLast = true) {
-                    SectionHeading("Skills")
-                    FlowChips(
-                        skills = skills,
-                        onRemove = { skill -> skills = skills.filterNot { it == skill } }
+                    SectionHeadingWithAction(
+                        title = "Experience",
+                        actionLabel = "Add Experience",
+                        onAction = { experiences = experiences + ExperienceEntry() }
                     )
-                    Spacer(Modifier.height(12.dp))
+
+                    experiences.forEachIndexed { index, experience ->
+                        ExperienceCard(
+                            entry = experience,
+                            onChange = { updatedExperience ->
+                                experiences = experiences.toMutableList().also {
+                                    it[index] = updatedExperience
+                                }
+                            },
+                            onDelete = {
+                                if (experiences.size > 1) {
+                                    experiences = experiences.toMutableList().also {
+                                        it.removeAt(index)
+                                    }
+                                }
+                            }
+                        )
+
+                        if (index != experiences.lastIndex) {
+                            Spacer(Modifier.height(12.dp))
+                        }
+                    }
+                }
+            }
+
+            // EDUCATION
+            item {
+                FormSectionCard {
+                    SectionHeadingWithAction(
+                        title = "Education",
+                        actionLabel = "Add Education",
+                        onAction = { education = education + EducationEntry() }
+                    )
+
+                    education.forEachIndexed { index, edu ->
+                        EducationCard(
+                            entry = edu,
+                            onChange = { updatedEducation ->
+                                education = education.toMutableList().also {
+                                    it[index] = updatedEducation
+                                }
+                            },
+                            onDelete = {
+                                if (education.size > 1) {
+                                    education = education.toMutableList().also {
+                                        it.removeAt(index)
+                                    }
+                                }
+                            }
+                        )
+
+                        if (index != education.lastIndex) {
+                            Spacer(Modifier.height(12.dp))
+                        }
+                    }
+                }
+            }
+
+            // SKILLS
+            item {
+                FormSectionCard {
+                    SectionHeading("Skills")
+
+                    SkillChips(
+                        skills = skills,
+                        onRemove = { skill ->
+                            skills = skills.filterNot { it == skill }
+                        }
+                    )
+
+                    Spacer(Modifier.height(16.dp))
+
                     Row(verticalAlignment = Alignment.CenterVertically) {
                         OutlinedTextField(
                             value = newSkill,
                             onValueChange = { newSkill = it },
-                            placeholder = { Text("Add a skill (press Enter)") },
+                            placeholder = { Text("Add a skill") },
                             modifier = Modifier.weight(1f),
                             singleLine = true,
                             shape = MaterialTheme.shapes.small,
                             colors = cvFieldColors()
                         )
+
                         Spacer(Modifier.width(8.dp))
-                        OutlinedButton(
+
+                        Button(
                             onClick = {
-                                if (newSkill.isNotBlank()) {
-                                    skills = skills + newSkill.trim()
+                                val skill = newSkill.trim()
+                                if (skill.isNotEmpty() && !skills.contains(skill)) {
+                                    skills = skills + skill
                                     newSkill = ""
                                 }
                             },
-                            shape = MaterialTheme.shapes.small,
-                            border = androidx.compose.foundation.BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant)
+                            modifier = Modifier.height(56.dp)
                         ) {
-                            Text("Add", color = MaterialTheme.colorScheme.onBackground)
+                            Icon(Icons.Outlined.Add, contentDescription = "Add skill")
                         }
                     }
                 }
             }
+
+            item { Spacer(Modifier.height(20.dp)) }
         }
     }
 }
 
 @Composable
-private fun CreateCvTopBar(onBack: () -> Unit, onSave: () -> Unit) {
-    Column {
-        Row(
-            modifier = Modifier
-                .fillMaxWidth()
-                .background(MaterialTheme.colorScheme.background)
-                .padding(horizontal = 12.dp, vertical = 8.dp),
-            verticalAlignment = Alignment.CenterVertically,
-            horizontalArrangement = Arrangement.SpaceBetween
-        ) {
-            IconButton(onClick = onBack) {
-                Icon(Icons.Outlined.ArrowBack, contentDescription = "Back", tint = MaterialTheme.colorScheme.onBackground)
-            }
-            Text(
-                "Create CV",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onBackground
-            )
-            Box(
+private fun CreateCvTopBar(
+    onBack: () -> Unit,
+    onSave: () -> Unit
+) {
+    Surface(color = MaterialTheme.colorScheme.background) {
+        Column {
+            Row(
                 modifier = Modifier
-                    .clip(MaterialTheme.shapes.small)
-                    .background(MaterialTheme.colorScheme.primary)
-                    .clickableNoRipple(onSave)
-                    .padding(horizontal = 16.dp, vertical = 8.dp)
+                    .fillMaxWidth()
+                    .padding(horizontal = 8.dp, vertical = 8.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.SpaceBetween
             ) {
-                Text("Save", color = MaterialTheme.colorScheme.onPrimary, fontWeight = FontWeight.SemiBold)
+                IconButton(onClick = onBack) {
+                    Icon(Icons.AutoMirrored.Outlined.ArrowBack, contentDescription = "Back")
+                }
+
+                Text(
+                    text = "Create CV",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold
+                )
+
+                Button(
+                    onClick = onSave,
+                    shape = MaterialTheme.shapes.small,
+                    contentPadding = PaddingValues(horizontal = 16.dp)
+                ) {
+                    Text("Save")
+                }
             }
+            HorizontalDivider()
         }
-        HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
     }
 }
 
 @Composable
-private fun FormSectionCard(isLast: Boolean = false, content: @Composable ColumnScope.() -> Unit) {
+private fun FormSectionCard(content: @Composable ColumnScope.() -> Unit) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .clip(MaterialTheme.shapes.large)
             .background(MaterialTheme.colorScheme.surfaceContainerLowest)
-            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, MaterialTheme.shapes.large)
+            .border(
+                width = 1.dp,
+                color = MaterialTheme.colorScheme.outlineVariant,
+                shape = MaterialTheme.shapes.large
+            )
             .padding(16.dp),
         content = content
     )
@@ -242,59 +378,104 @@ private fun FormSectionCard(isLast: Boolean = false, content: @Composable Column
 private fun SectionHeading(text: String) {
     Text(
         text = text,
-        style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.SemiBold),
-        color = MaterialTheme.colorScheme.onBackground,
-        modifier = Modifier.padding(bottom = 12.dp)
+        style = MaterialTheme.typography.titleLarge,
+        fontWeight = FontWeight.Bold,
+        color = MaterialTheme.colorScheme.onSurface
     )
-    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant, modifier = Modifier.padding(bottom = 16.dp))
+    Spacer(Modifier.height(12.dp))
+    HorizontalDivider()
+    Spacer(Modifier.height(16.dp))
 }
 
 @Composable
-private fun SectionHeadingWithAction(text: String, actionLabel: String, onAction: () -> Unit) {
+private fun SectionHeadingWithAction(
+    title: String,
+    actionLabel: String,
+    onAction: () -> Unit
+) {
     Row(
         modifier = Modifier.fillMaxWidth(),
         horizontalArrangement = Arrangement.SpaceBetween,
         verticalAlignment = Alignment.CenterVertically
     ) {
         Text(
-            text = text,
-            style = MaterialTheme.typography.headlineMedium.copy(fontWeight = FontWeight.SemiBold),
-            color = MaterialTheme.colorScheme.onBackground
+            text = title,
+            style = MaterialTheme.typography.titleLarge,
+            fontWeight = FontWeight.Bold
         )
-        Text(
-            text = actionLabel,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.onBackground,
-            modifier = Modifier.clickableNoRipple(onAction)
-        )
+        TextButton(onClick = onAction) {
+            Text("+ $actionLabel")
+        }
     }
-    Spacer(Modifier.height(12.dp))
-    HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant, modifier = Modifier.padding(bottom = 16.dp))
+    HorizontalDivider()
+    Spacer(Modifier.height(16.dp))
 }
 
+@OptIn(ExperimentalGlideComposeApi::class)
 @Composable
-private fun PhotoUploadBox() {
-    Box(
-        modifier = Modifier
-            .size(88.dp)
-            .clip(MaterialTheme.shapes.medium)
-            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, MaterialTheme.shapes.medium),
-        contentAlignment = Alignment.Center
-    ) {
-        Column(horizontalAlignment = Alignment.CenterHorizontally) {
-            Icon(
-                Icons.Outlined.CameraAlt,
-                contentDescription = "Upload photo",
-                tint = MaterialTheme.colorScheme.onSurfaceVariant
-            )
-            Spacer(Modifier.height(4.dp))
-            Text(
-                "Upload Photo",
-                style = MaterialTheme.typography.labelSmall,
-                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                textAlign = TextAlign.Center
-            )
+private fun PhotoUploadBox(
+    selectedImageUri: Uri?,
+    onImageSelected: (Uri?) -> Unit
+) {
+    val photoPickerLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.PickVisualMedia()
+    ) { uri -> onImageSelected(uri) }
+
+    Column {
+        Text(
+            text = "Profile Photo",
+            style = MaterialTheme.typography.labelLarge,
+            fontWeight = FontWeight.Medium
+        )
+        Spacer(Modifier.height(8.dp))
+        Box(
+            modifier = Modifier
+                .size(110.dp)
+                .clip(CircleShape)
+                .border(
+                    width = 2.dp,
+                    color = MaterialTheme.colorScheme.outlineVariant,
+                    shape = CircleShape
+                )
+                .clickable {
+                    photoPickerLauncher.launch(
+                        PickVisualMediaRequest(ActivityResultContracts.PickVisualMedia.ImageOnly)
+                    )
+                },
+            contentAlignment = Alignment.Center
+        ) {
+            if (selectedImageUri != null) {
+                GlideImage(
+                    model = selectedImageUri,
+                    contentDescription = "Profile photo",
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .clip(CircleShape),
+                    contentScale = ContentScale.Crop
+                )
+            } else {
+                Column(horizontalAlignment = Alignment.CenterHorizontally) {
+                    Icon(
+                        Icons.Outlined.CameraAlt,
+                        contentDescription = "Upload photo",
+                        modifier = Modifier.size(28.dp),
+                        tint = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                    Spacer(Modifier.height(4.dp))
+                    Text(
+                        text = "Upload",
+                        style = MaterialTheme.typography.labelSmall,
+                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                    )
+                }
+            }
         }
+        Spacer(Modifier.height(6.dp))
+        Text(
+            text = "Tap to select a profile photo",
+            style = MaterialTheme.typography.bodySmall,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
     }
 }
 
@@ -302,8 +483,7 @@ private fun PhotoUploadBox() {
 private fun LabeledOutlinedField(
     value: String,
     onValueChange: (String) -> Unit,
-    placeholder: String,
-    isLast: Boolean = false
+    placeholder: String
 ) {
     OutlinedTextField(
         value = value,
@@ -311,7 +491,7 @@ private fun LabeledOutlinedField(
         placeholder = { Text(placeholder) },
         modifier = Modifier
             .fillMaxWidth()
-            .padding(top = 12.dp),
+            .padding(top = 10.dp),
         singleLine = true,
         shape = MaterialTheme.shapes.small,
         colors = cvFieldColors()
@@ -319,30 +499,116 @@ private fun LabeledOutlinedField(
 }
 
 @Composable
-private fun ExperienceCard(entry: ExperienceEntry, onChange: (ExperienceEntry) -> Unit) {
+private fun ExperienceCard(
+    entry: ExperienceEntry,
+    onChange: (ExperienceEntry) -> Unit,
+    onDelete: () -> Unit
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
             .clip(MaterialTheme.shapes.medium)
-            .border(1.dp, MaterialTheme.colorScheme.outlineVariant, MaterialTheme.shapes.medium)
+            .border(
+                1.dp,
+                MaterialTheme.colorScheme.outlineVariant,
+                MaterialTheme.shapes.medium
+            )
             .padding(12.dp)
     ) {
-        MiniLabeledField("Company", entry.company) { onChange(entry.copy(company = it)) }
-        Spacer(Modifier.height(10.dp))
-        MiniLabeledField("Role", entry.role) { onChange(entry.copy(role = it)) }
-        Spacer(Modifier.height(10.dp))
-        MiniLabeledField("Dates", entry.dates) { onChange(entry.copy(dates = it)) }
-        Spacer(Modifier.height(10.dp))
-        MiniLabeledField("Description", entry.description, minLines = 3) { onChange(entry.copy(description = it)) }
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                "Experience Entry",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            IconButton(onClick = onDelete) {
+                Icon(
+                    Icons.Outlined.Delete,
+                    contentDescription = "Delete experience",
+                    tint = MaterialTheme.colorScheme.error
+                )
+            }
+        }
+
+        MiniLabeledField(
+            label = "Company",
+            value = entry.company,
+            onValueChange = { onChange(entry.copy(company = it)) }
+        )
+        MiniLabeledField(
+            label = "Role",
+            value = entry.role,
+            onValueChange = { onChange(entry.copy(role = it)) }
+        )
+        MiniLabeledField(
+            label = "Dates",
+            value = entry.dates,
+            onValueChange = { onChange(entry.copy(dates = it)) }
+        )
+        MiniLabeledField(
+            label = "Description",
+            value = entry.description,
+            minLines = 4,
+            onValueChange = { onChange(entry.copy(description = it)) }
+        )
     }
 }
 
 @Composable
-private fun EducationFields(entry: EducationEntry, onChange: (EducationEntry) -> Unit) {
-    Column {
-        LabeledOutlinedField(entry.school, { onChange(entry.copy(school = it)) }, "School / University")
-        LabeledOutlinedField(entry.degree, { onChange(entry.copy(degree = it)) }, "Degree")
-        LabeledOutlinedField(entry.dates, { onChange(entry.copy(dates = it)) }, "Dates")
+private fun EducationCard(
+    entry: EducationEntry,
+    onChange: (EducationEntry) -> Unit,
+    onDelete: () -> Unit
+) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .clip(MaterialTheme.shapes.medium)
+            .border(
+                1.dp,
+                MaterialTheme.colorScheme.outlineVariant,
+                MaterialTheme.shapes.medium
+            )
+            .padding(12.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                "Education Entry",
+                style = MaterialTheme.typography.titleMedium,
+                fontWeight = FontWeight.SemiBold
+            )
+            IconButton(onClick = onDelete) {
+                Icon(
+                    Icons.Outlined.Delete,
+                    contentDescription = "Delete education",
+                    tint = MaterialTheme.colorScheme.error
+                )
+            }
+        }
+
+        MiniLabeledField(
+            label = "School / University",
+            value = entry.school,
+            onValueChange = { onChange(entry.copy(school = it)) }
+        )
+        MiniLabeledField(
+            label = "Degree",
+            value = entry.degree,
+            onValueChange = { onChange(entry.copy(degree = it)) }
+        )
+        MiniLabeledField(
+            label = "Dates",
+            value = entry.dates,
+            onValueChange = { onChange(entry.copy(dates = it)) }
+        )
     }
 }
 
@@ -354,9 +620,10 @@ private fun MiniLabeledField(
     onValueChange: (String) -> Unit
 ) {
     Column {
+        Spacer(Modifier.height(10.dp))
         Text(
             text = label,
-            style = MaterialTheme.typography.labelSmall,
+            style = MaterialTheme.typography.labelMedium,
             color = MaterialTheme.colorScheme.onSurfaceVariant
         )
         Spacer(Modifier.height(4.dp))
@@ -372,32 +639,41 @@ private fun MiniLabeledField(
 }
 
 @Composable
-private fun FlowChips(skills: List<String>, onRemove: (String) -> Unit) {
-    // Simple wrap using Row groups of up to 3 for a lightweight flow effect.
-    val rows = skills.chunked(3)
-    Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-        rows.forEach { row ->
-            Row(horizontalArrangement = Arrangement.spacedBy(8.dp)) {
-                row.forEach { skill ->
-                    Row(
-                        modifier = Modifier
-                            .clip(MaterialTheme.shapes.small)
-                            .background(MaterialTheme.colorScheme.surfaceContainerHigh)
-                            .padding(horizontal = 10.dp, vertical = 6.dp),
-                        verticalAlignment = Alignment.CenterVertically
-                    ) {
-                        Text(skill, style = MaterialTheme.typography.bodyMedium, color = MaterialTheme.colorScheme.onBackground)
-                        Spacer(Modifier.width(6.dp))
-                        Icon(
-                            Icons.Filled.Close,
-                            contentDescription = "Remove $skill",
-                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                            modifier = Modifier
-                                .size(14.dp)
-                                .clickableNoRipple { onRemove(skill) }
-                        )
-                    }
-                }
+private fun SkillChips(
+    skills: List<String>,
+    onRemove: (String) -> Unit
+) {
+    if (skills.isEmpty()) {
+        Text(
+            text = "No skills added yet.",
+            style = MaterialTheme.typography.bodyMedium,
+            color = MaterialTheme.colorScheme.onSurfaceVariant
+        )
+        return
+    }
+
+    FlowRow(
+        modifier = Modifier.fillMaxWidth(),
+        horizontalArrangement = Arrangement.spacedBy(8.dp),
+        verticalArrangement = Arrangement.spacedBy(8.dp)
+    ) {
+        skills.forEach { skill ->
+            Row(
+                modifier = Modifier
+                    .clip(MaterialTheme.shapes.small)
+                    .background(MaterialTheme.colorScheme.surfaceContainerHigh)
+                    .padding(horizontal = 10.dp, vertical = 7.dp),
+                verticalAlignment = Alignment.CenterVertically
+            ) {
+                Text(text = skill)
+                Spacer(Modifier.width(6.dp))
+                Icon(
+                    Icons.Filled.Close,
+                    contentDescription = "Remove $skill",
+                    modifier = Modifier
+                        .size(16.dp)
+                        .clickable { onRemove(skill) }
+                )
             }
         }
     }
@@ -412,10 +688,10 @@ private fun cvFieldColors() = OutlinedTextFieldDefaults.colors(
     cursorColor = MaterialTheme.colorScheme.primary
 )
 
-@Preview(showBackground = true, heightDp = 1400)
+@Preview(showBackground = true, showSystemUi = true, heightDp = 1400)
 @Composable
 private fun CreateCvScreenPreview() {
     CVMakerAppTheme {
-        createCvScreen()
+        CreateCvScreen()
     }
 }

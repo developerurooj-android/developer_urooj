@@ -7,6 +7,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Description
 import androidx.compose.material3.*
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -17,36 +18,59 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.cvmakerapp.ui.theme.CVMakerAppTheme
+import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen() {
+fun SplashScreen(
+    onSplashFinished: () -> Unit
+) {
+
+    // Coroutine starts when SplashScreen enters the composition
+    LaunchedEffect(Unit) {
+        delay(1000L) // Wait for 1 second
+        onSplashFinished()
+    }
+
     Box(
         modifier = Modifier
             .fillMaxSize()
             .background(MaterialTheme.colorScheme.background)
     ) {
+
+        // Main splash content
         Column(
             modifier = Modifier
                 .align(Alignment.Center)
                 .padding(horizontal = 32.dp),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            // App icon "tile"
+
+            // App icon tile
             Box(
                 modifier = Modifier
                     .size(96.dp)
-                    .shadow(elevation = 12.dp, shape = RoundedCornerShape(20.dp), clip = false)
+                    .shadow(
+                        elevation = 12.dp,
+                        shape = RoundedCornerShape(20.dp),
+                        clip = false
+                    )
                     .clip(RoundedCornerShape(20.dp))
-                    .background(MaterialTheme.colorScheme.surfaceContainerLowest),
+                    .background(
+                        MaterialTheme.colorScheme.surfaceContainerLowest
+                    ),
                 contentAlignment = Alignment.Center
             ) {
+
                 Box(
                     modifier = Modifier
                         .size(56.dp)
                         .clip(RoundedCornerShape(6.dp))
-                        .background(MaterialTheme.colorScheme.surfaceContainerHigh),
+                        .background(
+                            MaterialTheme.colorScheme.surfaceContainerHigh
+                        ),
                     contentAlignment = Alignment.Center
                 ) {
+
                     Icon(
                         imageVector = Icons.Outlined.Description,
                         contentDescription = null,
@@ -56,7 +80,9 @@ fun SplashScreen() {
                 }
             }
 
-            Spacer(modifier = Modifier.height(32.dp))
+            Spacer(
+                modifier = Modifier.height(32.dp)
+            )
 
             Text(
                 text = "CV Maker",
@@ -67,7 +93,9 @@ fun SplashScreen() {
                 color = MaterialTheme.colorScheme.onBackground
             )
 
-            Spacer(modifier = Modifier.height(8.dp))
+            Spacer(
+                modifier = Modifier.height(8.dp)
+            )
 
             Text(
                 text = "Create your professional CV",
@@ -85,8 +113,15 @@ fun SplashScreen() {
                 .fillMaxWidth(0.6f),
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
-            HorizontalDivider(color = MaterialTheme.colorScheme.outlineVariant)
-            Spacer(modifier = Modifier.height(16.dp))
+
+            HorizontalDivider(
+                color = MaterialTheme.colorScheme.outlineVariant
+            )
+
+            Spacer(
+                modifier = Modifier.height(16.dp)
+            )
+
             Text(
                 text = "LOADING WORKSPACE",
                 style = MaterialTheme.typography.labelSmall,
@@ -100,6 +135,8 @@ fun SplashScreen() {
 @Composable
 private fun SplashScreenPreview() {
     CVMakerAppTheme {
-        SplashScreen()
+        SplashScreen(
+            onSplashFinished = {}
+        )
     }
 }

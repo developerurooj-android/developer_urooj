@@ -23,18 +23,11 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.outlined.AddCircleOutline
 import androidx.compose.material.icons.outlined.Description
-import androidx.compose.material.icons.outlined.GridView
 import androidx.compose.material.icons.outlined.InsertDriveFile
-import androidx.compose.material.icons.outlined.Lightbulb
 import androidx.compose.material.icons.outlined.MoreVert
-import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.outlined.Settings
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.NavigationBar
-import androidx.compose.material3.NavigationBarItem
-import androidx.compose.material3.NavigationBarItemDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -61,45 +54,23 @@ data class RecentCv(
 
 
 // ------------------------------------------------------------
-// SAMPLE DATA FOR PREVIEW / TESTING
-// ------------------------------------------------------------
-
-private val sampleCvs = listOf(
-    RecentCv(
-        title = "Software Engineer CV",
-        editedLabel = "Edited 2 hours ago",
-        tags = listOf("TECH", "COMPLETE")
-    ),
-    RecentCv(
-        title = "Marketing Specialist Resume",
-        editedLabel = "Edited 2 days ago",
-        tags = listOf("MARKETING", "DRAFT")
-    )
-)
-
-
-// ------------------------------------------------------------
 // HOME SCREEN
 // ------------------------------------------------------------
 
 @Composable
 fun HomeScreen(
-    userName: String = "Alex",
-    cvs: List<RecentCv> = sampleCvs,
+    userName: String = "User",
+    cvs: List<RecentCv> = emptyList(),
     onCreateNewCv: () -> Unit = {},
     onOpenCv: (RecentCv) -> Unit = {},
     onCvMenuClick: (RecentCv) -> Unit = {}
 ) {
 
-    Scaffold(
+    Scaffold(               //provide foundation for UI
         containerColor = MaterialTheme.colorScheme.background,
 
         topBar = {
             HomeTopBar()
-        },
-
-        bottomBar = {
-            HomeBottomNav()
         }
 
     ) { innerPadding ->
@@ -153,7 +124,7 @@ private fun HomeTopBar() {
                     tint = MaterialTheme.colorScheme.onBackground
                 )
 
-                Spacer(
+                Spacer(             //create empty space between ui elements
                     modifier = Modifier.width(8.dp)
                 )
 
@@ -164,18 +135,6 @@ private fun HomeTopBar() {
                     color = MaterialTheme.colorScheme.onBackground
                 )
             }
-
-
-            // Settings
-
-            Icon(
-                imageVector = Icons.Outlined.Settings,
-                contentDescription = "Settings",
-                tint = MaterialTheme.colorScheme.onBackground,
-                modifier = Modifier.clickable {
-                    // TODO: Open settings screen
-                }
-            )
         }
 
 
@@ -190,7 +149,7 @@ private fun HomeTopBar() {
 // HOME CONTENT
 // ------------------------------------------------------------
 
-@Composable
+@Composable             //takes data and call back so that parent decides ehat happens whe things are clicked
 private fun HomeContent(
     modifier: Modifier = Modifier,
     userName: String,
@@ -200,7 +159,7 @@ private fun HomeContent(
     onCvMenuClick: (RecentCv) -> Unit
 ) {
 
-    LazyColumn(
+    LazyColumn(                 // don't load list at once
 
         modifier = modifier.fillMaxSize(),
 
@@ -260,7 +219,7 @@ private fun HomeContent(
 
             Row(
 
-                modifier = Modifier.fillMaxWidth(),
+                modifier = Modifier.fillMaxWidth(),           //modifier add style and behavior
 
                 horizontalArrangement =
                     Arrangement.SpaceBetween,
@@ -327,17 +286,6 @@ private fun HomeContent(
             )
         }
 
-
-        // ----------------------------------------------------
-        // NEW RESUME CARD
-        // ----------------------------------------------------
-
-        item {
-
-            NewResumeDashedCard(
-                onClick = onCreateNewCv
-            )
-        }
     }
 }
 
@@ -607,7 +555,7 @@ private fun NewResumeDashedCard(
         ) {
 
             Icon(
-                imageVector =
+                imageVector =       //ImageVector = describes a vector graphic.
                     Icons.Outlined.AddCircleOutline,
 
                 contentDescription =
@@ -669,191 +617,10 @@ private fun NewResumeDashedCard(
 
 
 // ------------------------------------------------------------
-// BOTTOM NAVIGATION
-// ------------------------------------------------------------
-
-@Composable
-private fun HomeBottomNav() {
-
-    NavigationBar(
-
-        containerColor =
-            MaterialTheme.colorScheme.surfaceContainerLowest,
-
-        tonalElevation = 0.dp
-
-    ) {
-
-
-        // RESUMES
-
-        NavigationBarItem(
-
-            selected = true,
-
-            onClick = {
-                // Already on Resumes
-            },
-
-            icon = {
-                Icon(
-                    Icons.Outlined.Description,
-                    contentDescription = "Resumes"
-                )
-            },
-
-            label = {
-                Text(
-                    "Resumes",
-                    style = MaterialTheme.typography.labelSmall
-                )
-            },
-
-            colors =
-                NavigationBarItemDefaults.colors(
-
-                    selectedIconColor =
-                        MaterialTheme.colorScheme.onBackground,
-
-                    selectedTextColor =
-                        MaterialTheme.colorScheme.onBackground,
-
-                    unselectedIconColor =
-                        MaterialTheme.colorScheme.onSurfaceVariant,
-
-                    unselectedTextColor =
-                        MaterialTheme.colorScheme.onSurfaceVariant,
-
-                    indicatorColor =
-                        Color.Transparent
-                )
-        )
-
-
-        // TEMPLATES
-
-        NavigationBarItem(
-
-            selected = false,
-
-            onClick = {
-                // TODO: Navigate to Templates
-            },
-
-            icon = {
-                Icon(
-                    Icons.Outlined.GridView,
-                    contentDescription = "Templates"
-                )
-            },
-
-            label = {
-                Text(
-                    "Templates",
-                    style = MaterialTheme.typography.labelSmall
-                )
-            },
-
-            colors =
-                NavigationBarItemDefaults.colors(
-
-                    unselectedIconColor =
-                        MaterialTheme.colorScheme.onSurfaceVariant,
-
-                    unselectedTextColor =
-                        MaterialTheme.colorScheme.onSurfaceVariant,
-
-                    indicatorColor =
-                        Color.Transparent
-                )
-        )
-
-
-        // TIPS
-
-        NavigationBarItem(
-
-            selected = false,
-
-            onClick = {
-                // TODO: Navigate to Tips
-            },
-
-            icon = {
-                Icon(
-                    Icons.Outlined.Lightbulb,
-                    contentDescription = "Tips"
-                )
-            },
-
-            label = {
-                Text(
-                    "Tips",
-                    style = MaterialTheme.typography.labelSmall
-                )
-            },
-
-            colors =
-                NavigationBarItemDefaults.colors(
-
-                    unselectedIconColor =
-                        MaterialTheme.colorScheme.onSurfaceVariant,
-
-                    unselectedTextColor =
-                        MaterialTheme.colorScheme.onSurfaceVariant,
-
-                    indicatorColor =
-                        Color.Transparent
-                )
-        )
-
-
-        // PROFILE
-
-        NavigationBarItem(
-
-            selected = false,
-
-            onClick = {
-                // TODO: Navigate to Profile
-            },
-
-            icon = {
-                Icon(
-                    Icons.Outlined.Person,
-                    contentDescription = "Profile"
-                )
-            },
-
-            label = {
-                Text(
-                    "Profile",
-                    style = MaterialTheme.typography.labelSmall
-                )
-            },
-
-            colors =
-                NavigationBarItemDefaults.colors(
-
-                    unselectedIconColor =
-                        MaterialTheme.colorScheme.onSurfaceVariant,
-
-                    unselectedTextColor =
-                        MaterialTheme.colorScheme.onSurfaceVariant,
-
-                    indicatorColor =
-                        Color.Transparent
-                )
-        )
-    }
-}
-
-
-// ------------------------------------------------------------
 // PREVIEW
 // ------------------------------------------------------------
 
-@Preview(
+@Preview(               //show preview without running app in android studio
     showBackground = true,
     showSystemUi = true,
     heightDp = 900
@@ -863,9 +630,23 @@ private fun HomeBottomNav() {
     showSystemUi = true,
     heightDp = 900
 )
-@Composable
+@Composable             //preview your Compose UI inside Android Studio without running the whole app
 private fun HomeScreenPreview() {
     CVMakerAppTheme {
-        HomeScreen()
+        HomeScreen(
+            userName = "Alex",
+            cvs = listOf(
+                RecentCv(
+                    title = "Software Engineer CV",
+                    editedLabel = "Edited 2 hours ago",
+                    tags = listOf("TECH", "COMPLETE")
+                ),
+                RecentCv(
+                    title = "Marketing Specialist Resume",
+                    editedLabel = "Edited 2 days ago",
+                    tags = listOf("MARKETING", "DRAFT")
+                )
+            )
+        )
     }
 }
