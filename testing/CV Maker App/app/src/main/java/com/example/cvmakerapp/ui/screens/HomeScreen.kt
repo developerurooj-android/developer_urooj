@@ -40,6 +40,7 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.cvmakerapp.ui.theme.CVMakerAppTheme
+import com.example.cvmakerapp.ui.theme.ResponsiveUtils
 
 
 // ------------------------------------------------------------
@@ -103,8 +104,8 @@ private fun HomeTopBar() {
                     MaterialTheme.colorScheme.background
                 )
                 .padding(
-                    horizontal = 20.dp,
-                    vertical = 16.dp
+                    horizontal = ResponsiveUtils.getResponsiveHorizontalPadding(),
+                    vertical = ResponsiveUtils.getResponsiveSpacing()
                 ),
 
             verticalAlignment = Alignment.CenterVertically,
@@ -164,11 +165,11 @@ private fun HomeContent(
         modifier = modifier.fillMaxSize(),
 
         contentPadding = PaddingValues(
-            horizontal = 20.dp,
-            vertical = 20.dp
+            horizontal = ResponsiveUtils.getResponsiveHorizontalPadding(),
+            vertical = ResponsiveUtils.getResponsivePadding()
         ),
 
-        verticalArrangement = Arrangement.spacedBy(20.dp)
+        verticalArrangement = Arrangement.spacedBy(ResponsiveUtils.getResponsiveSpacing())
 
     ) {
 
@@ -307,7 +308,7 @@ private fun CreateNewCvCard(
             .background(
                 MaterialTheme.colorScheme.primary
             )
-            .padding(24.dp),
+            .padding(ResponsiveUtils.getResponsivePadding()),
 
         verticalAlignment =
             Alignment.CenterVertically,
@@ -329,7 +330,7 @@ private fun CreateNewCvCard(
             )
 
             Spacer(
-                modifier = Modifier.height(6.dp)
+                modifier = Modifier.height(ResponsiveUtils.getResponsiveSpacing())
             )
 
             Text(
@@ -343,14 +344,14 @@ private fun CreateNewCvCard(
 
 
         Spacer(
-            modifier = Modifier.width(12.dp)
+            modifier = Modifier.width(ResponsiveUtils.getResponsiveSpacing())
         )
 
 
         Box(
 
             modifier = Modifier
-                .size(56.dp)
+                .size(ResponsiveUtils.getResponsiveButtonHeight() + 8.dp)
                 .clip(
                     RoundedCornerShape(16.dp)
                 )
@@ -402,7 +403,7 @@ private fun RecentCvCard(
             .clickable(
                 onClick = onClick
             )
-            .padding(20.dp)
+            .padding(ResponsiveUtils.getResponsivePadding())
 
     ) {
 
@@ -435,7 +436,7 @@ private fun RecentCvCard(
 
 
         Spacer(
-            modifier = Modifier.height(16.dp)
+            modifier = Modifier.height(ResponsiveUtils.getResponsiveSpacing() * 2)
         )
 
 
@@ -447,7 +448,7 @@ private fun RecentCvCard(
 
 
         Spacer(
-            modifier = Modifier.height(4.dp)
+            modifier = Modifier.height(ResponsiveUtils.getResponsiveSpacing())
         )
 
 
@@ -459,13 +460,13 @@ private fun RecentCvCard(
 
 
         Spacer(
-            modifier = Modifier.height(12.dp)
+            modifier = Modifier.height(ResponsiveUtils.getResponsiveSpacing())
         )
 
 
         Row(
             horizontalArrangement =
-                Arrangement.spacedBy(8.dp)
+                Arrangement.spacedBy(ResponsiveUtils.getResponsiveSpacing())
         ) {
 
             cv.tags.forEach { tag ->

@@ -7,6 +7,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import com.example.cvmakerapp.data.CvRepository
+import com.example.cvmakerapp.data.CvTemplate
 
 @Composable
 fun AppNavigation() {
@@ -48,18 +49,25 @@ fun AppNavigation() {
                 userName = "User",
                 cvs = cvs.map { cv ->
                     RecentCv(
-                        title = cv.jobTitle.ifBlank { cv.name }.ifBlank { "Untitled CV" },
+                        title = cv.jobTitle.ifBlank { cv.fullName }.ifBlank { "Untitled CV" },
                         editedLabel = "Created recently",
                         tags = cv.skills.take(2)
                     )
                 },
                 onCreateNewCv = {
-                    navController.navigate("create_cv")
+                    // Reset selected template to default when creating new CV
+                    CvRepository.selectedTemplate = CvTemplate.CLASSIC
+                    navController.navigate("template_selection")
                 },
                 onOpenCv = { recentCv ->
-                    // Find the original CV data by title (simple matching for now)
-                    val cvData = cvs.find { it.jobTitle == recentCv.title || it.name == recentCv.title }
+
+                    val cvData = cvs.find {
+                        it.jobTitle == recentCv.title || it.fullName == recentCv.title
+                    }
+
                     if (cvData != null) {
+                        // Load the saved template from the CV
+                        CvRepository.selectedTemplate = cvData.template
                         CvRepository.previewCv = cvData
                         navController.navigate("view_cv")
                     }
@@ -69,7 +77,24 @@ fun AppNavigation() {
 
 
         // -----------------------------
-        // 3. CREATE CV SCREEN
+        // 3. TEMPLATE SELECTION SCREEN
+        // -----------------------------
+        composable("template_selection") {
+
+            TemplateSelectionScreen(
+                onTemplateSelected = { selectedTemplate ->
+                    CvRepository.selectedTemplate = selectedTemplate
+                    navController.navigate("create_cv")
+                },
+                onBack = {
+                    navController.popBackStack()
+                }
+            )
+        }
+
+
+        // -----------------------------
+        // 4. CREATE CV SCREEN
         // -----------------------------
         composable("create_cv") {
 
@@ -94,7 +119,7 @@ fun AppNavigation() {
 
 
         // -----------------------------
-        // 4. VIEW CV SCREEN
+        // 5. VIEW CV SCREEN
         // -----------------------------
         composable("view_cv") {
             val cvData = CvRepository.previewCv
@@ -103,6 +128,15 @@ fun AppNavigation() {
                     cvData = cvData,
                     onBack = {
                         navController.popBackStack()
+                    },
+                    onSave = {
+                        // Save CV to repository
+                        CvRepository.saveCv(cvData)
+                        navController.navigate("home") {
+                            popUpTo("view_cv") {
+                                inclusive = true
+                            }
+                        }
                     }
                 )
             }

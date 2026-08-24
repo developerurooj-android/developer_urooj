@@ -1,38 +1,7 @@
 package com.example.cvmakerapp.data
 
-import android.net.Uri
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-
-data class ExperienceEntry(
-    val company: String = "",
-    val role: String = "",
-    val dates: String = "",
-    val description: String = ""
-)
-
-data class EducationEntry(
-    val school: String = "",
-    val degree: String = "",
-    val dates: String = ""
-)
-
-data class CvData(
-    val id: String = java.util.UUID.randomUUID().toString(),
-    val name: String = "",
-    val jobTitle: String = "",
-    val location: String = "",
-    val email: String = "",
-    val phone: String = "",
-    val linkedIn: String = "",
-    val website: String = "",
-    val profileImageUri: Uri? = null,
-    val summary: String = "",
-    val experiences: List<ExperienceEntry> = emptyList(),
-    val education: List<EducationEntry> = emptyList(),
-    val skills: List<String> = emptyList(),
-    val createdAt: Long = System.currentTimeMillis()
-)
 
 object CvRepository {
     private val _cvs = MutableStateFlow<List<CvData>>(emptyList())
@@ -42,6 +11,11 @@ object CvRepository {
     var previewCv: CvData?
         get() = _previewCv
         set(value) { _previewCv = value }
+
+    private var _selectedTemplate: CvTemplate = CvTemplate.CLASSIC
+    var selectedTemplate: CvTemplate
+        get() = _selectedTemplate
+        set(value) { _selectedTemplate = value }
 
     fun saveCv(cv: CvData) {
         val currentList = _cvs.value.toMutableList()

@@ -1,4 +1,4 @@
-package com.example.cvmaker.ui.theme
+package com.example.cvmakerapp.ui.theme
 
 import androidx.compose.ui.graphics.Color
 
