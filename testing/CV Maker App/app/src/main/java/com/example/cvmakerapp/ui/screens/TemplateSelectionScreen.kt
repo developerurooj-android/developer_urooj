@@ -1,5 +1,8 @@
 package com.example.cvmakerapp.ui.screens
 
+import androidx.compose.animation.animateColorAsState
+import androidx.compose.animation.core.animateDpAsState
+import androidx.compose.animation.core.tween
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -15,19 +18,21 @@ import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.GridCells
+import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.outlined.ArrowBack
 import androidx.compose.material.icons.filled.Check
 import androidx.compose.material3.Button
+import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
+import androidx.compose.material3.OutlinedButtonDefaults
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -39,47 +44,57 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.draw.shadow
 import androidx.compose.ui.graphics.TransformOrigin
 import androidx.compose.ui.graphics.graphicsLayer
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.example.cvmakerapp.data.CvTemplate
 import com.example.cvmakerapp.data.TemplateDesigns
 import com.example.cvmakerapp.ui.screens.templates.CvTemplateRenderer
 import com.example.cvmakerapp.ui.screens.templates.TemplatePreviewData
+import com.example.cvmakerapp.ui.theme.CardShadowElevated
+import com.example.cvmakerapp.ui.theme.CardShadowSoft
 import com.example.cvmakerapp.ui.theme.ResponsiveUtils
 
 private data class TemplateOption(
     val template: CvTemplate,
     val title: String,
-    val description: String
+    val description: String,
+    val badge: String
 )
 
 private val templateOptions = listOf(
     TemplateOption(
         template = CvTemplate.CLASSIC,
         title = "Classic",
-        description = "Clean traditional single-column layout with clear section dividers."
+        description = "Timeless single-column layout with clear hierarchy and elegant section dividers.",
+        badge = "Popular"
     ),
     TemplateOption(
         template = CvTemplate.TWO_COLUMN,
         title = "Two Column",
-        description = "Sidebar with contact and skills; main content on the right."
+        description = "Structured sidebar with contact & skills; spacious main content area.",
+        badge = "Balanced"
     ),
     TemplateOption(
         template = CvTemplate.MODERN,
         title = "Modern",
-        description = "Bold header with accent color and card-style sections."
+        description = "Bold accent header, card-based sections, and contemporary visual flow.",
+        badge = "Creative"
     ),
     TemplateOption(
         template = CvTemplate.MINIMAL,
         title = "Minimal",
-        description = "Simple, readable layout with subtle dividers and white space."
+        description = "Generous whitespace, refined typography, and understated elegance.",
+        badge = "Clean"
     ),
     TemplateOption(
         template = CvTemplate.PROFESSIONAL,
         title = "Professional",
-        description = "Corporate-style layout with structured sections and accent bar."
+        description = "Corporate-grade structure with accent markers and polished sections.",
+        badge = "Executive"
     )
 )
 
@@ -93,6 +108,7 @@ fun TemplateSelectionScreen(
     }
 
     Scaffold(
+        containerColor = MaterialTheme.colorScheme.background,
         topBar = {
             TemplateSelectionTopBar(onBack = onBack)
         }
@@ -104,17 +120,21 @@ fun TemplateSelectionScreen(
         ) {
             Column(
                 modifier = Modifier
-                    .padding(16.dp)
+                    .padding(
+                        horizontal = ResponsiveUtils.getResponsiveHorizontalPadding(),
+                        vertical = ResponsiveUtils.getResponsivePadding()
+                    )
             ) {
                 Text(
                     text = "Choose a CV Template",
                     style = MaterialTheme.typography.headlineMedium,
                     fontWeight = FontWeight.Bold,
-                    modifier = Modifier.padding(bottom = 8.dp)
+                    color = MaterialTheme.colorScheme.onBackground,
+                    modifier = Modifier.padding(bottom = 6.dp)
                 )
 
                 Text(
-                    text = "Select a professional template to build your CV",
+                    text = "Pick a professional design that matches your style and industry",
                     style = MaterialTheme.typography.bodyMedium,
                     color = MaterialTheme.colorScheme.onSurfaceVariant
                 )
@@ -128,12 +148,15 @@ fun TemplateSelectionScreen(
                     .weight(1f),
                 horizontalArrangement = Arrangement.spacedBy(ResponsiveUtils.getResponsiveSpacing()),
                 verticalArrangement = Arrangement.spacedBy(ResponsiveUtils.getResponsiveSpacing()),
-                contentPadding = PaddingValues(bottom = ResponsiveUtils.getResponsiveSpacing())
+                contentPadding = PaddingValues(bottom = ResponsiveUtils.getResponsivePadding())
             ) {
                 items(templateOptions) { option ->
+                    val design = TemplateDesigns.forTemplate(option.template)
                     TemplateCard(
                         title = option.title,
                         description = option.description,
+                        badge = option.badge,
+                        accentColor = design.accentColor,
                         isSelected = selectedTemplate == option.template,
                         onSelect = {
                             selectedTemplate = option.template
@@ -144,30 +167,65 @@ fun TemplateSelectionScreen(
                 }
             }
 
-            Row(
+            Surface(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .padding(ResponsiveUtils.getResponsiveHorizontalPadding()),
-                horizontalArrangement = Arrangement.spacedBy(ResponsiveUtils.getResponsiveSpacing())
+                    .background(MaterialTheme.colorScheme.surfaceContainerLowest),
+                color = MaterialTheme.colorScheme.surfaceContainerLowest,
+                shadowElevation = 4.dp,
+                tonalElevation = 2.dp
             ) {
-                OutlinedButton(
-                    onClick = onBack,
+                Row(
                     modifier = Modifier
-                        .weight(1f)
-                        .height(ResponsiveUtils.getResponsiveButtonHeight())
+                        .fillMaxWidth()
+                        .padding(
+                            horizontal = ResponsiveUtils.getResponsiveHorizontalPadding(),
+                            vertical = ResponsiveUtils.getResponsivePadding()
+                        ),
+                    horizontalArrangement = Arrangement.spacedBy(ResponsiveUtils.getResponsiveSpacing())
                 ) {
-                    Text("Back")
-                }
+                    OutlinedButton(
+                        onClick = onBack,
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(ResponsiveUtils.getResponsiveButtonHeight()),
+                        shape = RoundedCornerShape(12.dp),
+                        colors = OutlinedButtonDefaults.outlinedButtonColors(
+                            contentColor = MaterialTheme.colorScheme.onBackground
+                        ),
+                        border = androidx.compose.foundation.BorderStroke(
+                            width = 1.dp,
+                            color = MaterialTheme.colorScheme.outlineVariant
+                        )
+                    ) {
+                        Text(
+                            "Back",
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
 
-                Button(
-                    onClick = {
-                        onTemplateSelected(selectedTemplate)
-                    },
-                    modifier = Modifier
-                        .weight(1f)
-                        .height(ResponsiveUtils.getResponsiveButtonHeight())
-                ) {
-                    Text("Continue")
+                    Button(
+                        onClick = {
+                            onTemplateSelected(selectedTemplate)
+                        },
+                        modifier = Modifier
+                            .weight(1f)
+                            .height(ResponsiveUtils.getResponsiveButtonHeight()),
+                        shape = RoundedCornerShape(12.dp),
+                        elevation = ButtonDefaults.buttonElevation(
+                            defaultElevation = 2.dp,
+                            pressedElevation = 0.dp,
+                            hoveredElevation = 4.dp
+                        ),
+                        colors = ButtonDefaults.buttonColors(
+                            containerColor = MaterialTheme.colorScheme.primary
+                        )
+                    ) {
+                        Text(
+                            "Continue",
+                            fontWeight = FontWeight.SemiBold
+                        )
+                    }
                 }
             }
         }
@@ -179,12 +237,19 @@ private fun ScaledTemplatePreview(template: CvTemplate) {
     val previewData = remember(template) {
         TemplatePreviewData.sample.copy(template = template)
     }
+    val design = TemplateDesigns.forTemplate(template)
 
     Box(
         modifier = Modifier
             .fillMaxSize()
-            .clip(RoundedCornerShape(8.dp))
-            .background(MaterialTheme.colorScheme.surface)
+            .clip(RoundedCornerShape(10.dp))
+            .shadow(
+                elevation = 2.dp,
+                spotColor = CardShadowSoft,
+                ambientColor = CardShadowSoft,
+                shape = RoundedCornerShape(10.dp)
+            )
+            .background(design.pageBackground)
     ) {
         Box(
             modifier = Modifier
@@ -204,16 +269,18 @@ private fun ScaledTemplatePreview(template: CvTemplate) {
 
         Surface(
             modifier = Modifier
-                .align(Alignment.TopStart)
+                .align(Alignment.TopEnd)
                 .padding(8.dp),
-            shape = RoundedCornerShape(4.dp),
-            color = MaterialTheme.colorScheme.surfaceContainerHighest.copy(alpha = 0.9f)
+            shape = RoundedCornerShape(6.dp),
+            color = design.accentColor.copy(alpha = 0.92f),
+            shadowElevation = 1.dp
         ) {
             Text(
-                text = TemplateDesigns.forTemplate(template).displayName.uppercase(),
-                modifier = Modifier.padding(horizontal = 8.dp, vertical = 4.dp),
+                text = design.displayName,
+                modifier = Modifier.padding(horizontal = 10.dp, vertical = 5.dp),
                 style = MaterialTheme.typography.labelSmall,
-                fontWeight = FontWeight.Bold
+                fontWeight = FontWeight.Bold,
+                color = androidx.compose.ui.graphics.Color.White
             )
         }
     }
@@ -228,16 +295,31 @@ private fun TemplateSelectionTopBar(
             modifier = Modifier
                 .fillMaxWidth()
                 .background(MaterialTheme.colorScheme.surfaceContainerLowest)
-                .padding(horizontal = 12.dp, vertical = 8.dp),
+                .padding(
+                    horizontal = ResponsiveUtils.getResponsiveHorizontalPadding() - 4.dp,
+                    vertical = 8.dp
+                ),
             verticalAlignment = Alignment.CenterVertically
         ) {
             IconButton(onClick = onBack) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
-                    contentDescription = "Back",
-                    tint = MaterialTheme.colorScheme.onBackground
-                )
+                Surface(
+                    modifier = Modifier.size(40.dp),
+                    shape = RoundedCornerShape(10.dp),
+                    color = MaterialTheme.colorScheme.surfaceContainerLow,
+                    tonalElevation = 1.dp
+                ) {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Outlined.ArrowBack,
+                            contentDescription = "Back",
+                            tint = MaterialTheme.colorScheme.onBackground,
+                            modifier = Modifier.size(20.dp)
+                        )
+                    }
+                }
             }
+
+            Spacer(modifier = Modifier.width(4.dp))
 
             Text(
                 text = "CV Templates",
@@ -250,7 +332,8 @@ private fun TemplateSelectionTopBar(
         }
 
         HorizontalDivider(
-            color = MaterialTheme.colorScheme.outlineVariant
+            color = MaterialTheme.colorScheme.outlineVariant,
+            thickness = 0.5.dp
         )
     }
 }
@@ -259,28 +342,51 @@ private fun TemplateSelectionTopBar(
 private fun TemplateCard(
     title: String,
     description: String,
+    badge: String,
+    accentColor: androidx.compose.ui.graphics.Color,
     isSelected: Boolean,
     onSelect: () -> Unit,
     preview: @Composable () -> Unit
 ) {
+    val borderWidth by animateDpAsState(
+        targetValue = if (isSelected) 2.dp else 1.dp,
+        animationSpec = tween(200), label = "borderWidth"
+    )
+    val borderColor by animateColorAsState(
+        targetValue = if (isSelected) accentColor else MaterialTheme.colorScheme.outlineVariant,
+        animationSpec = tween(200), label = "borderColor"
+    )
+    val shadowElevation by animateDpAsState(
+        targetValue = if (isSelected) 8.dp else 2.dp,
+        animationSpec = tween(200), label = "shadow"
+    )
+    val containerColor by animateColorAsState(
+        targetValue = if (isSelected) MaterialTheme.colorScheme.surfaceContainerLowest
+        else MaterialTheme.colorScheme.surfaceContainerLowest,
+        animationSpec = tween(200), label = "container"
+    )
+
     Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(RoundedCornerShape(12.dp))
+            .shadow(
+                elevation = shadowElevation,
+                spotColor = if (isSelected) CardShadowElevated else CardShadowSoft,
+                ambientColor = if (isSelected) CardShadowElevated else CardShadowSoft,
+                shape = RoundedCornerShape(16.dp)
+            )
+            .clip(RoundedCornerShape(16.dp))
             .border(
-                width = if (isSelected) 3.dp else 1.dp,
-                color = if (isSelected) {
-                    MaterialTheme.colorScheme.primary
-                } else {
-                    MaterialTheme.colorScheme.outline
-                },
-                shape = RoundedCornerShape(12.dp)
+                width = borderWidth,
+                color = borderColor,
+                shape = RoundedCornerShape(16.dp)
             )
             .clickable(onClick = onSelect),
-        color = MaterialTheme.colorScheme.surfaceContainerLowest
+        color = containerColor,
+        shape = RoundedCornerShape(16.dp)
     ) {
         Column(
-            modifier = Modifier.padding(12.dp)
+            modifier = Modifier.padding(14.dp)
         ) {
             Row(
                 modifier = Modifier.fillMaxWidth(),
@@ -288,31 +394,55 @@ private fun TemplateCard(
                 verticalAlignment = Alignment.Top
             ) {
                 Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = title,
-                        style = MaterialTheme.typography.titleSmall,
-                        fontWeight = FontWeight.Bold,
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
+                    Row(
+                        verticalAlignment = Alignment.CenterVertically,
+                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                    ) {
+                        Box(
+                            modifier = Modifier
+                                .size(8.dp)
+                                .clip(RoundedCornerShape(50))
+                                .background(accentColor)
+                        )
+                        Text(
+                            text = title,
+                            style = MaterialTheme.typography.titleMedium,
+                            fontWeight = FontWeight.Bold,
+                            color = MaterialTheme.colorScheme.onBackground
+                        )
 
-                    Spacer(modifier = Modifier.height(2.dp))
+                        Surface(
+                            shape = RoundedCornerShape(50),
+                            color = accentColor.copy(alpha = 0.10f)
+                        ) {
+                            Text(
+                                text = badge,
+                                modifier = Modifier.padding(horizontal = 8.dp, vertical = 3.dp),
+                                style = MaterialTheme.typography.labelSmall,
+                                fontWeight = FontWeight.SemiBold,
+                                color = accentColor
+                            )
+                        }
+                    }
+
+                    Spacer(modifier = Modifier.height(4.dp))
 
                     Text(
                         text = description,
-                        style = MaterialTheme.typography.labelSmall,
+                        style = MaterialTheme.typography.bodySmall,
                         color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 2
+                        lineHeight = 18.sp
                     )
                 }
 
-                Spacer(modifier = Modifier.width(8.dp))
+                Spacer(modifier = Modifier.width(10.dp))
 
                 if (isSelected) {
                     Surface(
-                        modifier = Modifier
-                            .size(28.dp)
-                            .clip(RoundedCornerShape(50)),
-                        color = MaterialTheme.colorScheme.primary
+                        modifier = Modifier.size(28.dp),
+                        shape = RoundedCornerShape(50),
+                        color = accentColor,
+                        shadowElevation = 2.dp
                     ) {
                         Box(
                             modifier = Modifier.fillMaxSize(),
@@ -321,7 +451,7 @@ private fun TemplateCard(
                             Icon(
                                 imageVector = Icons.Default.Check,
                                 contentDescription = "Selected",
-                                tint = MaterialTheme.colorScheme.onPrimary,
+                                tint = androidx.compose.ui.graphics.Color.White,
                                 modifier = Modifier.size(16.dp)
                             )
                         }
@@ -331,15 +461,15 @@ private fun TemplateCard(
 
             Spacer(modifier = Modifier.height(12.dp))
 
-            Surface(
+            Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(150.dp)
-                    .clip(RoundedCornerShape(8.dp)),
-                color = MaterialTheme.colorScheme.surface
+                    .height(160.dp)
             ) {
                 preview()
             }
         }
     }
 }
+
+

@@ -15,6 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.outlined.Email
 import androidx.compose.material.icons.outlined.Language
@@ -24,15 +25,18 @@ import androidx.compose.material.icons.rounded.Phone
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.cvmakerapp.data.CvData
@@ -58,66 +62,104 @@ fun ProfessionalCvTemplate(
             Box(
                 modifier = Modifier
                     .fillMaxWidth()
-                    .height(8.dp)
-                    .background(design.headerBackground ?: design.accentColor)
+                    .height(6.dp)
+                    .background(
+                        brush = Brush.horizontalGradient(
+                            colors = listOf(
+                                design.accentColor,
+                                design.accentColor.copy(alpha = 0.6f),
+                                design.subtitleColor
+                            )
+                        )
+                    )
             )
         }
 
         item {
-            Row(
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(design.contentPadding),
-                verticalAlignment = Alignment.Top
-            ) {
-                Column(modifier = Modifier.weight(1f)) {
-                    Text(
-                        text = cvData.fullName.ifBlank { "Your Name" }.uppercase(),
-                        style = MaterialTheme.typography.headlineMedium.copy(
-                            fontWeight = FontWeight.Bold
-                        ),
-                        color = design.sectionTitleColor
-                    )
-
-                    if (cvData.jobTitle.isNotBlank()) {
-                        Spacer(Modifier.height(6.dp))
+            Column(modifier = Modifier.padding(horizontal = design.contentPadding)) {
+                Spacer(Modifier.height(design.contentPadding))
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    verticalAlignment = Alignment.Top,
+                    horizontalArrangement = Arrangement.spacedBy(20.dp)
+                ) {
+                    Column(modifier = Modifier.weight(1f)) {
                         Text(
-                            text = cvData.jobTitle,
-                            style = MaterialTheme.typography.titleMedium,
-                            color = design.subtitleColor
+                            text = cvData.fullName.ifBlank { "Your Name" }.uppercase(),
+                            style = MaterialTheme.typography.headlineMedium.copy(
+                                fontWeight = FontWeight.ExtraBold,
+                                letterSpacing = 0.5.sp
+                            ),
+                            color = design.sectionTitleColor
                         )
+
+                        if (cvData.jobTitle.isNotBlank()) {
+                            Spacer(Modifier.height(8.dp))
+                            Row(verticalAlignment = Alignment.CenterVertically) {
+                                Surface(
+                                    shape = RoundedCornerShape(4.dp),
+                                    color = design.accentColor
+                                ) {
+                                    Box(Modifier.size(width = 4.dp, height = 18.dp))
+                                }
+                                Spacer(Modifier.width(10.dp))
+                                Text(
+                                    text = cvData.jobTitle,
+                                    style = MaterialTheme.typography.titleMedium.copy(
+                                        fontWeight = FontWeight.SemiBold
+                                    ),
+                                    color = design.subtitleColor
+                                )
+                            }
+                        }
+
+                        Spacer(Modifier.height(18.dp))
+
+                        ProfessionalContactBlock(cvData = cvData, accentColor = design.accentColor)
                     }
 
-                    Spacer(Modifier.height(12.dp))
-
-                    ProfessionalContactBlock(cvData = cvData)
+                    if (!cvData.profileImageUri.isNullOrBlank()) {
+                        Surface(
+                            modifier = Modifier.size(design.profileImageSize),
+                            shape = CircleShape,
+                            shadowElevation = 3.dp,
+                            color = Color.Transparent,
+                            border = androidx.compose.foundation.BorderStroke(
+                                width = 3.dp,
+                                color = design.accentColorSoft
+                            )
+                        ) {
+                            GlideImage(
+                                model = cvData.profileImageUri,
+                                contentDescription = "Profile photo",
+                                modifier = Modifier
+                                    .fillMaxSize()
+                                    .padding(2.dp)
+                                    .clip(CircleShape),
+                                contentScale = ContentScale.Crop
+                            )
+                        }
+                    }
                 }
 
-                if (!cvData.profileImageUri.isNullOrBlank()) {
-                    Spacer(Modifier.width(16.dp))
-                    GlideImage(
-                        model = cvData.profileImageUri,
-                        contentDescription = "Profile photo",
-                        modifier = Modifier
-                            .size(design.profileImageSize)
-                            .clip(CircleShape),
-                        contentScale = ContentScale.Crop
-                    )
-                }
+                Spacer(Modifier.height(design.contentPadding - 2.dp))
+                HorizontalDivider(color = design.dividerColor, thickness = 0.8.dp)
+                Spacer(Modifier.height(design.sectionSpacing))
             }
-
-            HorizontalDivider(
-                modifier = Modifier.padding(horizontal = design.contentPadding),
-                color = design.dividerColor
-            )
         }
 
         if (cvData.summary.isNotBlank()) {
             item {
-                ProfessionalSection(title = "Professional Summary", accentColor = design.accentColor) {
+                ProfessionalSection(
+                    title = "Professional Summary",
+                    accentColor = design.accentColor,
+                    softColor = design.accentColorSoft
+                ) {
                     Text(
                         text = cvData.summary,
-                        style = MaterialTheme.typography.bodyMedium,
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            lineHeight = 22.sp
+                        ),
                         color = design.bodyColor
                     )
                 }
@@ -126,9 +168,19 @@ fun ProfessionalCvTemplate(
 
         if (cvData.experiences.isNotEmpty()) {
             item {
-                ProfessionalSection(title = "Professional Experience", accentColor = design.accentColor) {
-                    cvData.experiences.forEach { entry ->
-                        ProfessionalExperienceItem(entry = entry, accentColor = design.accentColor)
+                ProfessionalSection(
+                    title = "Professional Experience",
+                    accentColor = design.accentColor,
+                    softColor = design.accentColorSoft
+                ) {
+                    cvData.experiences.forEachIndexed { idx, entry ->
+                        ProfessionalExperienceItem(
+                            entry = entry,
+                            accentColor = design.accentColor,
+                            bodyColor = design.bodyColor,
+                            isLast = idx == cvData.experiences.size - 1,
+                            softColor = design.accentColorSoft
+                        )
                     }
                 }
             }
@@ -136,9 +188,18 @@ fun ProfessionalCvTemplate(
 
         if (cvData.education.isNotEmpty()) {
             item {
-                ProfessionalSection(title = "Education", accentColor = design.accentColor) {
-                    cvData.education.forEach { entry ->
-                        ProfessionalEducationItem(entry = entry)
+                ProfessionalSection(
+                    title = "Education",
+                    accentColor = design.accentColor,
+                    softColor = design.accentColorSoft
+                ) {
+                    cvData.education.forEachIndexed { idx, entry ->
+                        ProfessionalEducationItem(
+                            entry = entry,
+                            accentColor = design.accentColor,
+                            bodyColor = design.bodyColor,
+                            isLast = idx == cvData.education.size - 1
+                        )
                     }
                 }
             }
@@ -146,33 +207,55 @@ fun ProfessionalCvTemplate(
 
         if (cvData.skills.isNotEmpty()) {
             item {
-                ProfessionalSection(title = "Core Skills", accentColor = design.accentColor) {
-                    cvData.skills.forEach { skill ->
-                        Row(
-                            modifier = Modifier.padding(vertical = 3.dp),
-                            verticalAlignment = Alignment.CenterVertically
-                        ) {
-                            Box(
-                                modifier = Modifier
-                                    .size(width = 4.dp, height = 4.dp)
-                                    .background(design.accentColor)
-                            )
-                            Spacer(Modifier.width(10.dp))
-                            Text(
-                                text = skill,
-                                style = MaterialTheme.typography.bodyMedium,
-                                color = design.bodyColor
-                            )
+                ProfessionalSection(
+                    title = "Core Skills",
+                    accentColor = design.accentColor,
+                    softColor = design.accentColorSoft
+                ) {
+                    Column(verticalArrangement = Arrangement.spacedBy(10.dp)) {
+                        cvData.skills.chunked(2).forEach { row ->
+                            Row(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalArrangement = Arrangement.spacedBy(16.dp)
+                            ) {
+                                row.forEach { skill ->
+                                    Row(
+                                        modifier = Modifier.weight(1f),
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.spacedBy(10.dp)
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .size(5.dp, 14.dp)
+                                                .clip(RoundedCornerShape(2.dp))
+                                                .background(design.accentColor)
+                                        )
+                                        Text(
+                                            text = skill,
+                                            style = MaterialTheme.typography.bodyMedium.copy(
+                                                fontWeight = FontWeight.Medium
+                                            ),
+                                            color = TemplateDesigns.Classic.headerTextColor
+                                        )
+                                    }
+                                }
+                                val rem = 2 - row.size
+                                repeat(rem) { Spacer(Modifier.weight(1f)) }
+                            }
                         }
                     }
                 }
             }
         }
+
+        item {
+            Spacer(Modifier.height(design.contentPadding - design.sectionSpacing))
+        }
     }
 }
 
 @Composable
-private fun ProfessionalContactBlock(cvData: CvData) {
+private fun ProfessionalContactBlock(cvData: CvData, accentColor: Color) {
     val lines = listOfNotNull(
         cvData.email.takeIf { it.isNotBlank() },
         cvData.phone.takeIf { it.isNotBlank() },
@@ -181,15 +264,43 @@ private fun ProfessionalContactBlock(cvData: CvData) {
         cvData.website.takeIf { it.isNotBlank() }
     )
 
-    Column(verticalArrangement = Arrangement.spacedBy(4.dp)) {
-        lines.forEach { line ->
-            ProfessionalContactItem(text = line)
+    Surface(
+        modifier = Modifier.fillMaxWidth(),
+        shape = RoundedCornerShape(8.dp),
+        color = accentColor.copy(alpha = 0.05f)
+    ) {
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(horizontal = 14.dp, vertical = 10.dp),
+            verticalArrangement = Arrangement.spacedBy(4.dp)
+        ) {
+            lines.chunked(2).forEach { row ->
+                Row(
+                    modifier = Modifier.fillMaxWidth(),
+                    horizontalArrangement = Arrangement.spacedBy(16.dp)
+                ) {
+                    row.forEach { line ->
+                        ProfessionalContactItem(
+                            text = line,
+                            accentColor = accentColor,
+                            modifier = Modifier.weight(1f)
+                        )
+                    }
+                    val rem = 2 - row.size
+                    repeat(rem) { Spacer(Modifier.weight(1f)) }
+                }
+            }
         }
     }
 }
 
 @Composable
-private fun ProfessionalContactItem(text: String) {
+private fun ProfessionalContactItem(
+    text: String,
+    accentColor: Color,
+    modifier: Modifier = Modifier
+) {
     val iconAndDesc = when {
         text.contains("@") -> Icons.Outlined.Email to "Email"
         text.contains("+") || text.matches(Regex("^[0-9\\s\\-\\+\\(\\)]+$")) -> Icons.Rounded.Phone to "Phone"
@@ -199,23 +310,23 @@ private fun ProfessionalContactItem(text: String) {
         else -> Icons.Rounded.LocationOn to "Location"
     }
     val icon = iconAndDesc.first
-    val description = iconAndDesc.second
 
     Row(
-        modifier = Modifier.fillMaxWidth(),
+        modifier = modifier,
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp)
     ) {
         Icon(
             imageVector = icon,
-            contentDescription = description,
+            contentDescription = null,
             modifier = Modifier.size(14.dp),
-            tint = MaterialTheme.colorScheme.onSurfaceVariant
+            tint = accentColor
         )
         Text(
             text = text,
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            style = MaterialTheme.typography.bodySmall,
+            color = TemplateDesigns.Classic.headerTextColor,
+            maxLines = 1
         )
     }
 }
@@ -224,6 +335,7 @@ private fun ProfessionalContactItem(text: String) {
 private fun ProfessionalSection(
     title: String,
     accentColor: Color,
+    softColor: Color,
     content: @Composable () -> Unit
 ) {
     Column(
@@ -235,74 +347,155 @@ private fun ProfessionalSection(
         Row(verticalAlignment = Alignment.CenterVertically) {
             Box(
                 modifier = Modifier
-                    .width(4.dp)
-                    .height(18.dp)
-                    .background(accentColor)
+                    .width(5.dp)
+                    .height(22.dp)
+                    .clip(RoundedCornerShape(3.dp))
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(accentColor, accentColor.copy(alpha = 0.6f))
+                        )
+                    )
             )
-            Spacer(Modifier.width(10.dp))
+            Spacer(Modifier.width(12.dp))
             Text(
                 text = title.uppercase(),
-                style = MaterialTheme.typography.titleSmall.copy(fontWeight = FontWeight.Bold),
+                style = MaterialTheme.typography.titleSmall.copy(
+                    fontWeight = FontWeight.ExtraBold,
+                    letterSpacing = 0.4.sp
+                ),
                 color = accentColor
             )
         }
 
-        Spacer(Modifier.height(12.dp))
+        Spacer(Modifier.height(4.dp))
+        Row(
+            modifier = Modifier.padding(start = 17.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .width(44.dp)
+                    .height(2.dp)
+                    .clip(RoundedCornerShape(1.dp))
+                    .background(softColor)
+            )
+        }
+        Spacer(Modifier.height(14.dp))
         content()
     }
 }
 
 @Composable
-private fun ProfessionalExperienceItem(entry: ExperienceEntry, accentColor: Color) {
-    Column(modifier = Modifier.padding(bottom = 14.dp)) {
-        Row(modifier = Modifier.fillMaxWidth()) {
-            Text(
-                text = entry.role,
-                modifier = Modifier.weight(1f),
-                style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-                color = MaterialTheme.colorScheme.onBackground
-            )
-            Text(
-                text = entry.dates,
-                style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
-            )
+private fun ProfessionalExperienceItem(
+    entry: ExperienceEntry,
+    accentColor: Color,
+    bodyColor: Color,
+    isLast: Boolean,
+    softColor: Color
+) {
+    Column(
+        modifier = Modifier.padding(bottom = if (isLast) 0.dp else 14.dp)
+    ) {
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.Top
+        ) {
+            Column(modifier = Modifier.weight(1f)) {
+                Text(
+                    text = entry.role,
+                    style = MaterialTheme.typography.titleMedium.copy(
+                        fontWeight = FontWeight.Bold
+                    ),
+                    color = TemplateDesigns.Classic.headerTextColor
+                )
+                Spacer(Modifier.height(3.dp))
+                Text(
+                    text = entry.company,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        fontWeight = FontWeight.SemiBold
+                    ),
+                    color = accentColor
+                )
+            }
+            Surface(
+                shape = RoundedCornerShape(4.dp),
+                color = softColor
+            ) {
+                Text(
+                    text = entry.dates,
+                    style = MaterialTheme.typography.labelMedium.copy(
+                        fontWeight = FontWeight.SemiBold
+                    ),
+                    color = accentColor,
+                    modifier = Modifier.padding(horizontal = 10.dp, vertical = 4.dp)
+                )
+            }
         }
-        Text(
-            text = entry.company,
-            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
-            color = accentColor
-        )
         if (entry.description.isNotBlank()) {
-            Spacer(Modifier.height(6.dp))
-            Text(
-                text = entry.description,
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+            Spacer(Modifier.height(8.dp))
+            Row(
+                modifier = Modifier.padding(start = 2.dp),
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .padding(top = 10.dp)
+                        .size(4.dp)
+                        .clip(RoundedCornerShape(50))
+                        .background(accentColor)
+                )
+                Text(
+                    text = entry.description,
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        lineHeight = 21.sp
+                    ),
+                    color = bodyColor,
+                    modifier = Modifier.weight(1f)
+                )
+            }
+        }
+        if (!isLast) {
+            Spacer(Modifier.height(12.dp))
+            HorizontalDivider(
+                color = accentColor.copy(alpha = 0.08f),
+                thickness = 1.dp
             )
         }
     }
 }
 
 @Composable
-private fun ProfessionalEducationItem(entry: EducationEntry) {
-    Column(modifier = Modifier.padding(bottom = 12.dp)) {
+private fun ProfessionalEducationItem(
+    entry: EducationEntry,
+    accentColor: Color,
+    bodyColor: Color,
+    isLast: Boolean
+) {
+    Column(
+        modifier = Modifier.padding(bottom = if (isLast) 0.dp else 12.dp)
+    ) {
         Text(
             text = entry.degree,
-            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-            color = MaterialTheme.colorScheme.onBackground
+            style = MaterialTheme.typography.titleMedium.copy(
+                fontWeight = FontWeight.Bold
+            ),
+            color = TemplateDesigns.Classic.headerTextColor
         )
-        Row(modifier = Modifier.fillMaxWidth()) {
+        Spacer(Modifier.height(3.dp))
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
             Text(
                 text = entry.school,
-                modifier = Modifier.weight(1f),
                 style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = accentColor
             )
             Text(
                 text = entry.dates,
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurfaceVariant
+                color = bodyColor
             )
         }
     }

@@ -2,6 +2,7 @@ package com.example.cvmakerapp.ui.screens.templates
 
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -15,6 +16,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Language
@@ -30,15 +32,18 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.sp
 import com.bumptech.glide.integration.compose.ExperimentalGlideComposeApi
 import com.bumptech.glide.integration.compose.GlideImage
 import com.example.cvmakerapp.data.CvData
 import com.example.cvmakerapp.data.EducationEntry
 import com.example.cvmakerapp.data.ExperienceEntry
-
+import com.example.cvmakerapp.data.TemplateDesigns
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -46,341 +51,444 @@ fun TwoColumnCvTemplate(
     cvData: CvData,
     modifier: Modifier = Modifier
 ) {
+    val design = TemplateDesigns.TwoColumn
+
     Row(
         modifier = modifier.fillMaxSize()
     ) {
-        // Left Column - Sidebar
         Surface(
             modifier = Modifier
-                .weight(0.35f)
-                .fillMaxHeight()
-                .background(MaterialTheme.colorScheme.primary.copy(alpha = 0.08f)),
-            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.08f)
+                .weight(0.36f)
+                .fillMaxHeight(),
+            color = Color.Transparent
         ) {
-            LazyColumn(
+            Box(
                 modifier = Modifier
                     .fillMaxSize()
-                    .padding(20.dp),
-                verticalArrangement = Arrangement.spacedBy(16.dp),
-                contentPadding = PaddingValues(bottom = 16.dp)
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(
+                                design.sidebarBackground ?: design.accentColorSoft,
+                                design.accentColorSoft
+                            )
+                        )
+                    )
             ) {
-                // Profile Photo
-                item {
+                LazyColumn(
+                    modifier = Modifier
+                        .fillMaxSize()
+                        .padding(design.contentPadding - 2.dp),
+                    verticalArrangement = Arrangement.spacedBy(design.sectionSpacing),
+                    contentPadding = PaddingValues(bottom = design.contentPadding)
+                ) {
                     if (!cvData.profileImageUri.isNullOrBlank()) {
+                        item {
+                            Column(
+                                modifier = Modifier.fillMaxWidth(),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Surface(
+                                    modifier = Modifier.size(design.profileImageSize),
+                                    shape = CircleShape,
+                                    shadowElevation = 4.dp,
+                                    color = Color.Transparent
+                                ) {
+                                    GlideImage(
+                                        model = cvData.profileImageUri,
+                                        contentDescription = "Profile photo",
+                                        modifier = Modifier
+                                            .fillMaxSize()
+                                            .clip(CircleShape),
+                                        contentScale = ContentScale.Crop
+                                    )
+                                }
+                            }
+                        }
+                    }
+
+                    item {
                         Column(
                             modifier = Modifier.fillMaxWidth(),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            GlideImage(
-                                model = cvData.profileImageUri,
-                                contentDescription = "Profile photo",
-                                modifier = Modifier
-                                    .size(120.dp)
-                                    .clip(CircleShape),
-                                contentScale = ContentScale.Crop
+                            Text(
+                                text = cvData.fullName.ifBlank { "Your Name" },
+                                style = MaterialTheme.typography.headlineSmall.copy(
+                                    fontWeight = FontWeight.Bold
+                                ),
+                                color = TemplateDesigns.Classic.headerTextColor,
+                                lineHeight = 28.sp
                             )
-
-                            Spacer(Modifier.height(8.dp))
+                            if (cvData.jobTitle.isNotBlank()) {
+                                Spacer(Modifier.height(6.dp))
+                                Surface(
+                                    shape = RoundedCornerShape(50),
+                                    color = design.accentColor
+                                ) {
+                                    Text(
+                                        text = cvData.jobTitle,
+                                        style = MaterialTheme.typography.labelMedium.copy(
+                                            fontWeight = FontWeight.SemiBold
+                                        ),
+                                        color = Color.White,
+                                        modifier = Modifier.padding(
+                                            horizontal = 12.dp,
+                                            vertical = 4.dp
+                                        )
+                                    )
+                                }
+                            }
                         }
                     }
-                }
 
-                // Contact Information
-                item {
-                    TwoColumnSectionTitle(text = "CONTACT")
-
-                    if (cvData.email.isNotBlank()) {
-                        TwoColumnContactItem(
-                            icon = Icons.Default.Email,
-                            iconDescription = "Email",
-                            text = cvData.email
-                        )
-                    }
-
-                    if (cvData.phone.isNotBlank()) {
-                        TwoColumnContactItem(
-                            icon = Icons.Default.Phone,
-                            iconDescription = "Phone",
-                            text = cvData.phone
-                        )
-                    }
-
-                    if (cvData.location.isNotBlank()) {
-                        TwoColumnContactItem(
-                            icon = Icons.Default.LocationOn,
-                            iconDescription = "Location",
-                            text = cvData.location
-                        )
-                    }
-
-                    if (cvData.linkedIn.isNotBlank()) {
-                        TwoColumnContactItem(
-                            icon = Icons.Default.Person,
-                            iconDescription = "LinkedIn",
-                            text = cvData.linkedIn
-                        )
-                    }
-
-                    if (cvData.website.isNotBlank()) {
-                        TwoColumnContactItem(
-                            icon = Icons.Default.Language,
-                            iconDescription = "Website",
-                            text = cvData.website
-                        )
-                    }
-                }
-
-                // Skills
-                if (cvData.skills.isNotEmpty()) {
                     item {
-                        TwoColumnSectionTitle(text = "SKILLS")
+                        TwoColumnSidebarSectionTitle(
+                            text = "CONTACT",
+                            accentColor = design.accentColor,
+                            dividerColor = design.dividerColor
+                        )
 
-                        cvData.skills.forEach { skill ->
-                            Text(
-                                text = "• $skill",
-                                style = MaterialTheme.typography.bodySmall,
-                                color = MaterialTheme.colorScheme.onSurfaceVariant,
-                                modifier = Modifier.padding(vertical = 2.dp)
+                        Column(modifier = Modifier.fillMaxWidth()) {
+                            val contacts = listOfNotNull(
+                                cvData.email.takeIf { it.isNotBlank() }?.let { Icons.Default.Email to it },
+                                cvData.phone.takeIf { it.isNotBlank() }?.let { Icons.Default.Phone to it },
+                                cvData.location.takeIf { it.isNotBlank() }?.let { Icons.Default.LocationOn to it },
+                                cvData.linkedIn.takeIf { it.isNotBlank() }?.let { Icons.Default.Person to it },
+                                cvData.website.takeIf { it.isNotBlank() }?.let { Icons.Default.Language to it }
                             )
+                            contacts.forEach { (icon, text) ->
+                                TwoColumnContactItem(
+                                    icon = icon,
+                                    text = text,
+                                    accentColor = design.accentColor,
+                                    bodyColor = design.bodyColor
+                                )
+                            }
+                        }
+                    }
+
+                    if (cvData.skills.isNotEmpty()) {
+                        item {
+                            TwoColumnSidebarSectionTitle(
+                                text = "SKILLS",
+                                accentColor = design.accentColor,
+                                dividerColor = design.dividerColor
+                            )
+
+                            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                                cvData.skills.forEach { skill ->
+                                    Row(
+                                        verticalAlignment = Alignment.CenterVertically,
+                                        horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                    ) {
+                                        Box(
+                                            modifier = Modifier
+                                                .size(5.dp)
+                                                .clip(CircleShape)
+                                                .background(design.accentColor)
+                                        )
+                                        Text(
+                                            text = skill,
+                                            style = MaterialTheme.typography.bodySmall.copy(
+                                                fontWeight = FontWeight.Medium
+                                            ),
+                                            color = TemplateDesigns.Classic.headerTextColor
+                                        )
+                                    }
+                                }
+                            }
                         }
                     }
                 }
             }
         }
 
-        // Right Column - Main Content
         LazyColumn(
             modifier = Modifier
-                .weight(0.65f)
+                .weight(0.64f)
                 .fillMaxHeight()
-                .background(MaterialTheme.colorScheme.surfaceContainerLowest),
-            contentPadding = PaddingValues(20.dp),
-            verticalArrangement = Arrangement.spacedBy(16.dp)
+                .background(design.pageBackground),
+            contentPadding = PaddingValues(design.contentPadding),
+            verticalArrangement = Arrangement.spacedBy(design.sectionSpacing)
         ) {
-            // Header Section
-            item {
-                Column(modifier = Modifier.fillMaxWidth()) {
-                    Text(
-                        text = cvData.fullName.uppercase(),
-                        style = MaterialTheme.typography.headlineLarge.copy(
-                            fontWeight = FontWeight.Bold
-                        ),
-                        color = MaterialTheme.colorScheme.onBackground
-                    )
-
-                    Spacer(Modifier.height(4.dp))
-
-                    Text(
-                        text = cvData.jobTitle,
-                        style = MaterialTheme.typography.titleLarge,
-                        color = MaterialTheme.colorScheme.primary
-                    )
-
-                    Spacer(Modifier.height(12.dp))
-
-                    HorizontalDivider(
-                        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
-                        thickness = 2.dp
-                    )
-
-                    Spacer(Modifier.height(12.dp))
-                }
-            }
-
-            // Professional Summary
             if (cvData.summary.isNotBlank()) {
                 item {
-                    TwoColumnMainSectionTitle(text = "PROFESSIONAL SUMMARY")
+                    TwoColumnMainSectionTitle(
+                        text = "PROFESSIONAL SUMMARY",
+                        accentColor = design.accentColor,
+                        dividerColor = design.dividerColor
+                    )
 
                     Text(
                         text = cvData.summary,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant
+                        style = MaterialTheme.typography.bodyMedium.copy(
+                            lineHeight = 22.sp
+                        ),
+                        color = design.bodyColor
                     )
-
-                    Spacer(Modifier.height(8.dp))
                 }
             }
 
-            // Experience
             if (cvData.experiences.isNotEmpty()) {
                 item {
-                    TwoColumnMainSectionTitle(text = "PROFESSIONAL EXPERIENCE")
+                    TwoColumnMainSectionTitle(
+                        text = "PROFESSIONAL EXPERIENCE",
+                        accentColor = design.accentColor,
+                        dividerColor = design.dividerColor
+                    )
                 }
 
                 items(cvData.experiences.size) { index ->
-                    TwoColumnExperienceItem(entry = cvData.experiences[index])
+                    TwoColumnExperienceItem(
+                        entry = cvData.experiences[index],
+                        accentColor = design.accentColor,
+                        bodyColor = design.bodyColor,
+                        isLast = index == cvData.experiences.size - 1
+                    )
                 }
             }
 
-            // Education
             if (cvData.education.isNotEmpty()) {
                 item {
-                    TwoColumnMainSectionTitle(text = "EDUCATION")
+                    TwoColumnMainSectionTitle(
+                        text = "EDUCATION",
+                        accentColor = design.accentColor,
+                        dividerColor = design.dividerColor
+                    )
                 }
 
                 items(cvData.education.size) { index ->
-                    TwoColumnEducationItem(entry = cvData.education[index])
+                    TwoColumnEducationItem(
+                        entry = cvData.education[index],
+                        accentColor = design.accentColor,
+                        bodyColor = design.bodyColor,
+                        isLast = index == cvData.education.size - 1
+                    )
                 }
             }
 
             item {
-                Spacer(Modifier.height(16.dp))
+                Spacer(Modifier.height(design.contentPadding))
             }
         }
     }
 }
 
-
 @Composable
-private fun TwoColumnSectionTitle(text: String) {
+private fun TwoColumnSidebarSectionTitle(
+    text: String,
+    accentColor: Color,
+    dividerColor: Color
+) {
     Column(modifier = Modifier.fillMaxWidth()) {
         Text(
             text = text,
-            style = MaterialTheme.typography.labelLarge.copy(fontWeight = FontWeight.Bold),
-            color = MaterialTheme.colorScheme.primary
+            style = MaterialTheme.typography.labelLarge.copy(
+                fontWeight = FontWeight.Bold,
+                letterSpacing = 0.8.sp
+            ),
+            color = accentColor
         )
 
         Spacer(Modifier.height(8.dp))
 
-        HorizontalDivider(
-            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
-            thickness = 1.dp
-        )
-
-        Spacer(Modifier.height(10.dp))
-    }
-}
-
-
-@Composable
-private fun TwoColumnMainSectionTitle(text: String) {
-    Column(modifier = Modifier.fillMaxWidth()) {
-        Text(
-            text = text,
-            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-            color = MaterialTheme.colorScheme.onBackground
-        )
-
-        Spacer(Modifier.height(8.dp))
-
-        HorizontalDivider(
-            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.5f),
-            thickness = 1.5.dp
+        Box(
+            modifier = Modifier
+                .width(40.dp)
+                .height(2.dp)
+                .background(accentColor)
+                .clip(RoundedCornerShape(2.dp))
         )
 
         Spacer(Modifier.height(12.dp))
     }
 }
 
+@Composable
+private fun TwoColumnMainSectionTitle(
+    text: String,
+    accentColor: Color,
+    dividerColor: Color
+) {
+    Column(modifier = Modifier.fillMaxWidth()) {
+        Row(
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.spacedBy(10.dp)
+        ) {
+            Box(
+                modifier = Modifier
+                    .width(4.dp)
+                    .height(20.dp)
+                    .clip(RoundedCornerShape(2.dp))
+                    .background(
+                        brush = Brush.verticalGradient(
+                            colors = listOf(accentColor, accentColor.copy(alpha = 0.5f))
+                        )
+                    )
+            )
+            Text(
+                text = text,
+                style = MaterialTheme.typography.titleMedium.copy(
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = 0.2.sp
+                ),
+                color = TemplateDesigns.Classic.headerTextColor
+            )
+        }
+
+        Spacer(Modifier.height(10.dp))
+
+        HorizontalDivider(
+            color = dividerColor,
+            thickness = 1.dp
+        )
+
+        Spacer(Modifier.height(14.dp))
+    }
+}
 
 @Composable
 private fun TwoColumnContactItem(
     icon: androidx.compose.ui.graphics.vector.ImageVector,
-    iconDescription: String,
-    text: String
+    text: String,
+    accentColor: Color,
+    bodyColor: Color
 ) {
     Row(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(vertical = 4.dp),
+            .padding(vertical = 5.dp),
         horizontalArrangement = Arrangement.spacedBy(8.dp),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        Icon(
-            imageVector = icon,
-            contentDescription = iconDescription,
-            modifier = Modifier.size(16.dp),
-            tint = MaterialTheme.colorScheme.primary
-        )
+        Box(
+            modifier = Modifier
+                .size(26.dp)
+                .clip(RoundedCornerShape(8.dp))
+                .background(accentColor.copy(alpha = 0.12f)),
+            contentAlignment = Alignment.Center
+        ) {
+            Icon(
+                imageVector = icon,
+                contentDescription = null,
+                modifier = Modifier.size(13.dp),
+                tint = accentColor
+            )
+        }
 
         Text(
             text = text,
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+            style = MaterialTheme.typography.bodySmall,
+            color = TemplateDesigns.Classic.headerTextColor,
+            maxLines = 2
         )
     }
 }
 
-
 @Composable
-private fun TwoColumnExperienceItem(entry: ExperienceEntry) {
+private fun TwoColumnExperienceItem(
+    entry: ExperienceEntry,
+    accentColor: Color,
+    bodyColor: Color,
+    isLast: Boolean
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 16.dp)
+            .padding(bottom = if (isLast) 0.dp else 14.dp)
     ) {
         Text(
             text = entry.role,
-            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-            color = MaterialTheme.colorScheme.onBackground
+            style = MaterialTheme.typography.titleMedium.copy(
+                fontWeight = FontWeight.Bold
+            ),
+            color = TemplateDesigns.Classic.headerTextColor
         )
 
-        Spacer(Modifier.height(2.dp))
+        Spacer(Modifier.height(3.dp))
 
-        Text(
-            text = entry.company,
-            style = MaterialTheme.typography.bodyMedium.copy(fontWeight = FontWeight.SemiBold),
-            color = MaterialTheme.colorScheme.primary
-        )
-
-        Spacer(Modifier.height(2.dp))
-
-        Text(
-            text = entry.dates,
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = entry.company,
+                style = MaterialTheme.typography.bodyMedium.copy(
+                    fontWeight = FontWeight.SemiBold
+                ),
+                color = accentColor
+            )
+            Text(
+                text = entry.dates,
+                style = MaterialTheme.typography.labelMedium,
+                color = bodyColor
+            )
+        }
 
         if (entry.description.isNotBlank()) {
             Spacer(Modifier.height(8.dp))
-
-            Row(modifier = Modifier.padding(bottom = 4.dp)) {
-                Text(
-                    text = "•",
-                    fontWeight = FontWeight.Bold
+            Row(
+                horizontalArrangement = Arrangement.spacedBy(10.dp),
+                modifier = Modifier.padding(start = 2.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .padding(top = 9.dp)
+                        .size(4.dp)
+                        .clip(CircleShape)
+                        .background(accentColor)
                 )
-
-                Spacer(Modifier.width(8.dp))
-
                 Text(
                     text = entry.description,
-                    style = MaterialTheme.typography.bodyMedium,
-                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                    style = MaterialTheme.typography.bodyMedium.copy(
+                        lineHeight = 21.sp
+                    ),
+                    color = bodyColor,
+                    modifier = Modifier.weight(1f)
                 )
             }
         }
     }
 }
 
-
 @Composable
-private fun TwoColumnEducationItem(entry: EducationEntry) {
+private fun TwoColumnEducationItem(
+    entry: EducationEntry,
+    accentColor: Color,
+    bodyColor: Color,
+    isLast: Boolean
+) {
     Column(
         modifier = Modifier
             .fillMaxWidth()
-            .padding(bottom = 12.dp)
+            .padding(bottom = if (isLast) 0.dp else 12.dp)
     ) {
         Text(
             text = entry.degree,
-            style = MaterialTheme.typography.titleMedium.copy(fontWeight = FontWeight.Bold),
-            color = MaterialTheme.colorScheme.onBackground
+            style = MaterialTheme.typography.titleMedium.copy(
+                fontWeight = FontWeight.Bold
+            ),
+            color = TemplateDesigns.Classic.headerTextColor
         )
 
-        Spacer(Modifier.height(2.dp))
+        Spacer(Modifier.height(3.dp))
 
-        Text(
-            text = entry.school,
-            style = MaterialTheme.typography.bodyMedium,
-            color = MaterialTheme.colorScheme.primary
-        )
-
-        Spacer(Modifier.height(2.dp))
-
-        Text(
-            text = entry.dates,
-            style = MaterialTheme.typography.labelMedium,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            Text(
+                text = entry.school,
+                style = MaterialTheme.typography.bodyMedium,
+                color = accentColor
+            )
+            Text(
+                text = entry.dates,
+                style = MaterialTheme.typography.labelMedium,
+                color = bodyColor
+            )
+        }
     }
 }

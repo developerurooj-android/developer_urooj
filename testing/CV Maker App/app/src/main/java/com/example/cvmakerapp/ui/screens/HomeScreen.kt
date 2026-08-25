@@ -29,16 +29,20 @@ import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.shadow
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.cvmakerapp.ui.theme.CardShadowElevated
+import com.example.cvmakerapp.ui.theme.CardShadowSoft
 import com.example.cvmakerapp.ui.theme.CVMakerAppTheme
 import com.example.cvmakerapp.ui.theme.ResponsiveUtils
 
@@ -299,78 +303,91 @@ private fun HomeContent(
 private fun CreateNewCvCard(
     onClick: () -> Unit
 ) {
-
-    Row(
-
+    Box(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(MaterialTheme.shapes.large)
-            .background(
-                MaterialTheme.colorScheme.primary
+            .shadow(
+                elevation = 6.dp,
+                spotColor = CardShadowElevated,
+                ambientColor = CardShadowElevated,
+                shape = RoundedCornerShape(18.dp)
             )
-            .padding(ResponsiveUtils.getResponsivePadding()),
-
-        verticalAlignment =
-            Alignment.CenterVertically,
-
-        horizontalArrangement =
-            Arrangement.SpaceBetween
-
     ) {
-
-        Column(
-            modifier = Modifier.weight(1f)
-        ) {
-
-            Text(
-                text = "Create New CV",
-                style = MaterialTheme.typography.titleLarge,
-                fontWeight = FontWeight.Bold,
-                color = MaterialTheme.colorScheme.onPrimary
-            )
-
-            Spacer(
-                modifier = Modifier.height(ResponsiveUtils.getResponsiveSpacing())
-            )
-
-            Text(
-                text = "Create your professional CV using our fixed template.",
-                style = MaterialTheme.typography.bodyMedium,
-                color = MaterialTheme.colorScheme.onPrimary.copy(
-                    alpha = 0.7f
-                )
-            )
-        }
-
-
-        Spacer(
-            modifier = Modifier.width(ResponsiveUtils.getResponsiveSpacing())
-        )
-
-
-        Box(
+        Row(
 
             modifier = Modifier
-                .size(ResponsiveUtils.getResponsiveButtonHeight() + 8.dp)
-                .clip(
-                    RoundedCornerShape(16.dp)
-                )
+                .fillMaxWidth()
+                .clip(RoundedCornerShape(18.dp))
                 .background(
-                    MaterialTheme.colorScheme.onPrimary
+                    brush = Brush.linearGradient(
+                        colors = listOf(
+                            MaterialTheme.colorScheme.primary,
+                            MaterialTheme.colorScheme.primary.copy(alpha = 0.85f)
+                        )
+                    )
                 )
-                .clickable(
-                    onClick = onClick
-                ),
+                .padding(ResponsiveUtils.getResponsivePadding() + 2.dp),
 
-            contentAlignment = Alignment.Center
+            verticalAlignment =
+                Alignment.CenterVertically,
+
+            horizontalArrangement =
+                Arrangement.SpaceBetween
 
         ) {
 
-            Icon(
-                imageVector = Icons.Filled.Add,
-                contentDescription = "Create New CV",
-                tint = MaterialTheme.colorScheme.primary
+            Column(
+                modifier = Modifier.weight(1f)
+            ) {
+
+                Text(
+                    text = "Create New CV",
+                    style = MaterialTheme.typography.titleLarge,
+                    fontWeight = FontWeight.Bold,
+                    color = MaterialTheme.colorScheme.onPrimary
+                )
+
+                Spacer(
+                    modifier = Modifier.height(ResponsiveUtils.getResponsiveSpacing())
+                )
+
+                Text(
+                    text = "Build your professional CV with premium templates",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onPrimary.copy(
+                        alpha = 0.82f
+                    )
+                )
+            }
+
+
+            Spacer(
+                modifier = Modifier.width(ResponsiveUtils.getResponsiveSpacing())
             )
+
+
+            Surface(
+                modifier = Modifier
+                    .size(ResponsiveUtils.getResponsiveButtonHeight() + 10.dp)
+                    .clickable(
+                        onClick = onClick
+                    ),
+                shape = RoundedCornerShape(16.dp),
+                color = MaterialTheme.colorScheme.onPrimary,
+                shadowElevation = 4.dp,
+                tonalElevation = 2.dp
+            ) {
+                Box(
+                    contentAlignment = Alignment.Center
+                ) {
+                    Icon(
+                        imageVector = Icons.Filled.Add,
+                        contentDescription = "Create New CV",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier.size(24.dp)
+                    )
+                }
+            }
         }
     }
 }
@@ -386,94 +403,115 @@ private fun RecentCvCard(
     onClick: () -> Unit,
     onMenuClick: () -> Unit
 ) {
-
-    Column(
-
+    Surface(
         modifier = Modifier
             .fillMaxWidth()
-            .clip(MaterialTheme.shapes.large)
-            .background(
-                MaterialTheme.colorScheme.surfaceContainerLowest
+            .shadow(
+                elevation = 3.dp,
+                spotColor = CardShadowSoft,
+                ambientColor = CardShadowSoft,
+                shape = RoundedCornerShape(16.dp)
             )
-            .border(
-                width = 1.dp,
-                color = MaterialTheme.colorScheme.outlineVariant,
-                shape = MaterialTheme.shapes.large
-            )
-            .clickable(
-                onClick = onClick
-            )
-            .padding(ResponsiveUtils.getResponsivePadding())
-
+            .clip(RoundedCornerShape(16.dp))
+            .clickable(onClick = onClick),
+        shape = RoundedCornerShape(16.dp),
+        color = MaterialTheme.colorScheme.surfaceContainerLowest,
+        border = androidx.compose.foundation.BorderStroke(
+            width = 0.8.dp,
+            color = MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.6f)
+        ),
+        tonalElevation = 1.dp
     ) {
-
-        Row(
-
-            modifier = Modifier.fillMaxWidth(),
-
-            horizontalArrangement =
-                Arrangement.SpaceBetween
-
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(ResponsiveUtils.getResponsivePadding() + 2.dp)
         ) {
 
-            Icon(
-                imageVector = Icons.Outlined.InsertDriveFile,
-                contentDescription = "CV",
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.size(28.dp)
+            Row(
+
+                modifier = Modifier.fillMaxWidth(),
+
+                horizontalArrangement =
+                    Arrangement.SpaceBetween
+
+            ) {
+                Surface(
+                    shape = RoundedCornerShape(10.dp),
+                    color = MaterialTheme.colorScheme.primary.copy(alpha = 0.10f)
+                ) {
+                    Icon(
+                        imageVector = Icons.Outlined.InsertDriveFile,
+                        contentDescription = "CV",
+                        tint = MaterialTheme.colorScheme.primary,
+                        modifier = Modifier
+                            .size(32.dp)
+                            .padding(6.dp)
+                    )
+                }
+
+                Surface(
+                    modifier = Modifier
+                        .size(32.dp)
+                        .clickable(onClick = onMenuClick),
+                    shape = RoundedCornerShape(8.dp),
+                    color = MaterialTheme.colorScheme.surfaceContainerLow,
+                    tonalElevation = 0.dp
+                ) {
+                    Box(modifier = Modifier.fillMaxSize(), contentAlignment = Alignment.Center) {
+                        Icon(
+                            imageVector = Icons.Outlined.MoreVert,
+                            contentDescription = "More options",
+                            tint = MaterialTheme.colorScheme.onSurfaceVariant,
+                            modifier = Modifier.size(18.dp)
+                        )
+                    }
+                }
+            }
+
+
+            Spacer(
+                modifier = Modifier.height(ResponsiveUtils.getResponsiveSpacing() * 2)
             )
 
 
-            Icon(
-                imageVector = Icons.Outlined.MoreVert,
-                contentDescription = "More options",
-                tint = MaterialTheme.colorScheme.onSurfaceVariant,
-                modifier = Modifier.clickable(
-                    onClick = onMenuClick
-                )
+            Text(
+                text = cv.title,
+                style = MaterialTheme.typography.titleLarge.copy(
+                    fontWeight = FontWeight.SemiBold
+                ),
+                color = MaterialTheme.colorScheme.onBackground
             )
-        }
 
 
-        Spacer(
-            modifier = Modifier.height(ResponsiveUtils.getResponsiveSpacing() * 2)
-        )
+            Spacer(
+                modifier = Modifier.height(ResponsiveUtils.getResponsiveSpacing())
+            )
 
 
-        Text(
-            text = cv.title,
-            style = MaterialTheme.typography.titleLarge,
-            color = MaterialTheme.colorScheme.onBackground
-        )
+            Text(
+                text = cv.editedLabel,
+                style = MaterialTheme.typography.labelSmall,
+                color = MaterialTheme.colorScheme.onSurfaceVariant
+            )
 
 
-        Spacer(
-            modifier = Modifier.height(ResponsiveUtils.getResponsiveSpacing())
-        )
+            Spacer(
+                modifier = Modifier.height(ResponsiveUtils.getResponsiveSpacing())
+            )
 
 
-        Text(
-            text = cv.editedLabel,
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
-        )
+            Row(
+                horizontalArrangement =
+                    Arrangement.spacedBy(ResponsiveUtils.getResponsiveSpacing())
+            ) {
 
+                cv.tags.forEach { tag ->
 
-        Spacer(
-            modifier = Modifier.height(ResponsiveUtils.getResponsiveSpacing())
-        )
-
-
-        Row(
-            horizontalArrangement =
-                Arrangement.spacedBy(ResponsiveUtils.getResponsiveSpacing())
-        ) {
-
-            cv.tags.forEach { tag ->
-
-                TagChip(
-                    text = tag
-                )
+                    TagChip(
+                        text = tag
+                    )
+                }
             }
         }
     }
@@ -489,25 +527,29 @@ private fun TagChip(
     text: String
 ) {
 
-    Box(
-
-        modifier = Modifier
-            .clip(MaterialTheme.shapes.small)
-            .background(
-                MaterialTheme.colorScheme.surfaceContainerHigh
-            )
-            .padding(
-                horizontal = 10.dp,
-                vertical = 4.dp
-            )
-
-    ) {
-
-        Text(
-            text = text,
-            style = MaterialTheme.typography.labelSmall,
-            color = MaterialTheme.colorScheme.onSurfaceVariant
+    Surface(
+        shape = RoundedCornerShape(50),
+        color = MaterialTheme.colorScheme.primary.copy(alpha = 0.08f),
+        border = androidx.compose.foundation.BorderStroke(
+            width = 0.5.dp,
+            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.15f)
         )
+    ) {
+        Box(
+            modifier = Modifier
+                .padding(
+                    horizontal = 12.dp,
+                    vertical = 5.dp
+                )
+        ) {
+            Text(
+                text = text,
+                style = MaterialTheme.typography.labelSmall.copy(
+                    fontWeight = FontWeight.SemiBold
+                ),
+                color = MaterialTheme.colorScheme.primary
+            )
+        }
     }
 }
 
