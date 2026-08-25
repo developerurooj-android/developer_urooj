@@ -6,6 +6,7 @@ import com.example.cvmakerapp.data.TemplateDesigns
 
 data class PdfDesignSpec(
     val accentColor: Int,
+    val accentColorSoft: Int,
     val headerBackground: Int?,
     val headerTextColor: Int,
     val sectionTitleColor: Int,
@@ -13,10 +14,12 @@ data class PdfDesignSpec(
     val subtitleColor: Int,
     val dividerColor: Int,
     val sidebarBackground: Int?,
+    val sidebarTextColor: Int,
     val pageBackground: Int,
     val margin: Float,
     val sectionSpacing: Float,
-    val profileImageSize: Float
+    val profileImageSize: Float,
+    val cardCornerRadius: Float
 )
 
 object PdfDesigns {
@@ -33,6 +36,7 @@ object PdfDesigns {
     private fun fromTemplateDesign(design: com.example.cvmakerapp.data.TemplateDesign): PdfDesignSpec {
         return PdfDesignSpec(
             accentColor = composeColorToInt(design.accentColor),
+            accentColorSoft = composeColorToInt(design.accentColorSoft),
             headerBackground = design.headerBackground?.let { composeColorToInt(it) },
             headerTextColor = composeColorToInt(design.headerTextColor),
             sectionTitleColor = composeColorToInt(design.sectionTitleColor),
@@ -40,14 +44,12 @@ object PdfDesigns {
             subtitleColor = composeColorToInt(design.subtitleColor),
             dividerColor = composeColorToInt(design.dividerColor),
             sidebarBackground = design.sidebarBackground?.let { composeColorToInt(it) },
+            sidebarTextColor = composeColorToInt(design.sidebarTextColor),
             pageBackground = composeColorToInt(design.pageBackground),
             margin = 40f,
-            sectionSpacing = 14f,
-            profileImageSize = when (design.profileImageSize.value) {
-                in 80f..130f -> 80f
-                in 60f..79f -> 64f
-                else -> 72f
-            }
+            sectionSpacing = 16f,
+            profileImageSize = design.profileImageSize.value,
+            cardCornerRadius = design.cardCornerRadius.value
         )
     }
 

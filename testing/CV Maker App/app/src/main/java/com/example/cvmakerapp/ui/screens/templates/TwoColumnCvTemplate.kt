@@ -58,143 +58,95 @@ fun TwoColumnCvTemplate(
     ) {
         Surface(
             modifier = Modifier
-                .weight(0.36f)
+                .weight(0.32f)
                 .fillMaxHeight(),
-            color = Color.Transparent
+            color = design.sidebarBackground ?: Color(0xFFF5F5F5)
         ) {
-            Box(
+            LazyColumn(
                 modifier = Modifier
                     .fillMaxSize()
-                    .background(
-                        brush = Brush.verticalGradient(
-                            colors = listOf(
-                                design.sidebarBackground ?: design.accentColorSoft,
-                                design.accentColorSoft
-                            )
-                        )
-                    )
+                    .padding(design.contentPadding - 4.dp),
+                verticalArrangement = Arrangement.spacedBy(design.sectionSpacing),
+                contentPadding = PaddingValues(bottom = design.contentPadding)
             ) {
-                LazyColumn(
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(design.contentPadding - 2.dp),
-                    verticalArrangement = Arrangement.spacedBy(design.sectionSpacing),
-                    contentPadding = PaddingValues(bottom = design.contentPadding)
-                ) {
-                    if (!cvData.profileImageUri.isNullOrBlank()) {
-                        item {
-                            Column(
-                                modifier = Modifier.fillMaxWidth(),
-                                horizontalAlignment = Alignment.CenterHorizontally
-                            ) {
-                                Surface(
-                                    modifier = Modifier.size(design.profileImageSize),
-                                    shape = CircleShape,
-                                    shadowElevation = 4.dp,
-                                    color = Color.Transparent
-                                ) {
-                                    GlideImage(
-                                        model = cvData.profileImageUri,
-                                        contentDescription = "Profile photo",
-                                        modifier = Modifier
-                                            .fillMaxSize()
-                                            .clip(CircleShape),
-                                        contentScale = ContentScale.Crop
-                                    )
-                                }
-                            }
-                        }
-                    }
-
+                if (!cvData.profileImageUri.isNullOrBlank()) {
                     item {
                         Column(
-                            modifier = Modifier.fillMaxWidth(),
+                            modifier = Modifier.fillMaxWidth().padding(top = 10.dp),
                             horizontalAlignment = Alignment.CenterHorizontally
                         ) {
-                            Text(
-                                text = cvData.fullName.ifBlank { "Your Name" },
-                                style = MaterialTheme.typography.headlineSmall.copy(
-                                    fontWeight = FontWeight.Bold
-                                ),
-                                color = TemplateDesigns.Classic.headerTextColor,
-                                lineHeight = 28.sp
-                            )
-                            if (cvData.jobTitle.isNotBlank()) {
-                                Spacer(Modifier.height(6.dp))
-                                Surface(
-                                    shape = RoundedCornerShape(50),
-                                    color = design.accentColor
-                                ) {
-                                    Text(
-                                        text = cvData.jobTitle,
-                                        style = MaterialTheme.typography.labelMedium.copy(
-                                            fontWeight = FontWeight.SemiBold
-                                        ),
-                                        color = Color.White,
-                                        modifier = Modifier.padding(
-                                            horizontal = 12.dp,
-                                            vertical = 4.dp
-                                        )
-                                    )
-                                }
-                            }
-                        }
-                    }
-
-                    item {
-                        TwoColumnSidebarSectionTitle(
-                            text = "CONTACT",
-                            accentColor = design.accentColor,
-                            dividerColor = design.dividerColor
-                        )
-
-                        Column(modifier = Modifier.fillMaxWidth()) {
-                            val contacts = listOfNotNull(
-                                cvData.email.takeIf { it.isNotBlank() }?.let { Icons.Default.Email to it },
-                                cvData.phone.takeIf { it.isNotBlank() }?.let { Icons.Default.Phone to it },
-                                cvData.location.takeIf { it.isNotBlank() }?.let { Icons.Default.LocationOn to it },
-                                cvData.linkedIn.takeIf { it.isNotBlank() }?.let { Icons.Default.Person to it },
-                                cvData.website.takeIf { it.isNotBlank() }?.let { Icons.Default.Language to it }
-                            )
-                            contacts.forEach { (icon, text) ->
-                                TwoColumnContactItem(
-                                    icon = icon,
-                                    text = text,
-                                    accentColor = design.accentColor,
-                                    bodyColor = design.bodyColor
+                            Surface(
+                                modifier = Modifier.size(design.profileImageSize),
+                                shape = CircleShape,
+                                shadowElevation = 2.dp,
+                                color = Color.White
+                            ) {
+                                GlideImage(
+                                    model = cvData.profileImageUri,
+                                    contentDescription = "Profile photo",
+                                    modifier = Modifier
+                                        .fillMaxSize()
+                                        .clip(CircleShape),
+                                    contentScale = ContentScale.Crop
                                 )
                             }
                         }
                     }
+                }
 
-                    if (cvData.skills.isNotEmpty()) {
-                        item {
-                            TwoColumnSidebarSectionTitle(
-                                text = "SKILLS",
+                item {
+                    TwoColumnSidebarSectionTitle(
+                        text = "CONTACT",
+                        accentColor = design.accentColor,
+                        dividerColor = design.dividerColor
+                    )
+
+                    Column(modifier = Modifier.fillMaxWidth()) {
+                        val contacts = listOfNotNull(
+                            cvData.email.takeIf { it.isNotBlank() }?.let { Icons.Default.Email to it },
+                            cvData.phone.takeIf { it.isNotBlank() }?.let { Icons.Default.Phone to it },
+                            cvData.location.takeIf { it.isNotBlank() }?.let { Icons.Default.LocationOn to it },
+                            cvData.linkedIn.takeIf { it.isNotBlank() }?.let { Icons.Default.Person to it },
+                            cvData.website.takeIf { it.isNotBlank() }?.let { Icons.Default.Language to it }
+                        )
+                        contacts.forEach { (icon, text) ->
+                            TwoColumnContactItem(
+                                icon = icon,
+                                text = text,
                                 accentColor = design.accentColor,
-                                dividerColor = design.dividerColor
+                                bodyColor = design.bodyColor
                             )
+                        }
+                    }
+                }
 
-                            Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
-                                cvData.skills.forEach { skill ->
-                                    Row(
-                                        verticalAlignment = Alignment.CenterVertically,
-                                        horizontalArrangement = Arrangement.spacedBy(8.dp)
-                                    ) {
-                                        Box(
-                                            modifier = Modifier
-                                                .size(5.dp)
-                                                .clip(CircleShape)
-                                                .background(design.accentColor)
-                                        )
-                                        Text(
-                                            text = skill,
-                                            style = MaterialTheme.typography.bodySmall.copy(
-                                                fontWeight = FontWeight.Medium
-                                            ),
-                                            color = TemplateDesigns.Classic.headerTextColor
-                                        )
-                                    }
+                if (cvData.skills.isNotEmpty()) {
+                    item {
+                        TwoColumnSidebarSectionTitle(
+                            text = "SKILLS",
+                            accentColor = design.accentColor,
+                            dividerColor = design.dividerColor
+                        )
+
+                        Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                            cvData.skills.forEach { skill ->
+                                Row(
+                                    verticalAlignment = Alignment.CenterVertically,
+                                    horizontalArrangement = Arrangement.spacedBy(8.dp)
+                                ) {
+                                    Box(
+                                        modifier = Modifier
+                                            .size(5.dp)
+                                            .clip(CircleShape)
+                                            .background(design.accentColor)
+                                    )
+                                    Text(
+                                        text = skill,
+                                        style = MaterialTheme.typography.bodySmall.copy(
+                                            fontWeight = FontWeight.Medium
+                                        ),
+                                        color = design.sidebarTextColor
+                                    )
                                 }
                             }
                         }
@@ -205,12 +157,34 @@ fun TwoColumnCvTemplate(
 
         LazyColumn(
             modifier = Modifier
-                .weight(0.64f)
+                .weight(0.68f)
                 .fillMaxHeight()
                 .background(design.pageBackground),
             contentPadding = PaddingValues(design.contentPadding),
             verticalArrangement = Arrangement.spacedBy(design.sectionSpacing)
         ) {
+            item {
+                Column(modifier = Modifier.fillMaxWidth()) {
+                    Text(
+                        text = cvData.fullName.ifBlank { "Your Name" },
+                        style = MaterialTheme.typography.headlineMedium.copy(
+                            fontWeight = FontWeight.Bold
+                        ),
+                        color = design.headerTextColor
+                    )
+                    if (cvData.jobTitle.isNotBlank()) {
+                        Spacer(Modifier.height(4.dp))
+                        Text(
+                            text = cvData.jobTitle,
+                            style = MaterialTheme.typography.titleMedium.copy(
+                                fontWeight = FontWeight.SemiBold
+                            ),
+                            color = design.accentColor.copy(alpha = 0.8f)
+                        )
+                    }
+                }
+            }
+
             if (cvData.summary.isNotBlank()) {
                 item {
                     TwoColumnMainSectionTitle(
@@ -332,7 +306,7 @@ private fun TwoColumnMainSectionTitle(
                     fontWeight = FontWeight.Bold,
                     letterSpacing = 0.2.sp
                 ),
-                color = TemplateDesigns.Classic.headerTextColor
+                color = accentColor
             )
         }
 
@@ -379,7 +353,7 @@ private fun TwoColumnContactItem(
         Text(
             text = text,
             style = MaterialTheme.typography.bodySmall,
-            color = TemplateDesigns.Classic.headerTextColor,
+            color = bodyColor,
             maxLines = 2
         )
     }
@@ -402,7 +376,7 @@ private fun TwoColumnExperienceItem(
             style = MaterialTheme.typography.titleMedium.copy(
                 fontWeight = FontWeight.Bold
             ),
-            color = TemplateDesigns.Classic.headerTextColor
+            color = bodyColor.copy(alpha = 0.9f)
         )
 
         Spacer(Modifier.height(3.dp))
@@ -469,7 +443,7 @@ private fun TwoColumnEducationItem(
             style = MaterialTheme.typography.titleMedium.copy(
                 fontWeight = FontWeight.Bold
             ),
-            color = TemplateDesigns.Classic.headerTextColor
+            color = bodyColor.copy(alpha = 0.9f)
         )
 
         Spacer(Modifier.height(3.dp))

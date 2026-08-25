@@ -1,241 +1,206 @@
 package com.example.cvmakerapp.pdf
 
 import android.content.Context
+import android.graphics.Canvas
+import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
 import com.example.cvmakerapp.data.CvData
 import com.example.cvmakerapp.data.CvTemplate
 
 object ModernPdfRenderer {
 
-    fun render(document: PdfDocument, cvData: CvData, context: Context?) {
+    fun render(
+        document: PdfDocument,
+        cvData: CvData,
+        context: Context?
+    ) {
         val design = PdfDesigns.forTemplate(CvTemplate.MODERN)
-        val headerHeight = 140f
-        val cardPadding = 12f
-
+        
+        val margin = design.margin
         val writer = PdfPageWriter(
             document = document,
-            marginLeft = design.margin,
-            marginRight = design.margin,
-            marginTop = design.margin,
-            marginBottom = design.margin,
-            drawPageBackground = { canvas, width, height, pageIndex ->
-                if (pageIndex == 1) {
-                    val headerColor = design.headerBackground ?: return@drawPageBackground
-                    canvas.drawRect(0f, 0f, width.toFloat(), headerHeight, PdfTextHelper.createFillPaint(headerColor))
-                }
-                canvas.drawRect(0f, 0f, width.toFloat(), height.toFloat(), PdfTextHelper.createFillPaint(design.pageBackground))
-                if (pageIndex == 1) {
-                    val headerColor = design.headerBackground ?: return@drawPageBackground
-                    canvas.drawRect(0f, 0f, width.toFloat(), headerHeight, PdfTextHelper.createFillPaint(headerColor))
-                }
-            }
+            marginLeft = margin,
+            marginRight = margin,
+            marginTop = 0f, 
+            marginBottom = 30f
         )
 
-        val headerTitlePaint = PdfTextHelper.createTextPaint(20f, design.headerTextColor, bold = true)
-        val headerSubtitlePaint = PdfTextHelper.createTextPaint(11.5f, design.headerTextColor)
-        val contactTextPaint = PdfTextHelper.createTextPaint(8.5f, design.bodyColor)
-        val sectionTitlePaint = PdfTextHelper.createTextPaint(10.5f, design.accentColor, bold = true)
-        val subtitlePaint = PdfTextHelper.createTextPaint(10.5f, design.subtitleColor, bold = true)
-        val bodyPaint = PdfTextHelper.createTextPaint(9.5f, design.bodyColor)
-        val dividerPaint = PdfTextHelper.createLinePaint(design.accentColor, 0.8f)
+        // Typography Standardized from preview
+        val namePaint = PdfTextHelper.createTextPaint(28f, 0xFF0F172A.toInt(), bold = true) // OnBackground
+        val jobPaint = PdfTextHelper.createTextPaint(20f, design.accentColor, bold = true)
+        val sectionTitlePaint = PdfTextHelper.createTextPaint(14f, design.accentColor, bold = true)
+        val subtitlePaint = PdfTextHelper.createTextPaint(16f, 0xFF0F172A.toInt(), bold = true) // Role/Degree
+        val bodyPaint = PdfTextHelper.createTextPaint(14f, design.bodyColor)
+        val datePaint = PdfTextHelper.createTextPaint(12f, design.accentColor, bold = true)
+        
+        val headerBgPaint = PdfTextHelper.createFillPaint(design.headerBackground ?: design.accentColor)
+        val cardBgPaint = PdfTextHelper.createFillPaint(0xFFFFFFFF.toInt())
+        val pageBgPaint = PdfTextHelper.createFillPaint(design.pageBackground)
         val accentBarPaint = PdfTextHelper.createFillPaint(design.accentColor)
-        val softBgPaint = PdfTextHelper.createFillPaint(
-            android.graphics.Color.argb(10,
-                android.graphics.Color.red(design.accentColor),
-                android.graphics.Color.green(design.accentColor),
-                android.graphics.Color.blue(design.accentColor))
-        )
-        val cardBgPaint = PdfTextHelper.createFillPaint(
-            android.graphics.Color.argb(6,
-                android.graphics.Color.red(design.bodyColor),
-                android.graphics.Color.green(design.bodyColor),
-                android.graphics.Color.blue(design.bodyColor))
-        )
-        val skillChipPaint = PdfTextHelper.createTextPaint(9f, design.sectionTitleColor, bold = true)
+        val softAccentPaint = PdfTextHelper.createFillPaint(design.accentColorSoft)
 
         writer.start()
 
-        val headerX = writer.marginLeft
-        val headerY = 18f
+        // Page background
+        writer.canvas!!.drawRect(0f, 0f, writer.pageWidth.toFloat(), writer.pageHeight.toFloat(), pageBgPaint)
 
+        // ---------------------------------------------------------
+        // HEADER: TEAL BOX + WHITE CARD
+        // ---------------------------------------------------------
+        val headerBoxH = 180f
+        writer.canvas!!.drawRect(0f, 0f, writer.pageWidth.toFloat(), headerBoxH, headerBgPaint)
+        
+        val headerCardTop = 40f
+        val headerCardH = 100f
+        writer.canvas!!.drawRoundRect(margin, headerCardTop, writer.pageWidth - margin, headerCardTop + headerCardH, 14f, 14f, cardBgPaint)
+
+        val imageSize = design.profileImageSize
+        val imageX = margin + 20f
+        val imageY = headerCardTop + (headerCardH - imageSize) / 2f
         var profileImageDrawn = false
         if (!cvData.profileImageUri.isNullOrBlank() && context != null) {
             try {
-                val bitmap = PdfImageHelper.loadBitmapFromUri(context, cvData.profileImageUri, 90)
+                val bitmap = PdfImageHelper.loadBitmapFromUri(context, cvData.profileImageUri, 150)
                 if (bitmap != null) {
-                    val cardTop = headerY
-                    val cardLeft = headerX
-                    val cardBottom = headerY + 88f
-                    val cardRight = headerX + 88f
-                    writer.canvas!!.drawRoundRect(cardLeft - 1f, cardTop - 1f, cardRight + 1f, cardBottom + 1f, 10f, 10f,
-                        PdfTextHelper.createFillPaint(
-                            android.graphics.Color.argb(40, 0, 0, 0)
-                        )
-                    )
-                    writer.canvas!!.drawRoundRect(cardLeft, cardTop, cardRight, cardBottom, 10f, 10f,
-                        PdfTextHelper.createFillPaint(design.headerTextColor)
-                    )
-                    PdfImageHelper.drawCircularImage(writer.canvas!!, bitmap, cardLeft + 8f, cardTop + 8f, 72f)
+                    PdfImageHelper.drawCircularImage(writer.canvas!!, bitmap, imageX, imageY, imageSize)
                     profileImageDrawn = true
                 }
             } catch (_: Exception) { }
         }
 
-        val nameX = if (profileImageDrawn) headerX + 100f else headerX
-        val nameTopY = headerY + 18f
-        writer.canvas!!.drawText(cvData.fullName.ifBlank { "Your Name" }, nameX, nameTopY + headerTitlePaint.textSize, headerTitlePaint)
+        val textStartX = if (profileImageDrawn) imageX + imageSize + 20f else margin + 25f
+        val nameBaselineY = headerCardTop + 45f
+        writer.canvas!!.drawText(cvData.fullName, textStartX, nameBaselineY, namePaint)
+        
         if (cvData.jobTitle.isNotBlank()) {
-            writer.canvas!!.drawText(cvData.jobTitle, nameX, nameTopY + headerTitlePaint.textSize + 26f, headerSubtitlePaint)
+            val yJob = nameBaselineY + 28f
+            writer.canvas!!.drawCircle(textStartX + 4f, yJob - 6f, 3f, accentBarPaint)
+            writer.canvas!!.drawText(cvData.jobTitle, textStartX + 14f, yJob, jobPaint)
         }
 
-        writer.setY(headerHeight + 16f)
+        writer.y = headerCardTop + headerCardH + 18f
 
-        val contactPairs = mutableListOf<Pair<String, String>>()
-        if (cvData.email.isNotBlank()) contactPairs.add("✉" to cvData.email)
-        if (cvData.phone.isNotBlank()) contactPairs.add("☎" to cvData.phone)
-        if (cvData.location.isNotBlank()) contactPairs.add("📍" to cvData.location)
-        if (cvData.linkedIn.isNotBlank()) contactPairs.add("👤" to cvData.linkedIn)
-        if (cvData.website.isNotBlank()) contactPairs.add("🌐" to cvData.website)
+        // ---------------------------------------------------------
+        // CONTACT CARD
+        // ---------------------------------------------------------
+        val contactItems = listOfNotNull(
+            cvData.email.takeIf { it.isNotBlank() }?.let { "✉" to it },
+            cvData.phone.takeIf { it.isNotBlank() }?.let { "☎" to it },
+            cvData.location.takeIf { it.isNotBlank() }?.let { "📍" to it },
+            cvData.linkedIn.takeIf { it.isNotBlank() }?.let { "👤" to it },
+            cvData.website.takeIf { it.isNotBlank() }?.let { "🌐" to it }
+        )
 
-        if (contactPairs.isNotEmpty()) {
-            val contactBoxTop = writer.y
-            val contactBoxLeft = writer.marginLeft
-            val contactBoxRight = writer.marginLeft + writer.contentWidth
+        if (contactItems.isNotEmpty()) {
             val itemsPerRow = 2
-            val rows = (contactPairs.size + itemsPerRow - 1) / itemsPerRow
-            val tileHeight = 30f
-            val tileGap = 8f
-            val rowGap = 6f
-            val contactBoxHeight = cardPadding * 2 + rows * tileHeight + (rows - 1) * rowGap
+            val colW = writer.contentWidth / itemsPerRow
+            val rows = (contactItems.size + itemsPerRow - 1) / itemsPerRow
+            val boxH = rows * 28f + 16f
+            
+            writer.canvas!!.drawRoundRect(margin, writer.y, writer.pageWidth - margin, writer.y + boxH, 14f, 14f, cardBgPaint)
+            writer.advance(16f)
 
-            writer.canvas!!.drawRoundRect(
-                contactBoxLeft, contactBoxTop, contactBoxRight, contactBoxTop + contactBoxHeight,
-                12f, 12f, cardBgPaint
-            )
-
-            val innerLeft = contactBoxLeft + cardPadding
-            val tileFullWidth = contactBoxRight - cardPadding - innerLeft
-            val tileWidth = (tileFullWidth - tileGap * (itemsPerRow - 1)) / itemsPerRow
-
-            contactPairs.chunked(itemsPerRow).forEachIndexed { rowIdx, rowTiles ->
-                rowTiles.forEachIndexed { colIdx, (icon, value) ->
-                    val tileLeft = innerLeft + colIdx * (tileWidth + tileGap)
-                    val tileTop = contactBoxTop + cardPadding + rowIdx * (tileHeight + rowGap)
-                    writer.canvas!!.drawRoundRect(
-                        tileLeft, tileTop, tileLeft + 28f, tileTop + tileHeight,
-                        7f, 7f, softBgPaint
-                    )
-                    val iconX = tileLeft + 7f
-                    val iconY = tileTop + tileHeight / 2f + contactTextPaint.textSize * 0.32f
-                    writer.canvas!!.drawText(icon, iconX, iconY, PdfTextHelper.createTextPaint(10f, design.accentColor, bold = true))
-                    val valueX = tileLeft + 36f
-                    val valueY = tileTop + tileHeight / 2f + contactTextPaint.textSize * 0.32f
-                    writer.canvas!!.drawText(value, valueX, valueY, contactTextPaint)
+            contactItems.chunked(itemsPerRow).forEach { row ->
+                row.forEachIndexed { i, (icon, value) ->
+                    val x = margin + 20f + (i * colW)
+                    // Icon Box
+                    writer.canvas!!.drawRoundRect(x, writer.y, x + 24f, writer.y + 24f, 6f, 6f, softAccentPaint)
+                    writer.canvas!!.drawText(icon, x + 6f, writer.y + 17f, PdfTextHelper.createTextPaint(12f, design.accentColor, bold = true))
+                    
+                    val valLines = PdfTextHelper.wrapText(value, bodyPaint, (colW - 50).toInt())
+                    writer.canvas!!.drawText(valLines[0], x + 30f, writer.y + 17f, bodyPaint)
                 }
+                writer.advance(28f)
             }
-            writer.advance(contactBoxHeight + 12f)
+            writer.advance(10f)
         }
 
-        fun drawSectionCard(title: String, contentBlock: () -> Unit) {
-            writer.ensureSpace(30f)
+        // ---------------------------------------------------------
+        // SECTION CARD HELPER
+        // ---------------------------------------------------------
+        fun drawModernSection(title: String, block: () -> Unit) {
+            writer.ensureSpace(60f)
+            val titleY = writer.y
+            // Section Marker
+            writer.canvas!!.drawRect(margin, titleY, margin + 5f, titleY + 22f, accentBarPaint)
+            writer.canvas!!.drawText(title.uppercase(), margin + 18f, titleY + 17f, sectionTitlePaint)
+            writer.advance(32f)
+
+            // Measure block if possible or just use a card per item
+            block()
+            writer.advance(15f)
+        }
+
+        fun drawContentCard(block: () -> Unit) {
             val cardTop = writer.y
-            writer.canvas!!.drawText(title, writer.marginLeft + 10f, cardTop + sectionTitlePaint.textSize * 0.8f, sectionTitlePaint)
-            writer.canvas!!.drawRect(writer.marginLeft, cardTop + 1f, writer.marginLeft + 3.5f, cardTop + 13f, accentBarPaint)
-            writer.advance(14f)
-            val contentTop = writer.y
-            contentBlock()
-            val contentBottom = writer.y + 4f
-
-            writer.canvas!!.drawLine(
-                writer.marginLeft + 20f,
-                cardTop + sectionTitlePaint.textSize + 4f,
-                writer.marginLeft + writer.contentWidth,
-                cardTop + sectionTitlePaint.textSize + 4f,
-                dividerPaint
-            )
-
-            writer.y = contentBottom
+            block()
+            val cardBottom = writer.y
+            writer.canvas!!.drawRoundRect(margin, cardTop - 5f, writer.pageWidth - margin, cardBottom + 5f, 14f, 14f, cardBgPaint)
+            // Re-draw text logic in cards is hard with current writer, so we'll draw background before content
         }
 
         if (cvData.summary.isNotBlank()) {
-            drawSectionCard("PROFESSIONAL SUMMARY") {
-                writer.drawWrappedText(cvData.summary, writer.marginLeft, writer.contentWidth, bodyPaint, 10f)
-                writer.advance(6f)
+            drawModernSection("Summary") {
+                val lines = PdfTextHelper.wrapText(cvData.summary, bodyPaint, (writer.contentWidth - 40).toInt())
+                val h = lines.size * 22f + 20f
+                writer.canvas!!.drawRoundRect(margin, writer.y, writer.pageWidth - margin, writer.y + h, 14f, 14f, cardBgPaint)
+                lines.forEachIndexed { i, line ->
+                    writer.canvas!!.drawText(line, margin + 20f, writer.y + 20f + (i * 22f), bodyPaint)
+                }
+                writer.advance(h)
             }
-            writer.advance(10f)
         }
 
         if (cvData.experiences.isNotEmpty()) {
-            drawSectionCard("PROFESSIONAL EXPERIENCE") {
+            drawModernSection("Experience") {
                 cvData.experiences.forEach { exp ->
-                    writer.drawTextLine(exp.role, writer.marginLeft, subtitlePaint, 12f)
-
-                    val dateBoxTop = writer.y
-                    val datePad = 7f
-                    val dateH = 14f
-                    val dateWidth = contactTextPaint.measureText(exp.dates) + datePad * 2
-                    writer.canvas!!.drawRoundRect(
-                        writer.marginLeft, dateBoxTop, writer.marginLeft + dateWidth, dateBoxTop + dateH,
-                        50f, 50f, softBgPaint
-                    )
-                    writer.canvas!!.drawText(exp.dates, writer.marginLeft + datePad, dateBoxTop + contactTextPaint.textSize * 0.75f + 2f,
-                        PdfTextHelper.createTextPaint(8.5f, design.sectionTitleColor, bold = true)
-                    )
-                    writer.advance(dateH + 2f)
-
-                    writer.drawTextLine(exp.company, writer.marginLeft, bodyPaint, 10f)
-                    if (exp.description.isNotBlank()) {
-                        writer.drawWrappedText("•  ${exp.description}", writer.marginLeft + 2f, writer.contentWidth - 4f, bodyPaint, 9.5f)
+                    val descLines = if (exp.description.isNotBlank()) PdfTextHelper.wrapText(exp.description, bodyPaint, (writer.contentWidth - 40).toInt()) else emptyList()
+                    val h = 65f + (descLines.size * 21f)
+                    writer.ensureSpace(h + 10f)
+                    writer.canvas!!.drawRoundRect(margin, writer.y, writer.pageWidth - margin, writer.y + h, 14f, 14f, cardBgPaint)
+                    
+                    writer.canvas!!.drawText(exp.role, margin + 20f, writer.y + 25f, subtitlePaint)
+                    writer.canvas!!.drawText(exp.company, margin + 20f, writer.y + 45f, bodyPaint)
+                    
+                    val dW = datePaint.measureText(exp.dates)
+                    writer.canvas!!.drawRoundRect(writer.pageWidth - margin - dW - 20f, writer.y + 12f, writer.pageWidth - margin - 10f, writer.y + 32f, 6f, 6f, softAccentPaint)
+                    writer.canvas!!.drawText(exp.dates, writer.pageWidth - margin - dW - 15f, writer.y + 26f, datePaint)
+                    
+                    descLines.forEachIndexed { i, line ->
+                        writer.canvas!!.drawText(line, margin + 20f, writer.y + 65f + (i * 21f), bodyPaint)
                     }
-                    writer.advance(6f)
+                    writer.advance(h + 10f)
                 }
             }
-            writer.advance(10f)
         }
 
         if (cvData.education.isNotEmpty()) {
-            drawSectionCard("EDUCATION") {
+            drawModernSection("Education") {
                 cvData.education.forEach { edu ->
-                    writer.drawTextLine(edu.degree, writer.marginLeft, subtitlePaint, 12f)
-                    val dateBoxTop = writer.y
-                    val datePad = 7f
-                    val dateH = 14f
-                    val dateWidth = contactTextPaint.measureText(edu.dates) + datePad * 2
-                    writer.canvas!!.drawRoundRect(
-                        writer.marginLeft, dateBoxTop, writer.marginLeft + dateWidth, dateBoxTop + dateH,
-                        50f, 50f, softBgPaint
-                    )
-                    writer.canvas!!.drawText(edu.dates, writer.marginLeft + datePad, dateBoxTop + contactTextPaint.textSize * 0.75f + 2f,
-                        PdfTextHelper.createTextPaint(8.5f, design.sectionTitleColor, bold = true)
-                    )
-                    writer.advance(dateH + 2f)
-                    writer.drawTextLine(edu.school, writer.marginLeft, bodyPaint, 10f)
-                    writer.advance(6f)
+                    val h = 60f
+                    writer.ensureSpace(h + 10f)
+                    writer.canvas!!.drawRoundRect(margin, writer.y, writer.pageWidth - margin, writer.y + h, 14f, 14f, cardBgPaint)
+                    writer.canvas!!.drawText(edu.degree, margin + 20f, writer.y + 25f, subtitlePaint)
+                    writer.canvas!!.drawText(edu.school, margin + 20f, writer.y + 45f, bodyPaint)
+                    val dW = bodyPaint.measureText(edu.dates)
+                    writer.canvas!!.drawText(edu.dates, writer.pageWidth - margin - dW - 20f, writer.y + 25f, bodyPaint)
+                    writer.advance(h + 10f)
                 }
             }
-            writer.advance(10f)
         }
 
         if (cvData.skills.isNotEmpty()) {
-            drawSectionCard("CORE SKILLS") {
-                var chipX = writer.marginLeft
-                var chipY = writer.y
-                val maxX = writer.marginLeft + writer.contentWidth
-                val chipPadX = 10f
-                val chipH = 18f
-                val chipGap = 6f
+            drawModernSection("Skills") {
+                val h = 45f
+                writer.ensureSpace(h + 10f)
+                writer.canvas!!.drawRoundRect(margin, writer.y, writer.pageWidth - margin, writer.y + h, 14f, 14f, cardBgPaint)
+                var x = margin + 20f
                 cvData.skills.forEach { skill ->
-                    val w = skillChipPaint.measureText(skill) + chipPadX * 2
-                    if (chipX + w > maxX) {
-                        chipX = writer.marginLeft
-                        chipY += chipH + chipGap
-                        writer.ensureSpace(chipH + 2f)
-                    }
-                    writer.canvas!!.drawRoundRect(chipX, chipY, chipX + w, chipY + chipH, 40f, 40f, softBgPaint)
-                    writer.canvas!!.drawText(skill, chipX + chipPadX, chipY + chipH / 2f + skillChipPaint.textSize * 0.35f, skillChipPaint)
-                    chipX += w + chipGap
+                    writer.canvas!!.drawCircle(x + 4f, writer.y + 22f, 3f, accentBarPaint)
+                    writer.canvas!!.drawText(skill, x + 12f, writer.y + 27f, bodyPaint)
+                    x += bodyPaint.measureText(skill) + 30f
                 }
-                writer.advance(chipY - writer.y + chipH + 4f)
+                writer.advance(h + 10f)
             }
         }
 

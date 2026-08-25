@@ -288,15 +288,19 @@ private fun ClassicContactItem(
 ) {
     Row(
         modifier = modifier,
-        verticalAlignment = Alignment.CenterVertically,
-        horizontalArrangement = Arrangement.spacedBy(6.dp)
+        verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
             imageVector = icon,
             contentDescription = null,
-            modifier = Modifier.size(14.dp),
+            modifier = Modifier
+                .width(18.dp)
+                .size(14.dp),
             tint = accentColor
         )
+
+        Spacer(modifier = Modifier.width(6.dp))
+
         Text(
             text = text,
             style = MaterialTheme.typography.bodySmall,

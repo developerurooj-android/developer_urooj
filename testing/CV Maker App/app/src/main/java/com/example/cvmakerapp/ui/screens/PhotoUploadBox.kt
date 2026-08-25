@@ -33,11 +33,22 @@ fun PhotoUploadBox(
     selectedImageUri: String?,
     onImageSelected: (String?) -> Unit
 ) {
+    val context = androidx.compose.ui.platform.LocalContext.current
+
     // Image picker launcher
     val imagePickerLauncher = rememberLauncherForActivityResult(
-        contract = ActivityResultContracts.GetContent()
+        contract = ActivityResultContracts.OpenDocument()
     ) { uri ->
         if (uri != null) {
+            try {
+                // Request persistent permission so PDF export can access it later
+                context.contentResolver.takePersistableUriPermission(
+                    uri, 
+                    android.content.Intent.FLAG_GRANT_READ_URI_PERMISSION
+                )
+            } catch (e: Exception) {
+                android.util.Log.e("PhotoUploadBox", "Failed to take persistable permission", e)
+            }
             onImageSelected(uri.toString())
         }
     }
@@ -61,7 +72,7 @@ fun PhotoUploadBox(
                 )
                 .clip(RoundedCornerShape(8.dp))
                 .clickable {
-                    imagePickerLauncher.launch("image/*")
+                    imagePickerLauncher.launch(arrayOf("image/*"))
                 },
             contentAlignment = Alignment.Center
         ) {
