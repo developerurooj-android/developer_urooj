@@ -16,12 +16,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Language
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Phone
+
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -42,6 +37,7 @@ import com.example.cvmakerapp.data.CvData
 import com.example.cvmakerapp.data.EducationEntry
 import com.example.cvmakerapp.data.ExperienceEntry
 import com.example.cvmakerapp.data.TemplateDesigns
+import com.example.cvmakerapp.ui.theme.CvIconSystem
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -115,11 +111,11 @@ fun ClassicCvTemplate(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
                 val contactPairs = listOfNotNull(
-                    cvData.email.takeIf { it.isNotBlank() }?.let { Icons.Default.Email to it },
-                    cvData.phone.takeIf { it.isNotBlank() }?.let { Icons.Default.Phone to it },
-                    cvData.location.takeIf { it.isNotBlank() }?.let { Icons.Default.LocationOn to it },
-                    cvData.linkedIn.takeIf { it.isNotBlank() }?.let { Icons.Default.Person to it },
-                    cvData.website.takeIf { it.isNotBlank() }?.let { Icons.Default.Language to it }
+                    cvData.email.takeIf { it.isNotBlank() }?.let { CvIconSystem.Email to it },
+                    cvData.phone.takeIf { it.isNotBlank() }?.let { CvIconSystem.Phone to it },
+                    cvData.location.takeIf { it.isNotBlank() }?.let { CvIconSystem.Location to it },
+                    cvData.linkedIn.takeIf { it.isNotBlank() }?.let { CvIconSystem.LinkedIn to it },
+                    cvData.website.takeIf { it.isNotBlank() }?.let { CvIconSystem.Website to it }
                 )
 
                 val half = (contactPairs.size + 1) / 2
@@ -131,9 +127,9 @@ fun ClassicCvTemplate(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        row1.forEach { (icon, text) ->
+                        row1.forEach { (contactIcon, text) ->
                             ClassicContactItem(
-                                icon = icon,
+                                contactIcon = contactIcon,
                                 text = text,
                                 accentColor = design.accentColor,
                                 modifier = Modifier.weight(1f)
@@ -149,9 +145,9 @@ fun ClassicCvTemplate(
                         modifier = Modifier.fillMaxWidth(),
                         horizontalArrangement = Arrangement.spacedBy(16.dp)
                     ) {
-                        row2.forEach { (icon, text) ->
+                        row2.forEach { (contactIcon, text) ->
                             ClassicContactItem(
-                                icon = icon,
+                                contactIcon = contactIcon,
                                 text = text,
                                 accentColor = design.accentColor,
                                 modifier = Modifier.weight(1f)
@@ -281,7 +277,7 @@ fun ClassicCvTemplate(
 
 @Composable
 private fun ClassicContactItem(
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    contactIcon: CvIconSystem.ContactIcon,
     text: String,
     accentColor: Color,
     modifier: Modifier = Modifier
@@ -291,8 +287,8 @@ private fun ClassicContactItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Icon(
-            imageVector = icon,
-            contentDescription = null,
+            imageVector = contactIcon.vectorIcon,
+            contentDescription = contactIcon.label,
             modifier = Modifier
                 .width(18.dp)
                 .size(14.dp),

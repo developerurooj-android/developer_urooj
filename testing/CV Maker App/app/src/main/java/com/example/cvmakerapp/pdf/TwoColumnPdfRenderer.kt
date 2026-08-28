@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
 import com.example.cvmakerapp.data.CvData
 import com.example.cvmakerapp.data.CvTemplate
+import com.example.cvmakerapp.ui.theme.CvIconSystem
 
 object TwoColumnPdfRenderer {
 
@@ -108,16 +109,20 @@ object TwoColumnPdfRenderer {
 
         drawLeftSectionTitle("CONTACT")
         
-        val icons = listOf("✉", "☎", "📍", "👤", "🌐")
-        val contactValues = listOf(cvData.email, cvData.phone, cvData.location, cvData.linkedIn, cvData.website)
+        val contactValues = listOf(
+            CvIconSystem.Email.emoji to cvData.email,
+            CvIconSystem.Phone.emoji to cvData.phone,
+            CvIconSystem.Location.emoji to cvData.location,
+            CvIconSystem.LinkedIn.emoji to cvData.linkedIn,
+            CvIconSystem.Website.emoji to cvData.website
+        )
 
-        contactValues.forEachIndexed { i, value ->
+        contactValues.forEach { (icon, value) ->
             if (value.isNotBlank()) {
                 ensureLeftSpace(18f)
-                val icon = icons[i]
                 val iconBoxPaint = PdfTextHelper.createFillPaint(android.graphics.Color.argb(30, android.graphics.Color.red(design.accentColor), android.graphics.Color.green(design.accentColor), android.graphics.Color.blue(design.accentColor)))
-                writer.canvas!!.drawRoundRect(leftContentPadding, yLeft, leftContentPadding + 16f, yLeft + 16f, 4f, 4f, iconBoxPaint)
-                writer.canvas!!.drawText(icon, leftContentPadding + 3f, yLeft + 12f, PdfTextHelper.createTextPaint(10f, design.accentColor, bold = true))
+                canvas!!.drawRoundRect(leftContentPadding, yLeft, leftContentPadding + 16f, yLeft + 16f, 4f, 4f, iconBoxPaint)
+                canvas!!.drawText(icon, leftContentPadding + 3f, yLeft + 12f, PdfTextHelper.createTextPaint(CvIconSystem.PdfConstants.ICON_SIZE, design.accentColor, bold = true))
                 
                 val wrapped = PdfTextHelper.wrapText(value, sidebarBodyPaint, (leftContentMaxWidth - 22).toInt())
                 wrapped.forEach { line ->

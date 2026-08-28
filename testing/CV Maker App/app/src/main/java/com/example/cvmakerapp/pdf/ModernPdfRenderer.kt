@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
 import com.example.cvmakerapp.data.CvData
 import com.example.cvmakerapp.data.CvTemplate
+import com.example.cvmakerapp.ui.theme.CvIconSystem
 
 object ModernPdfRenderer {
 
@@ -84,15 +85,15 @@ object ModernPdfRenderer {
         // CONTACT CARD
         // ---------------------------------------------------------
         val contactItems = listOfNotNull(
-            cvData.email.takeIf { it.isNotBlank() }?.let { "✉" to it },
-            cvData.phone.takeIf { it.isNotBlank() }?.let { "☎" to it },
-            cvData.location.takeIf { it.isNotBlank() }?.let { "📍" to it },
-            cvData.linkedIn.takeIf { it.isNotBlank() }?.let { "👤" to it },
-            cvData.website.takeIf { it.isNotBlank() }?.let { "🌐" to it }
+            cvData.email.takeIf { it.isNotBlank() }?.let { CvIconSystem.Email.emoji to it },
+            cvData.phone.takeIf { it.isNotBlank() }?.let { CvIconSystem.Phone.emoji to it },
+            cvData.location.takeIf { it.isNotBlank() }?.let { CvIconSystem.Location.emoji to it },
+            cvData.linkedIn.takeIf { it.isNotBlank() }?.let { CvIconSystem.LinkedIn.emoji to it },
+            cvData.website.takeIf { it.isNotBlank() }?.let { CvIconSystem.Website.emoji to it }
         )
 
         if (contactItems.isNotEmpty()) {
-            val itemsPerRow = 2
+            val itemsPerRow = CvIconSystem.PdfConstants.CONTACT_ITEMS_PER_ROW
             val colW = writer.contentWidth / itemsPerRow
             val rows = (contactItems.size + itemsPerRow - 1) / itemsPerRow
             val boxH = rows * 28f + 16f
@@ -104,11 +105,11 @@ object ModernPdfRenderer {
                 row.forEachIndexed { i, (icon, value) ->
                     val x = margin + 20f + (i * colW)
                     // Icon Box
-                    writer.canvas!!.drawRoundRect(x, writer.y, x + 24f, writer.y + 24f, 6f, 6f, softAccentPaint)
-                    writer.canvas!!.drawText(icon, x + 6f, writer.y + 17f, PdfTextHelper.createTextPaint(12f, design.accentColor, bold = true))
+                    writer.canvas!!.drawRoundRect(x, writer.y, x + CvIconSystem.PdfConstants.ICON_BOX_SIZE, writer.y + CvIconSystem.PdfConstants.ICON_BOX_SIZE, CvIconSystem.PdfConstants.ICON_BOX_RADIUS, CvIconSystem.PdfConstants.ICON_BOX_RADIUS, softAccentPaint)
+                    writer.canvas!!.drawText(icon, x + CvIconSystem.PdfConstants.ICON_TEXT_OFFSET_X, writer.y + CvIconSystem.PdfConstants.ICON_TEXT_OFFSET_Y, PdfTextHelper.createTextPaint(CvIconSystem.PdfConstants.ICON_SIZE, design.accentColor, bold = true))
                     
                     val valLines = PdfTextHelper.wrapText(value, bodyPaint, (colW - 50).toInt())
-                    writer.canvas!!.drawText(valLines[0], x + 30f, writer.y + 17f, bodyPaint)
+                    writer.canvas!!.drawText(valLines[0], x + 30f, writer.y + CvIconSystem.PdfConstants.ICON_TEXT_OFFSET_Y, bodyPaint)
                 }
                 writer.advance(28f)
             }

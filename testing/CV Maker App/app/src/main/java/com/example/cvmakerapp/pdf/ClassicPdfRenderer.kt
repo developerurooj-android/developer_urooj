@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
 import com.example.cvmakerapp.data.CvData
 import com.example.cvmakerapp.data.CvTemplate
+import com.example.cvmakerapp.ui.theme.CvIconSystem
 
 object ClassicPdfRenderer {
 
@@ -65,37 +66,37 @@ object ClassicPdfRenderer {
         // ---------------------------------------------------------
         // CONTACT BOX (Rounded card from preview)
         // ---------------------------------------------------------
-        val contactPairs = mutableListOf<Triple<String, String, String>>()
-        if (cvData.email.isNotBlank()) contactPairs.add(Triple("Email", "✉", cvData.email))
-        if (cvData.phone.isNotBlank()) contactPairs.add(Triple("Phone", "☎", cvData.phone))
-        if (cvData.location.isNotBlank()) contactPairs.add(Triple("Location", "📍", cvData.location))
-        if (cvData.linkedIn.isNotBlank()) contactPairs.add(Triple("LinkedIn", "👤", cvData.linkedIn))
-        if (cvData.website.isNotBlank()) contactPairs.add(Triple("Website", "🌐", cvData.website))
+        val contactPairs = mutableListOf<Pair<String, String>>()
+        if (cvData.email.isNotBlank()) contactPairs.add(CvIconSystem.Email.emoji to cvData.email)
+        if (cvData.phone.isNotBlank()) contactPairs.add(CvIconSystem.Phone.emoji to cvData.phone)
+        if (cvData.location.isNotBlank()) contactPairs.add(CvIconSystem.Location.emoji to cvData.location)
+        if (cvData.linkedIn.isNotBlank()) contactPairs.add(CvIconSystem.LinkedIn.emoji to cvData.linkedIn)
+        if (cvData.website.isNotBlank()) contactPairs.add(CvIconSystem.Website.emoji to cvData.website)
 
         if (contactPairs.isNotEmpty()) {
-            val itemsPerRow = 2
+            val itemsPerRow = CvIconSystem.PdfConstants.CONTACT_ITEMS_PER_ROW
             val colWidth = writer.contentWidth / itemsPerRow
-            val iconPaint = PdfTextHelper.createTextPaint(12f, design.accentColor, bold = true)
-            val contactTextPaint = PdfTextHelper.createTextPaint(12f, design.headerTextColor)
+            val iconPaint = PdfTextHelper.createTextPaint(CvIconSystem.PdfConstants.ICON_SIZE, design.accentColor, bold = true)
+            val contactTextPaint = PdfTextHelper.createTextPaint(CvIconSystem.PdfConstants.ICON_SIZE, design.headerTextColor)
 
             // Background Card
             val boxTop = writer.y
             val rows = (contactPairs.size + itemsPerRow - 1) / itemsPerRow
-            val boxHeight = rows * 22f + 16f
+            val boxHeight = rows * CvIconSystem.PdfConstants.ROW_HEIGHT + 16f
             
             writer.canvas!!.drawRoundRect(writer.marginLeft, boxTop, writer.marginLeft + writer.contentWidth, boxTop + boxHeight, 10f, 10f, cardBgPaint)
             writer.advance(12f)
 
             contactPairs.chunked(itemsPerRow).forEach { row ->
-                row.forEachIndexed { i, (_, icon, value) ->
+                row.forEachIndexed { i, (icon, value) ->
                     val x = writer.marginLeft + 16f + (i * colWidth)
                     val baselineY = writer.y + contactTextPaint.textSize * 0.8f
                     writer.canvas!!.drawText(icon, x, baselineY, iconPaint)
                     
                     val valLines = PdfTextHelper.wrapText(value, contactTextPaint, (colWidth - 35).toInt())
-                    writer.canvas!!.drawText(valLines[0], x + 18f, baselineY, contactTextPaint)
+                    writer.canvas!!.drawText(valLines[0], x + CvIconSystem.PdfConstants.TEXT_OFFSET, baselineY, contactTextPaint)
                 }
-                writer.advance(22f)
+                writer.advance(CvIconSystem.PdfConstants.ROW_HEIGHT)
             }
             writer.advance(8f)
         }

@@ -5,6 +5,7 @@ import android.graphics.Canvas
 import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
 import com.example.cvmakerapp.data.CvData
+import com.example.cvmakerapp.ui.theme.CvIconSystem
 
 object ProfessionalPdfRenderer {
 
@@ -78,26 +79,26 @@ object ProfessionalPdfRenderer {
         // CONTACT BLOCK: FIXED ALIGNMENT
         // ---------------------------------------------------------
         val contacts = listOfNotNull(
-            cvData.email.takeIf { it.isNotBlank() }?.let { "Email" to ("✉" to it) },
-            cvData.phone.takeIf { it.isNotBlank() }?.let { "Phone" to ("☎" to it) },
-            cvData.location.takeIf { it.isNotBlank() }?.let { "Location" to ("📍" to it) },
-            cvData.linkedIn.takeIf { it.isNotBlank() }?.let { "LinkedIn" to ("👤" to it) },
-            cvData.website.takeIf { it.isNotBlank() }?.let { "Website" to ("🌐" to it) }
+            cvData.email.takeIf { it.isNotBlank() }?.let { "Email" to (CvIconSystem.Email.emoji to it) },
+            cvData.phone.takeIf { it.isNotBlank() }?.let { "Phone" to (CvIconSystem.Phone.emoji to it) },
+            cvData.location.takeIf { it.isNotBlank() }?.let { "Location" to (CvIconSystem.Location.emoji to it) },
+            cvData.linkedIn.takeIf { it.isNotBlank() }?.let { "LinkedIn" to (CvIconSystem.LinkedIn.emoji to it) },
+            cvData.website.takeIf { it.isNotBlank() }?.let { "Website" to (CvIconSystem.Website.emoji to it) }
         )
 
         if (contacts.isNotEmpty()) {
             val boxW = 180f
-            val itemsPerRow = 2
+            val itemsPerRow = CvIconSystem.PdfConstants.CONTACT_ITEMS_PER_ROW
             val colW = boxW / itemsPerRow
             
             // Unified size
-            val uniformFontSize = 10f
+            val uniformFontSize = CvIconSystem.PdfConstants.ICON_SIZE
             val iconPaint = PdfTextHelper.createTextPaint(uniformFontSize, navyBlue, bold = false)
             val labelPaint = PdfTextHelper.createTextPaint(uniformFontSize, black, bold = true)
             val valuePaint = PdfTextHelper.createTextPaint(uniformFontSize, charcoal, bold = false)
             
             val rows = (contacts.size + itemsPerRow - 1) / itemsPerRow
-            val boxH = rows * 18f + 12f
+            val boxH = rows * CvIconSystem.PdfConstants.ROW_HEIGHT + 12f
             
             writer.canvas!!.drawRoundRect(margin, writer.y, margin + boxW + 40f, writer.y + boxH, 8f, 8f, softBlueFillPaint)
             writer.advance(8f)
@@ -113,15 +114,15 @@ object ProfessionalPdfRenderer {
                     val baselineY = writer.y + uniformFontSize * 0.8f
                     
                     // Perfect horizontal alignment
-                    var xOffset = if (icon == "📍") -0.05f else 0f
-                    if (icon == "✉") xOffset += 0.5f
+                    var xOffset = if (icon == CvIconSystem.Location.emoji) -0.05f else 0f
+                    if (icon == CvIconSystem.Email.emoji) xOffset += 0.5f
                     writer.canvas!!.drawText(icon, x + xOffset, baselineY, iconPaint)
                     writer.canvas!!.drawText(labelFull, x + iconW, baselineY, labelPaint)
                     
                     val valLines = PdfTextHelper.wrapText(value, valuePaint, (colW - 10).toInt())
                     writer.canvas!!.drawText(valLines[0], x + iconW + labelW, baselineY, valuePaint)
                 }
-                writer.advance(18f)
+                writer.advance(CvIconSystem.PdfConstants.ROW_HEIGHT)
             }
             writer.advance(10f)
         } else {

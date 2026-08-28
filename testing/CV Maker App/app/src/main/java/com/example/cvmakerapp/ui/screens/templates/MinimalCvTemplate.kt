@@ -15,12 +15,7 @@ import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.outlined.Email
-import androidx.compose.material.icons.outlined.Language
-import androidx.compose.material.icons.outlined.Person
-import androidx.compose.material.icons.rounded.LocationOn
-import androidx.compose.material.icons.rounded.Phone
+
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -40,6 +35,7 @@ import com.example.cvmakerapp.data.CvData
 import com.example.cvmakerapp.data.EducationEntry
 import com.example.cvmakerapp.data.ExperienceEntry
 import com.example.cvmakerapp.data.TemplateDesigns
+import com.example.cvmakerapp.ui.theme.CvIconSystem
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -326,23 +322,21 @@ private fun MinimalContactItem(
     bodyColor: Color,
     accentColor: Color
 ) {
-    val iconAndDesc = when {
-        text.contains("@") -> Icons.Outlined.Email to "Email"
-        text.contains("+") || text.matches(Regex("^[0-9\\s+\\-()]+$")) -> Icons.Rounded.Phone to "Phone"
-        text.contains("linkedin", ignoreCase = true) ->
-            Icons.Outlined.Person to "LinkedIn"
-        text.contains("http", ignoreCase = true) -> Icons.Outlined.Language to "Website"
-        else -> Icons.Rounded.LocationOn to "Location"
+    val contactIcon = when {
+        text.contains("@") -> CvIconSystem.Email
+        text.contains("+") || text.matches(Regex("^[0-9\\s+\\-()]+$")) -> CvIconSystem.Phone
+        text.contains("linkedin", ignoreCase = true) -> CvIconSystem.LinkedIn
+        text.contains("http", ignoreCase = true) -> CvIconSystem.Website
+        else -> CvIconSystem.Location
     }
-    val icon = iconAndDesc.first
 
     Row(
         verticalAlignment = Alignment.CenterVertically,
         horizontalArrangement = Arrangement.spacedBy(6.dp)
     ) {
         Icon(
-            imageVector = icon,
-            contentDescription = null,
+            imageVector = contactIcon.vectorIcon,
+            contentDescription = contactIcon.label,
             modifier = Modifier.size(13.dp),
             tint = accentColor
         )

@@ -17,12 +17,7 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Email
-import androidx.compose.material.icons.filled.Language
-import androidx.compose.material.icons.filled.LocationOn
-import androidx.compose.material.icons.filled.Person
-import androidx.compose.material.icons.filled.Phone
+
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.Icon
 import androidx.compose.material3.MaterialTheme
@@ -44,6 +39,7 @@ import com.example.cvmakerapp.data.CvData
 import com.example.cvmakerapp.data.EducationEntry
 import com.example.cvmakerapp.data.ExperienceEntry
 import com.example.cvmakerapp.data.TemplateDesigns
+import com.example.cvmakerapp.ui.theme.CvIconSystem
 
 @OptIn(ExperimentalGlideComposeApi::class)
 @Composable
@@ -103,15 +99,15 @@ fun TwoColumnCvTemplate(
 
                     Column(modifier = Modifier.fillMaxWidth()) {
                         val contacts = listOfNotNull(
-                            cvData.email.takeIf { it.isNotBlank() }?.let { Icons.Default.Email to it },
-                            cvData.phone.takeIf { it.isNotBlank() }?.let { Icons.Default.Phone to it },
-                            cvData.location.takeIf { it.isNotBlank() }?.let { Icons.Default.LocationOn to it },
-                            cvData.linkedIn.takeIf { it.isNotBlank() }?.let { Icons.Default.Person to it },
-                            cvData.website.takeIf { it.isNotBlank() }?.let { Icons.Default.Language to it }
+                            cvData.email.takeIf { it.isNotBlank() }?.let { CvIconSystem.Email to it },
+                            cvData.phone.takeIf { it.isNotBlank() }?.let { CvIconSystem.Phone to it },
+                            cvData.location.takeIf { it.isNotBlank() }?.let { CvIconSystem.Location to it },
+                            cvData.linkedIn.takeIf { it.isNotBlank() }?.let { CvIconSystem.LinkedIn to it },
+                            cvData.website.takeIf { it.isNotBlank() }?.let { CvIconSystem.Website to it }
                         )
-                        contacts.forEach { (icon, text) ->
+                        contacts.forEach { (contactIcon, text) ->
                             TwoColumnContactItem(
-                                icon = icon,
+                                contactIcon = contactIcon,
                                 text = text,
                                 accentColor = design.accentColor,
                                 bodyColor = design.bodyColor
@@ -323,7 +319,7 @@ private fun TwoColumnMainSectionTitle(
 
 @Composable
 private fun TwoColumnContactItem(
-    icon: androidx.compose.ui.graphics.vector.ImageVector,
+    contactIcon: CvIconSystem.ContactIcon,
     text: String,
     accentColor: Color,
     bodyColor: Color
@@ -343,8 +339,8 @@ private fun TwoColumnContactItem(
             contentAlignment = Alignment.Center
         ) {
             Icon(
-                imageVector = icon,
-                contentDescription = null,
+                imageVector = contactIcon.vectorIcon,
+                contentDescription = contactIcon.label,
                 modifier = Modifier.size(13.dp),
                 tint = accentColor
             )

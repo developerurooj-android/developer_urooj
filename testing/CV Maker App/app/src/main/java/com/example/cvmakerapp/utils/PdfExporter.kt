@@ -25,17 +25,24 @@ object PdfExporter {
         return try {
             val document = PdfDocument()
 
-            when (cvData.template) {
-                CvTemplate.CLASSIC -> ClassicPdfRenderer.render(document, cvData, context)
-                CvTemplate.TWO_COLUMN -> TwoColumnPdfRenderer.render(document, cvData, context)
-                CvTemplate.MODERN -> ModernPdfRenderer.render(document, cvData, context)
-                CvTemplate.MINIMAL -> MinimalPdfRenderer.render(document, cvData, context)
-                CvTemplate.PROFESSIONAL -> ProfessionalPdfRenderer.render(document, cvData, context)
+            try {
+                when (cvData.template) {
+                    CvTemplate.CLASSIC -> ClassicPdfRenderer.render(document, cvData, context)
+                    CvTemplate.TWO_COLUMN -> TwoColumnPdfRenderer.render(document, cvData, context)
+                    CvTemplate.MODERN -> ModernPdfRenderer.render(document, cvData, context)
+                    CvTemplate.MINIMAL -> MinimalPdfRenderer.render(document, cvData, context)
+                    CvTemplate.PROFESSIONAL -> ProfessionalPdfRenderer.render(document, cvData, context)
+                }
+            } catch (renderException: Exception) {
+                android.util.Log.e("PdfExporter", "Error rendering PDF", renderException)
+                document.close()
+                return false
             }
 
             val cleanName = cvData.fullName
                 .trim()
                 .replace(" ", "_")
+                .replace(Regex("[^a-zA-Z0-9_]"), "")
                 .ifBlank { "My_CV" }
 
             val fileName = "${cleanName}_CV.pdf"
@@ -60,32 +67,53 @@ object PdfExporter {
                 }
 
                 val file = java.io.File(downloads, fileName)
-                document.writeTo(java.io.FileOutputStream(file))
-                document.close()
-                return true
+                try {
+                    document.writeTo(java.io.FileOutputStream(file))
+                    document.close()
+                    return true
+                } catch (fileException: Exception) {
+                    android.util.Log.e("PdfExporter", "Error writing to file", fileException)
+                    document.close()
+                    return false
+                }
             }
 
             if (uri == null) {
+                android.util.Log.e("PdfExporter", "Failed to create MediaStore URI")
                 document.close()
                 return false
             }
 
-            resolver.openOutputStream(uri)?.use { outputStream ->
-                document.writeTo(outputStream)
+            try {
+                resolver.openOutputStream(uri)?.use { outputStream ->
+                    document.writeTo(outputStream)
+                } ?: run {
+                    android.util.Log.e("PdfExporter", "Failed to open output stream")
+                    document.close()
+                    return false
+                }
+            } catch (writeException: Exception) {
+                android.util.Log.e("PdfExporter", "Error writing PDF to stream", writeException)
+                document.close()
+                return false
             }
 
             document.close()
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
-                val updateValues = ContentValues().apply {
-                    put(MediaStore.MediaColumns.IS_PENDING, 0)
+                try {
+                    val updateValues = ContentValues().apply {
+                        put(MediaStore.MediaColumns.IS_PENDING, 0)
+                    }
+                    resolver.update(uri, updateValues, null, null)
+                } catch (updateException: Exception) {
+                    android.util.Log.e("PdfExporter", "Error updating media store", updateException)
                 }
-                resolver.update(uri, updateValues, null, null)
             }
 
             true
         } catch (e: Exception) {
-            e.printStackTrace()
+            android.util.Log.e("PdfExporter", "Unexpected error in exportCv", e)
             false
         }
     }

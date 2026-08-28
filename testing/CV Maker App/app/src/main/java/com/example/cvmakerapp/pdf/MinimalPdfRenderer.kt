@@ -6,6 +6,7 @@ import android.graphics.Paint
 import android.graphics.pdf.PdfDocument
 import com.example.cvmakerapp.data.CvData
 import com.example.cvmakerapp.data.CvTemplate
+import com.example.cvmakerapp.ui.theme.CvIconSystem
 
 object MinimalPdfRenderer {
 
@@ -63,19 +64,20 @@ object MinimalPdfRenderer {
         // CONTACT INFO (Inline rows like preview)
         // ---------------------------------------------------------
         val contacts = listOfNotNull(
-            cvData.email.takeIf { it.isNotBlank() },
-            cvData.phone.takeIf { it.isNotBlank() },
-            cvData.location.takeIf { it.isNotBlank() },
-            cvData.linkedIn.takeIf { it.isNotBlank() },
-            cvData.website.takeIf { it.isNotBlank() }
+            cvData.email.takeIf { it.isNotBlank() }?.let { CvIconSystem.Email.emoji to it },
+            cvData.phone.takeIf { it.isNotBlank() }?.let { CvIconSystem.Phone.emoji to it },
+            cvData.location.takeIf { it.isNotBlank() }?.let { CvIconSystem.Location.emoji to it },
+            cvData.linkedIn.takeIf { it.isNotBlank() }?.let { CvIconSystem.LinkedIn.emoji to it },
+            cvData.website.takeIf { it.isNotBlank() }?.let { CvIconSystem.Website.emoji to it }
         )
 
         if (contacts.isNotEmpty()) {
             contacts.chunked(3).forEach { row ->
                 var currentX = writer.marginLeft
-                row.forEach { contact ->
-                    writer.canvas!!.drawText(contact, currentX, writer.y + 11f, contactPaint)
-                    currentX += contactPaint.measureText(contact) + 18f
+                row.forEach { (icon, contact) ->
+                    val iconAndText = "$icon $contact"
+                    writer.canvas!!.drawText(iconAndText, currentX, writer.y + 11f, contactPaint)
+                    currentX += contactPaint.measureText(iconAndText) + 18f
                 }
                 writer.advance(18f)
             }
